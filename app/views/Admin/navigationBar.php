@@ -104,7 +104,12 @@
             font-size: 14px;
             color: #888;
         }
-        .register-button {
+        a{
+            text-decoration: none;
+            padding: 0;
+            margin: 0;
+        }
+         .register-button {
             background-color: #28a745;
             color: white;
             border: none;
@@ -383,8 +388,8 @@
         <div class="sidebar">
             <div class="logo">Admin Dashboard</div>
             <div class="menu">
-                <a href="<?=$adminViews.'dashboard.php'?>"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <a href="<?=$adminViews.'#.php'?>"><i class="fas fa-project-diagram"></i> Projects</a>
+                <a href="<?=ROOT?>/Admin/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="<?=ROOT?>/Admin/projectlist"><i class="fas fa-project-diagram"></i> Projects</a>
                 <a href="<?=ROOT?>/Admin/coordinatorlist"><i class="fas fa-users"></i> Project Coordinators</a>
                 <a href="#"><i class="fas fa-cogs"></i> Settings</a>
             </div>

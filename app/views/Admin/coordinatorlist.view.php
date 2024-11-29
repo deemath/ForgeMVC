@@ -136,6 +136,7 @@
             margin-top: 10px;
         }
         .prj-save-btn {
+            width: 100px;
             background-color: #4CAF50;
             color: white;
         }
@@ -144,9 +145,10 @@
 <body>
     <div class="prj-container">
         <div class="prj-search-bar">
-            <input type="text" placeholder="Search coordinators...">
-            <button type="button">Search</button>
+            <input type="text" id="search-input" placeholder="Search coordinators by ID, Name, Email, or Institute...">
+            <button id="search-btn" type="button">Search</button>
         </div>
+
         <table class="prj-table">
             <thead>
                 <tr>
@@ -185,38 +187,60 @@
         <div class="prj-modal-content">
             <p>Are you sure you want to delete <span class="bold" id="delete-name"></span>?</p>
             <div class="prj-modal-buttons">
-                <button class="prj-yes-btn" onclick="deleteCoordinator()">Yes</button>
-                <button class="prj-no-btn" onclick="closeModal()">No</button>
+                <form action="<?=ROOT?>/Admin/deleteCoordinator" method="post">
+                    <!-- Hidden input field for ID -->
+                    <input type="hidden" id="edit-id" name="id">
+                    <button class="prj-yes-btn" type="submit">Yes</button>
+                    <button type="button" class="prj-no-btn" onclick="closeModal()">No</button>
+                </form>
             </div>
         </div>
     </div>
 
+
     <div id="edit-modal" class="prj-modal">
+        <form action="<?=ROOT?>/Admin/updateCoordinator" method="post">
         <div class="prj-modal-content prj-edit-modal-content">
+            <input type="hidden" id="edit-id" name="id">
+
             <label for="edit-name">Name:</label>
-            <input type="text" id="edit-name">
+            <input type="text" id="edit-name" name ="name">
             <label for="edit-institute">Institute:</label>
-            <input type="text" id="edit-institute">
+            <input type="text" id="edit-institute" name ="institute">
             <label for="edit-email">Email:</label>
-            <input type="email" id="edit-email">
-            <div class="prj-modal-buttons">
-                <button class="prj-save-btn" onclick="saveChanges()">Save</button>
+            <input type="email" id="edit-email" name ="email">
+            <div class="prj-modal-buttons" >
+                <button type="submit" class="prj-save-btn">Save</button>
+
+               
                 <button class="prj-no-btn" onclick="closeModal()">Cancel</button>
+                
             </div>
         </div>
+        </form>
     </div>
 
     <script>
     let selectedCoordinatorId;
 
     // Show the delete confirmation modal
-    function confirmDelete(id) {
-        selectedCoordinatorId = id;
-        // Get the name of the coordinator for the confirmation message
-        let name = document.getElementById('coordinator-name-' + id).textContent;
-        document.getElementById('delete-name').textContent = name;
-        document.getElementById('delete-modal').style.display = 'block';
-    }
+    // Show the delete confirmation modal
+        function confirmDelete(id) {
+            selectedCoordinatorId = id;
+
+            // Get the name of the coordinator for the confirmation message
+            let name = document.getElementById('coordinator-name-' + id).textContent;
+
+            // Set the name in the confirmation message
+            document.getElementById('delete-name').textContent = name;
+
+            // Pass the ID to the hidden input field in the form
+            document.getElementById('edit-id').value = id;
+
+            // Display the delete modal
+            document.getElementById('delete-modal').style.display = 'block';
+        }
+
 
     // Perform the delete action
     function deleteCoordinator() {
@@ -230,11 +254,13 @@
         selectedCoordinatorId = id;
         
         // Get the coordinator details dynamically
+        let id1 = document.getElementById('coordinator-id-' + id).textContent;
         let name = document.getElementById('coordinator-name-' + id).textContent;
         let institute = document.getElementById('coordinator-institute-' + id).textContent;
         let email = document.getElementById('coordinator-email-' + id).textContent;
 
         // Populate the modal with existing data
+        document.getElementById('edit-id').value = id1;
         document.getElementById('edit-name').value = name;
         document.getElementById('edit-institute').value = institute;
         document.getElementById('edit-email').value = email;
@@ -242,29 +268,35 @@
         document.getElementById('edit-modal').style.display = 'block';
     }
 
-    // Save changes made in the edit modal
-    function saveChanges() {
-        // Collect the new data
-        let newName = document.getElementById('edit-name').value;
-        let newInstitute = document.getElementById('edit-institute').value;
-        let newEmail = document.getElementById('edit-email').value;
+    
 
-        // Update the table with the new values
-        document.getElementById('coordinator-name-' + selectedCoordinatorId).textContent = newName;
-        document.getElementById('coordinator-institute-' + selectedCoordinatorId).textContent = newInstitute;
-        document.getElementById('coordinator-email-' + selectedCoordinatorId).textContent = newEmail;
+            document.getElementById("search-btn").addEventListener("click", function() {
+            const searchTerm = document.getElementById("search-input").value.toLowerCase();
+            const rows = document.querySelectorAll("#coordinator-list tr");
 
-        // Send the updated data to the server via AJAX (optional)
+            rows.forEach(row => {
+                const columns = row.querySelectorAll("td");
+                const id = columns[0].textContent.toLowerCase();
+                const name = columns[1].textContent.toLowerCase();
+                const institute = columns[2].textContent.toLowerCase();
+                const email = columns[3].textContent.toLowerCase();
 
-        alert('Changes saved for Coordinator ' + selectedCoordinatorId + '.');
-        closeModal();
-    }
+                if (id.includes(searchTerm) || name.includes(searchTerm) || institute.includes(searchTerm) || email.includes(searchTerm)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+
 
     // Close any open modal
     function closeModal() {
         document.getElementById('delete-modal').style.display = 'none';
         document.getElementById('edit-modal').style.display = 'none';
     }
+
+
 </script>
 
 </body>

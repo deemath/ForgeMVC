@@ -26,7 +26,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
 
 
 
-define('IMAGES','../../public/assets/images/');
+define('IMAGES','http://localhost/testmvc/public/assets/images/');
 
 
 define('APP_NAME', "My Webiste");

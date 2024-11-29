@@ -1,72 +1,44 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="generator" content="Hugo 0.88.1">
-    <title>Signin Template · Bootstrap v5.1</title>
-
-
-    <!-- Bootstrap core CSS -->
-<link href="<?=ROOT?>/assets/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Forge</title>
+    <link href="<?=ROOT?>/assets/css/login.css" rel="stylesheet">
     
-    <!-- Custom styles for this template -->
-    <link href="<?=ROOT?>/assets/css/signin.css" rel="stylesheet">
-  </head>
-  <body class="text-center">
-    
-<main class="form-signin">
-  <form method="post">
-
-    <?php if(!empty($errors)):?>
-      <div class="alert alert-danger">
-        <?= implode("<br>", $errors)?>
-      </div>
-    <?php endif;?>
-  
-    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-
-    <div class="form-floating">
-      <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-      <label for="floatingInput">Email address</label>
+</head>
+<body>
+    <div class="container">
+       
+        <h1>Forge</h1>
+        <h2>Student Project Management System</h2>
+        <form id="loginForm" action="<?=ROOT?>/Login/Login" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <?php if (!empty($data)) : ?>
+                        <div class="alert alert-danger">
+                            <?php foreach($errors as $error)
+                                 echo htmlspecialchars($error) . "<br>";
+                            ?>
+                            
+                            
+                            <!-- <php print_r( $data) ?> -->
+                        </div> 
+            <?php endif; ?>
+            <button type="submit">Login</button>
+            <div class="footer">
+                <p><a href="#">Forgot Password?</a></p>
+                <p>Don't have an account? <a href="#">Sign Up</a></p>
+            </div>
+        </form>
     </div>
-    <div class="form-floating">
-      <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
-      <label for="floatingPassword">Password</label>
-    </div>
-
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-    <a href="<?=ROOT?>">Home</a>
-    <a href="<?=ROOT?>/signup">Signup</a>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
-  </form>
-</main>
-
-
-    
-  </body>
+</body>
 </html>
+

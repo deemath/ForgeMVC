@@ -105,6 +105,8 @@ Trait Model
 					unset($data[$key]);
 				}
 			}
+
+			
 		}
 
 		$keys = array_keys($data);
@@ -136,5 +138,31 @@ Trait Model
 
 	}
 
-	
+		public function whereOR($data, $data_not = [])
+	{
+		$keys = array_keys($data);
+		$keys_not = array_keys($data_not);
+		$query = "SELECT * FROM $this->table WHERE ";
+
+		// Add conditions for the "data" array (e.g., key = :key)
+		foreach ($keys as $key) {
+			$query .= $key . " = :". $key . " OR ";
+		}
+
+		// Add conditions for the "data_not" array (e.g., key != :key)
+		foreach ($keys_not as $key) {
+			$query .= $key . " != :". $key . " OR ";
+		}
+		
+		// Trim the extra OR at the end
+		$query = rtrim($query, " OR ");
+
+		// Append ordering, limit, and offset
+		$query .= " ORDER BY $this->order_column $this->order_type LIMIT $this->limit OFFSET $this->offset";
+
+		// Merge both $data and $data_not arrays
+		$data = array_merge($data, $data_not);
+
+		return $this->query($query, $data);
+	}
 }

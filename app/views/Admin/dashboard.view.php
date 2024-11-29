@@ -27,7 +27,9 @@
                         <div class="number">50</div>
                         <div class="label">Total Registered Users</div>
                     </div>
-                    <button class="register-button" onclick="window.location.href='register.php';"><i class="fas fa-plus"></i>Register New<br>Institute / Coordinator</button>
+                    <a href="<?=ROOT?>/Admin/registerView">
+                    <button class="register-button"><i class="fas fa-plus"></i>Register New<br>Institute / Coordinator</button>
+                    </a>
                 </div>
                 <div class="recent-projects-title">Recent Projects</div>
                 <div class="projects">
