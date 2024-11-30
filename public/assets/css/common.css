@@ -1,0 +1,165 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vb;
+}
+.header {
+    background-color: white;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+.header .user {
+    display: flex;
+    align-items: center;
+}
+.header .user .settings {
+    margin-right: 20px;
+    cursor: pointer;
+}
+.header .user .avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #ddd;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.stats .stat {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    flex: 1;
+    margin: 0 10px;
+    text-align: center;
+}
+.stats .stat .number {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.stats .stat .label {
+    font-size: 14px;
+    color: #888;
+}
+.projects {
+    display: flex;
+    flex-wrap: wrap;
+}
+.project {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    flex: 1 1 calc(33.333% - 20px);
+    box-sizing: border-box;
+    position: relative;
+}
+.project .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.project .description {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.project .status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: white;
+}
+.project .status.ongoing {
+    background-color: #4caf50;
+}
+.project .status.completed {
+    background-color: #2196f3;
+}
+.project .status.terminated {
+    background-color: #f44336;
+}
+.project .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.project .role {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: white;
+}
+.project .role.member {
+    background-color: #d1c4e9;
+}
+.project .role.co-supervisor {
+    background-color: #b2dfdb;
+}
+.project .role.supervisor {
+    background-color: #ffcc80;
+}
+.project .actions button {
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.project .actions button:hover {
+    background-color: #303f9f;
+}
+.project .progress-bar {
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 10px;
+    position: relative;
+}
+.project .progress-bar .progress {
+    height: 10px;
+    width: 0;
+}
+.project .progress-bar .progress-text {
+    position: absolute;
+    top: -20px;
+    right: 0;
+    font-size: 12px;
+    color: #888;
+}
+.project .progress-bar .progress-percentage {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 12px;
+    color: #888;
+}

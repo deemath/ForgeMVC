@@ -40,4 +40,47 @@ class CoordinatorModel{
         $this->insert($data);
 
     }
+
+
+    public function invite($data) {
+        $this->errors = []; // Initialize/reset errors array
+    
+        $this->table = 'user'; // Set the table to search in
+        $dump['email'] = $data['email'];
+    
+        // Check if the email exists in the table
+        $result = $this->first($dump);
+    
+        if ($result) {
+            $this->table='invitation';
+            // If email is found, proceed with the invite
+            $sql['userid'] = $result->id;
+            $sql['role'] = $data['role'];
+            $sql['coordinatorid'] = $_SESSION['coordinator_id'];
+            $sql['status'] = 0;
+    
+            // Insert the invite into the database
+            if (!$this->insert($sql)) {
+                return true; // Successfully inserted
+            } else {
+                $this->errors[] = 'Failed to create the invite.';
+            }
+        } else {
+            // If email not found, add an error
+            $this->errors[] = 'Email not found.';
+        }
+    
+        // Return false to indicate failure
+        return false;
+    }
+
+    public function showInvite(){
+        $this->table='invitation';
+        $corid = $_SESSION['coordinator_id'];
+        $sql = 'SELECT i.*, 
+            u.name AS user_name, 
+            u.email AS user_email FROM invitation i JOIN user u ON i.userid = u.id WHERE i.coordinatorid = :corid';
+        return $this->query($sql, ['corid' => $corid]);
+    }
+    
 }

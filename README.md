@@ -5,3 +5,9 @@ in project user table
     2 - supervisor
     3 - co supervisor
     4 - member
+
+Status in invitations 
+
+    0 - pending
+    1 - accepted
+    2 - rejected

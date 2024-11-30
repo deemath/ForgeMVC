@@ -41,9 +41,11 @@
             <p class="text-gray-600 mb-4">
             Manage projects, assign tasks, and oversee progress.
             </p>
-            <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300" onclick="flyAwayCard('coordinator-card')">
+            <form action="<?=ROOT?>/coordinator/Dashboard" method="post">
+            <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300" onclick="flyAwayCard('coordinator-card')" type="submit">
             Login as Coordinator
             </button>
+            </form>
     </div>
    <?php endif ; ?>
    <?php if(isset($_SESSION['user_id'])) : ?>
@@ -55,10 +57,11 @@
             <p class="text-gray-600 mb-4">
             Work on assigned tasks and collaborate with your team.
             </p>
-            <button class="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 transition duration-300" onclick="flyAwayCard('user-card')">
+            <form action="<?=ROOT?>/reguser/commonInterface" method="post">
+            <button class="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 transition duration-300" onclick="flyAwayCard('user-card')" type="submit">
             Login as User
             </button>
-   
+            </form>
     </div>
     <?php endif ; ?>
    </div>
