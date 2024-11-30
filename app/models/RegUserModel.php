@@ -40,14 +40,33 @@ class RegUserModel {
         $this->table = 'invitation';
         $sql = 'UPDATE invitation SET status = :status WHERE id = :invitationId';
         $this->query($sql, ['status' =>1, 'invitationId' => $invitationId]);
-            return true;
+            ///return true;
         } catch (Exception $e) {
             echo $e->getMessage();
         }
 
     ///update coordinator-user table
         $this->table='coordinator-user';
-        $this->insert($data);
+       
+        try {
+            $sql = 'INSERT INTO `coordinator-user` (userid, coordinatorid) VALUES (:userid, :coordinatorid)';
+           
+             $this->query($sql, ['userid' => $data['userid'], 'coordinatorid' => $data['coordinatorid']]);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
         return true;
+    }
+
+    public function declineInvitation($data1){
+        try {
+            $this->table = 'invitation';
+            $sql = 'UPDATE invitation SET status = :status WHERE id = :invitationId';
+            $this->query($sql, ['status' =>2, 'invitationId' => $data1]);
+                return true;
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
     }
 }

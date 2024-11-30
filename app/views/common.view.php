@@ -130,7 +130,7 @@
                         <th class="py-2 px-4 border-b border-gray-300">Name</th>
                         <th class="py-2 px-4 border-b border-gray-300">Email</th>
                         <th class="py-2 px-4 border-b border-gray-300">Institute</th>
-                        <!-- <th class="py-2 px-4 border-b border-gray-100">Role</th> -->
+                        <th class="py-2 px-4 border-b border-gray-100">Date</th>
                         <th class="py-2 px-4 border-b border-gray-200">Actions</th>
                     </tr>
                 </thead>
@@ -143,6 +143,7 @@
                                     <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_name) ?></td>
                                     <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_email) ?></td>
                                     <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_institute) ?></td>
+                                    <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->date) ?></td>
                                     <!-- <td class="py-2 px-4 border-b border-gray-300">
                                         <php 
                                             if ($invitation->role == 2) {
@@ -157,14 +158,20 @@
                                         ?>
                                     </td> -->
                                     <td class="py-2 px-4 border-b border-gray-300">
-                                        <form action="<?=ROOT?>/reguser/acceptInvitation" method="post">
-                                        <input type="hidden" name="invitaton_id" value="<?=$invitation->id?>">
-                                        <input type="hidden" name="user_id" value="<?=$invitation->userid?>">
-                                        <input type="hidden" name="coordinator_id" value="<?=$invitation->coordinatorid?>">
-                                        <button class="bg-green-500 text-white p-2 rounded mr-2" name="submit">Accept</button>
-                                        <button class="bg-red-500 text-white p-2 rounded">Decline</button>
+                                    <div class="flex space-x-2">
+                                        <form action="<?= ROOT ?>/reguser/acceptInvitation" method="post">
+                                            <input type="hidden" name="invitation_id" value="<?= $invitation->id ?>"> <!-- Fixed field name -->
+                                            <input type="hidden" name="user_id" value="<?= $invitation->userid ?>">
+                                            <input type="hidden" name="coordinator_id" value="<?= $invitation->coordinatorid ?>">
+                                            <button class="bg-green-500 text-white p-2 rounded mr-2" name="submit">Accept</button>
                                         </form>
+                                        <form action="<?= ROOT ?>/reguser/declineInvitation" method="post">
+                                            <input type="hidden" name="invitation_id" value="<?= $invitation->id ?>">
+                                            <button type="submit" class="bg-red-500 text-white p-2 rounded" name="decline">Decline</button> <!-- Fixed type -->
+                                        </form>
+                                        </div>
                                     </td>
+
                                     </tr>
                                 <?php endif; ?>
                             <?php endforeach; ?>
@@ -179,34 +186,26 @@
                 <thead>
                     <tr>
                         <th class="py-2 px-4 border-b border-gray-300">Project ID</th>
-                        <th class="py-2 px-4 border-b border-gray-300">Project Name</th>
+                        <th class="py-2 px-4 border-b border-gray-300">Institute</th>
                         <th class="py-2 px-4 border-b border-gray-300">Coordinator Name</th>
                         <th class="py-2 px-4 border-b border-gray-300">Coordinator Email</th>
-                        <th class="py-2 px-4 border-b border-gray-300">Institute</th>
+                        <th class="py-2 px-4 border-b border-gray-300">Date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="py-2 px-4 border-b border-gray-300">P001</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Project Alpha</td>
-                        <td class="py-2 px-4 border-b border-gray-300">John Doe</td>
-                        <td class="py-2 px-4 border-b border-gray-300">john.doe@example.com</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Institute A</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-4 border-b border-gray-300">P002</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Project Beta</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Jane Smith</td>
-                        <td class="py-2 px-4 border-b border-gray-300">jane.smith@example.com</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Institute B</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-4 border-b border-gray-300">P003</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Project Gamma</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Alice Johnson</td>
-                        <td class="py-2 px-4 border-b border-gray-300">alice.johnson@example.com</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Institute C</td>
-                    </tr>
+                <?php if (!empty($data['invitations'])) : ?>
+                            <?php foreach ($data['invitations'] as $invitation): ?>
+                                <?php if ($invitation->status==1) : ?>
+                                    <tr>
+                                    <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->id) ?></td>
+                                    <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_institute) ?></td>
+                                    <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_name) ?></td>
+                                    <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_email) ?></td>
+                                    <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->date) ?></td>
+                                    </tr>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                 </tbody>
             </table>
         </div>
