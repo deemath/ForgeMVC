@@ -139,6 +139,16 @@ CREATE TABLE `member-project` (
   `role` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `member-project`
+--
+
+INSERT INTO `member-project` (`id`, `userid`, `projectid`, `createdat`, `role`) VALUES
+(1, 1, 1, '2024-11-01', 1),  -- John Doe working on AI Research as a member
+(2, 2, 2, '2024-12-01', 2),  -- Jane Smith working on Web Development as a member
+(3, 3, 3, '2024-10-15', 1);  -- Sam Brown working on Data Science as a member
+
+
 -- --------------------------------------------------------
 
 --
