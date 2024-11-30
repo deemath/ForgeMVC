@@ -188,7 +188,7 @@
     Dashboard
    </h2>
    </a>
-   <a href="#">
+   <a href="<?=ROOT?>/Coordinator/projectlist">
     <i class="fas fa-project-diagram">
     </i>
     Projects
@@ -198,7 +198,7 @@
     </i>
     Invite users
    </a>
-   <a href="#">
+   <a href="<?=ROOT?>/Coordinator/Userlist">
     <i class="fas fa-users">
     </i>
     Users List
@@ -222,7 +222,7 @@
     <div class="user-info">
      <img alt="Profile picture of the user" height="40" src="https://storage.googleapis.com/a1aa/image/3atmTVEpQP7bERKmtzfVwkURkFdLuWHzfy9ifAfp28O7O3XPB.jpg" width="40"/>
      <span>
-      John Doe
+      <?=$_SESSION['coordinator_id']?>
      </span>
     </div>
    </div>
