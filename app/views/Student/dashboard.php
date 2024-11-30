@@ -3,8 +3,6 @@ require_once "./navigationbar.php";
 
 ?>
 
-
-
 <html>
 <head>
     <title>User Task Manager</title>
@@ -159,146 +157,73 @@ require_once "./navigationbar.php";
 </head>
 <body>
     <div class="container">
-       
         <div class="content">
             <div class="task-board">
-                <div class="task-column">
-                    <div class="column-title">On Progress</div>
-                    <div class="task-card">
-                        <div class="title">Task 1</div>
-                        <div class="description">Generate UI</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 2</div>
-                        <div class="description">Design Database</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                </div>
-                <div class="task-column">
-                    <div class="column-title">To Do</div>
-                    <div class="task-card">
-                        <div class="title">Task 3</div>
-                        <div class="description">Create API</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 4</div>
-                        <div class="description">Write Documentation</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                </div>
-                <div class="task-column">
-                    <div class="column-title">Overdue</div>
-                    <div class="task-card">
-                        <div class="title">Task 5</div>
-                        <div class="description">Fix Bugs</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 6</div>
-                        <div class="description">Optimize Performance</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                </div>
-                <div class="task-column">
-                    <div class="column-title">Completed</div>
-                    <div class="task-card">
-                        <div class="title">Task 7</div>
-                        <div class="description">Deploy Application</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 8</div>
-                        <div class="description">User Training</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                </div>
-                <div class="task-column">
-                    <div class="column-title">Terminated</div>
-                    <div class="task-card">
-                        <div class="title">Task 9</div>
-                        <div class="description">Initial Setup</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 10</div>
-                        <div class="description">Requirement Analysis</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                </div>
+                <?php
+                    $statuses = ['on_progress', 'to_do', 'overdue', 'completed', 'terminated'];
+                    foreach ($statuses as $status) {
+                        echo "<div class='task-column'>";
+                        echo "<div class='column-title'>" . ucfirst(str_replace('_', ' ', $status)) . "</div>";
+                        
+                        // Check if there are tasks for this status
+                        if (isset($tasks[$status]) && is_array($tasks[$status]) && count($tasks[$status]) > 0) {
+                            foreach ($tasks[$status] as $task) {
+                                echo "<div class='task-card'>";
+                                echo "<div class='title'>" . htmlspecialchars($task['title']) . "</div>";
+                                echo "<div class='description'>" . htmlspecialchars($task['description']) . "</div>";
+                                echo "<div class='assigned-users'>" . htmlspecialchars($task['assigned_users']) . "</div>";
+                                echo "</div>";
+                            }
+                        } else {
+                            echo "<div>No tasks available.</div>";
+                        }
+
+                        echo "</div>";
+                    }
+                ?>
             </div>
+
             <div class="flags">
-                <div class="flag-column urgent">
-                    <div class="column-title">Urgent</div>
-                    <div class="task-card">
-                        <div class="title">Task 11</div>
-                        <div class="description">Fix Critical Bug</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 12</div>
-                        <div class="description">Prepare Release</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                </div>
-                <div class="flag-column important">
-                    <div class="column-title">Important</div>
-                    <div class="task-card">
-                        <div class="title">Task 13</div>
-                        <div class="description">Update Documentation</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 14</div>
-                        <div class="description">Code Review</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                </div>
-                <div class="flag-column revise">
-                    <div class="column-title">Revise</div>
-                    <div class="task-card">
-                        <div class="title">Task 15</div>
-                        <div class="description">Revise UI Design</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 16</div>
-                        <div class="description">Revise Database Schema</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                </div>
-                <div class="flag-column good">
-                    <div class="column-title">Good</div>
-                    <div class="task-card">
-                        <div class="title">Task 17</div>
-                        <div class="description">Optimize Code</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 18</div>
-                        <div class="description">Improve Performance</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                </div>
+                <?php
+                    $flags = ['urgent', 'important', 'revise', 'good'];
+                    foreach ($flags as $flag) {
+                        echo "<div class='flag-column $flag'>";
+                        echo "<div class='column-title'>" . ucfirst($flag) . "</div>";
+
+                        // Check if there are flagged tasks
+                        if (isset($tasks[$flag]) && is_array($tasks[$flag]) && count($tasks[$flag]) > 0) {
+                            foreach ($tasks[$flag] as $task) {
+                                echo "<div class='task-card'>";
+                                echo "<div class='title'>" . htmlspecialchars($task['title']) . "</div>";
+                                echo "<div class='description'>" . htmlspecialchars($task['description']) . "</div>";
+                                echo "<div class='assigned-users'>" . htmlspecialchars($task['assigned_users']) . "</div>";
+                                echo "</div>";
+                            }
+                        } else {
+                            echo "<div>No tasks available.</div>";
+                        }
+
+                        echo "</div>";
+                    }
+                ?>
             </div>
+
             <div class="comments">
                 <div class="column-title">Recent Comments</div>
-                <div class="comment-card">
-                    <div class="comment">This is a brief comment about the task.</div>
-                    <div class="task">Task: Generate UI</div>
-                    <div class="user">User: dewmini@gmail.com</div>
-                </div>
-                <div class="comment-card">
-                    <div class="comment">Another comment about a different task.</div>
-                    <div class="task">Task: Design Database</div>
-                    <div class="user">User: dewmini@gmail.com</div>
-                </div>
-                <div class="comment-card">
-                    <div class="comment">Yet another comment for a task.</div>
-                    <div class="task">Task: Create API</div>
-                    <div class="user">User: dewmini@gmail.com</div>
-                </div>
+                <?php
+                    // Check if comments are available
+                    if (isset($comments) && is_array($comments) && count($comments) > 0) {
+                        foreach ($comments as $comment) {
+                            echo "<div class='comment-card'>";
+                            echo "<div class='comment'>" . htmlspecialchars($comment['comment']) . "</div>";
+                            echo "<div class='task'>Task: " . htmlspecialchars($comment['task_title']) . "</div>";
+                            echo "<div class='user'>User: " . htmlspecialchars($comment['user_email']) . "</div>";
+                            echo "</div>";
+                        }
+                    } else {
+                        echo "<div>No comments available.</div>";
+                    }
+                ?>
             </div>
         </div>
     </div>

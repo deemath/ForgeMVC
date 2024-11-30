@@ -219,6 +219,25 @@ CREATE TABLE `task` (
   `createddate` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `task`
+--
+
+INSERT INTO `task` (`id`, `no`, `title`, `description`, `startdate`, `enddate`, `createdby`, `status`, `projectid`, `createddate`) 
+VALUES
+(1, 1, 'Design Database', 'Design the database schema for the project.', '2024-01-01', '2024-01-10', 1, 1, 4, '2024-01-01'),
+(2, 2, 'Implement Login', 'Develop and test the login functionality.', '2024-01-11', '2024-01-20', 1, 2, 4, '2024-01-02'),
+(3, 3, 'Set Up Hosting', 'Set up the hosting environment for deployment.', '2024-01-15', '2024-01-25', 2, 0, 4, '2024-01-05'),
+(4, 4, 'Create Frontend', 'Design and code the user interface.', '2024-01-05', '2024-01-12', 1, 1, 4, '2024-01-03'),
+(5, 5, 'Test Application', 'Perform end-to-end testing on the application.', '2024-01-20', '2024-01-30', 3, 2, 4, '2024-01-10'),
+(6, 6, 'Write Documentation', 'Prepare user and technical documentation.', '2024-01-25', '2024-02-05', 2, 0, 4, '2024-01-20'),
+(7, 7, 'Integrate API', 'Connect and integrate the external APIs.', '2024-02-01', '2024-02-10', 3, 1, 4, '2024-01-25'),
+(8, 8, 'Finalize Project', 'Compile and finalize the entire project for submission.', '2024-02-05', '2024-02-15', 1, 2, 4, '2024-01-30'),
+(9, 9, 'Create Reports', 'Generate necessary reports for analysis.', '2024-01-18', '2024-01-25', 3, 0, 3, '2024-01-15'),
+(10, 10, 'Fix Bugs', 'Address issues identified during testing.', '2024-02-10', '2024-02-20', 1, 1, 2, '2024-02-01');
+
+
+
 -- --------------------------------------------------------
 
 --
@@ -231,6 +250,23 @@ CREATE TABLE `taskassign` (
   `memberid` int(11) NOT NULL,
   `created` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `taskassign`
+--
+
+INSERT INTO `taskassign` (`id`, `taskid`, `memberid`, `created`) VALUES
+    (1, 1, 1, '2024-11-01'),
+    (2, 2, 1, '2024-11-01'),
+    (3, 3, 1, '2024-11-02'),
+    (4, 4, 1, '2024-11-03'),
+    (5, 5, 2, '2024-11-04'),
+    (6, 6, 3, '2024-11-05'),
+    (7, 7, 1, '2024-11-06'),
+    (8, 8, 2, '2024-11-07'),
+    (9, 9, 1, '2024-11-08'),
+    (10, 10, 3, '2024-11-09');
+
 
 -- --------------------------------------------------------
 
