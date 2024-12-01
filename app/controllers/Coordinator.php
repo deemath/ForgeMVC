@@ -118,7 +118,12 @@ class Coordinator{
 
         $project = new ProjectModel;
         $status = $project->createProject($basicData,$supervisors,$cosupervisors,$selected_members);
-
+        if($status){
+            $this->projectlist();
+        }else{
+            $errors['errors'] = "Failed to create project.";
+            $this->createProjectForm($errors);
+        }
 
      }
 }

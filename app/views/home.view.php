@@ -33,13 +33,13 @@
             padding: 0;
             background-color: #f5f5f5;
             color: #333;
-            scroll-behavior: smooth; /* Enable smooth scrolling */
+           
         }
         .container {
             width: 100%;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 0 ;
+            padding: 0;
         }
         .header {
             display: flex;
@@ -48,7 +48,7 @@
             padding: 20px;
             position: fixed;
             top: 0;
-            width: 95%;
+            width: 100%;
             background-color: #fff;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 1000;
@@ -83,6 +83,7 @@
             gap: 10px;
             margin-right: 20px; /* Move actions to the right */
         }
+        
         .header .actions a {
             text-decoration: none;
             padding: 10px 20px;
@@ -559,7 +560,7 @@
    
  <div class="bg-white rounded-lg shadow-lg flex flex-col md:flex-row w-full max-w-6xl min-h-[600px]">
    <!-- Project Coordinator Section -->
-   <div class="section bg-purple-500 text-white p-8 md:w-1/2 flex flex-col items-center justify-center transition-all visible min-h-[600px]" id="project-coordinator-section">
+   <div class="section bg-blue-600 text-white p-8 md:w-1/2 flex flex-col items-center justify-center transition-all visible min-h-[600px]" id="project-coordinator-section">
     <h2 class="text-2xl font-bold mb-4">
      Register as
     </h2>

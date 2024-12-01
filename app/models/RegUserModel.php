@@ -22,6 +22,13 @@ class RegUserModel {
                     WHERE i.userid = :userid';
             // Properly binding the parameter 'userid'
             $data['invitations'] = $this->query($sql, ['userid' => $userid]);
+            $sql1='SELECT u.*,
+                        p.title AS project_title,
+                        p.id AS project_id,
+                        p.description AS project_description
+                        FROM userrole u JOIN project p ON u.projectid = p.id WHERE u.userid = :userid';
+
+            $data['projects'] = $this->query($sql1, ['userid' => $userid]);
         } catch (Exception $e) {
             // Handle the exception
            // $data['invitations'] = [];
