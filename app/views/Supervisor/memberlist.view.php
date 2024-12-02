@@ -70,7 +70,7 @@
             font-size: 14px;
         }
         .prj-edit-btn {
-            background-color: #007BFF;
+            background-color: #4CAF50;
             color: white;
         }
         .prj-remove-btn {
@@ -173,7 +173,7 @@
                         <td class="prj-td"><?= htmlspecialchars($coordinator->createdat) ?></td>
                         <td class="prj-td">5</td>
                         <td class="prj-td prj-action-buttons">
-                            <button class="prj-edit-btn" onclick="editCoordinator('<?= htmlspecialchars($coordinator->id) ?>')">Visit</button>
+                            <button class="prj-edit-btn" onclick="editCoordinator('<?= htmlspecialchars($coordinator->id) ?>')">Edit</button>
                             <button class="prj-remove-btn" onclick="confirmDelete('<?= htmlspecialchars($coordinator->id) ?>')">Remove</button>
                         </td>
                     </tr>

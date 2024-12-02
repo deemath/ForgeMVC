@@ -118,7 +118,59 @@ class Coordinator{
 
         $project = new ProjectModel;
         $status = $project->createProject($basicData,$supervisors,$cosupervisors,$selected_members);
+        if($status){
+            $this->projectlist();
+        }else{
+            $errors['errors'] = "Failed to create project.";
+            $this->createProjectForm($errors);
+        }
+
+     }
+
+     public function deleteProject(){
+        $data=$_POST['id'];
+        $project = new ProjectModel;
+        $status = $project->deleteProject($data);
+        $this->projectlist();
+
+     }
+
+     public function loadupdateproject(){
+        $id=$_POST['id'];
+        $fkd = new ProjectModel;
+        $data =$fkd->loadupdateproject($id);
+      ///var_dump($data);
+        $this->view('coordinator/editproject',$data);
+     }
+
+     public function updateProject(){
+        $errors=[];
+        // Retrieve data from POST request
+        $id = $_POST['id'];
+        $dmp = new ProjectModel;
+        $data = $dmp->updateproject($id);
+        
+     }
+
+     public function deletsup(){
+
+        echo "pass";
 
 
+        $dat['userid'] = $_POST['supervisor_id'];
+        $dat['projectid'] = $_POST['project_id'];
+
+        $df= new ProjectModel;
+
+        if($df->deletesup($dat)){
+            echo "pass";
+        }else{
+            echo "fail";
+        }
+     
+        $fkd = new ProjectModel;
+        $data =$fkd->loadupdateproject($projectid);
+      ///var_dump($data);
+        return $this->view('coordinator/editproject',$data);
      }
 }
