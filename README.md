@@ -11,3 +11,12 @@ Status in invitations
     0 - pending
     1 - accepted
     2 - rejected
+
+
+status of progress tasks
+    1 - to do
+    2 - in progress
+    3 - complete
+    4 - terminated
+    5 - overdue
+

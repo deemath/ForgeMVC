@@ -58,7 +58,7 @@ Trait Model
 		}
 		
 		$query = trim($query," && ");
-
+		$query .= " order by $this->order_column $this->order_type limit $this->limit offset $this->offset";
 		///$query .= " limit $this->limit offset $this->offset";
 		$data = array_merge($data, $data_not);
 		
@@ -87,7 +87,7 @@ Trait Model
 		$keys = array_keys($data);
 
 		$query = "insert into $this->table (".implode(",", $keys).") values (:".implode(",:", $keys).")";
-		$this->query($query, $data);
+		$resultset=$this->query($query, $data);
 
 		return false;
 	}

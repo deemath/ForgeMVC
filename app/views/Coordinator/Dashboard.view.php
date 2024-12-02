@@ -35,10 +35,12 @@
       </p>
      </div>
      <div class="add-project-box">
+      <a href="<?=ROOT?>/coordinator/createprojectForm" >
       <i class="fas fa-plus">
       </i>
       Add New Project
      </div>
+     </a>
     </div>
     <h2 class="projects-title">
      Projects

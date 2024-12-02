@@ -22,6 +22,13 @@ class RegUserModel {
                     WHERE i.userid = :userid';
             // Properly binding the parameter 'userid'
             $data['invitations'] = $this->query($sql, ['userid' => $userid]);
+            $sql1='SELECT u.*,
+                        p.title AS project_title,
+                        p.id AS project_id,
+                        p.description AS project_description
+                        FROM userrole u JOIN project p ON u.projectid = p.id WHERE u.userid = :userid';
+
+            $data['projects'] = $this->query($sql1, ['userid' => $userid]);
         } catch (Exception $e) {
             // Handle the exception
            // $data['invitations'] = [];
@@ -40,14 +47,33 @@ class RegUserModel {
         $this->table = 'invitation';
         $sql = 'UPDATE invitation SET status = :status WHERE id = :invitationId';
         $this->query($sql, ['status' =>1, 'invitationId' => $invitationId]);
-            return true;
+            ///return true;
         } catch (Exception $e) {
             echo $e->getMessage();
         }
 
     ///update coordinator-user table
         $this->table='coordinator-user';
-        $this->insert($data);
+       
+        try {
+            $sql = 'INSERT INTO `coordinator-user` (userid, coordinatorid) VALUES (:userid, :coordinatorid)';
+           
+             $this->query($sql, ['userid' => $data['userid'], 'coordinatorid' => $data['coordinatorid']]);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
         return true;
+    }
+
+    public function declineInvitation($data1){
+        try {
+            $this->table = 'invitation';
+            $sql = 'UPDATE invitation SET status = :status WHERE id = :invitationId';
+            $this->query($sql, ['status' =>2, 'invitationId' => $data1]);
+                return true;
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
     }
 }

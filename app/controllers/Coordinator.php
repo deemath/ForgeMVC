@@ -43,4 +43,134 @@ class Coordinator{
         }
     }
     
+
+    public function Userlist(){
+
+        $cor5= new CoordinatorModel;
+        $result['users']= $cor5->fetchUsers();
+        if( $result){
+        $this->view('Coordinator/userList',$result);
+        }else{
+            $this->view('_404');
+        }
+    }
+     public function removeUser(){
+        $cor6 = new CoordinatorModel;
+        $id = $_POST['id'];
+        $result=$cor6->removeUser($id);
+        if(!$result){
+           header('Location: ' . ROOT . '/coordinator/userList');      
+         }
+     }
+
+     public function projectlist(){
+        $cor7 = new CoordinatorModel;
+        $id = $_POST['id'];
+        $result['projects']=$cor7->fetchProjectList($id);
+        if($result){
+            $this->view('Coordinator/projectList',$result);
+            }else
+            {
+                $this->view('_404');
+                }
+     }
+
+
+     public function createprojectForm($errors=[]){
+        $cor5= new CoordinatorModel;
+        $result['users']= $cor5->fetchUsers();
+        $result['errors']= $errors;
+        if( $result){
+        $this->view('coordinator/addproject',$result);
+        }else{
+            $this->view('_404');
+        }
+     }
+
+     public function createProject() {
+        $errors=[];
+        // Retrieve data from POST request
+        $title = $_POST['title'] ?? null;
+        $description = $_POST['description'] ?? null;
+        $supervisors = $_POST['supervisors'] ?? [];
+        $cosupervisors = $_POST['cosupervisors'] ?? [];
+        $selected_members = $_POST['selected_members'] ?? [];
+        $startDate = $_POST['start_date'] ?? null;
+        $endDate = $_POST['end_date'] ?? null;
+
+        if (empty($title) || empty($description) || empty($startDate) || empty($endDate)) {
+            // Handle missing data, e.g., return an error message
+            $errors['errors']= "Please fill in all required fields.";
+            $this->createProjectForm($errors);
+            
+        }
+        $allIds = array_merge($supervisors, $cosupervisors, $selected_members);
+            if (count($allIds) !== count(array_unique($allIds))) {
+                $errors['errors'] = "Duplicate IDs found in supervisors, cosupervisors, or members.";
+                $this->createProjectForm($errors);
+        }
+        $basicData['title']= $title;
+        $basicData['description']= $description;
+        $basicData['startdate']= $startDate;
+        $basicData['enddate']= $endDate;
+        $basicData['updatedat']= date('Y-m-d H:i:s');
+        $basicData['coordinatorid']= $_SESSION['coordinator_id'];
+
+        $project = new ProjectModel;
+        $status = $project->createProject($basicData,$supervisors,$cosupervisors,$selected_members);
+        if($status){
+            $this->projectlist();
+        }else{
+            $errors['errors'] = "Failed to create project.";
+            $this->createProjectForm($errors);
+        }
+
+     }
+
+     public function deleteProject(){
+        $data=$_POST['id'];
+        $project = new ProjectModel;
+        $status = $project->deleteProject($data);
+        $this->projectlist();
+
+     }
+
+     public function loadupdateproject(){
+        $id=$_POST['id'];
+        $fkd = new ProjectModel;
+        $data =$fkd->loadupdateproject($id);
+      ///var_dump($data);
+        $this->view('coordinator/editproject',$data);
+     }
+
+     public function updateProject(){
+        $errors=[];
+        // Retrieve data from POST request
+        $id = $_POST['id'];
+        $dmp = new ProjectModel;
+        $data = $dmp->updateproject($id);
+        
+     }
+
+     public function deletsup(){
+
+        echo "pass";
+
+
+        $dat['userid'] = $_POST['supervisor_id'];
+        $dat['projectid'] = $_POST['project_id'];
+
+        $df= new ProjectModel;
+
+        if($df->deletesup($dat)){
+            echo "pass";
+        }else{
+            echo "fail";
+        }
+     
+        $fkd = new ProjectModel;
+        $data =$fkd->loadupdateproject($projectid);
+      ///var_dump($data);
+        return $this->view('coordinator/editproject',$data);
+     }
 }

@@ -39,86 +39,38 @@
                 </div>
             </div>
             <div class="projects">
-                <div class="project">
-                    <div class="status ongoing">Ongoing</div>
-                    <div class="title">Project 1</div>
-                    <div class="description">Description of project 1. This is a brief overview of what the project is about.</div>
-                    <div class="actions">
-                        <div class="role member">Member</div>
-                        
-                        <button onclick="window.location.href='#';">Visit</button>
-
+                <?php if (!empty($data['projects'])) : ?>
+                    <?php foreach ($data['projects'] as $project): ?>
+                    <div class="project">
+                        <div class="status ongoing">Ongoing</div>
+                        <div class="title"><?= htmlspecialchars($project->project_title) ?></div>
+                        <div class="description"><?= htmlspecialchars($project->project_description) ?></div>
+                        <div class="actions">
+                            <?php 
+                                if ($project->role == 2) {
+                                    $role = 'Project Supervisor';
+                                } elseif ($project->role == 3) {
+                                    $role = 'Co Supervisor';
+                                } elseif ($project->role == 4) {
+                                    $role = 'member';
+                                } else {
+                                    $role = 'Unknown Role';
+                                }
+                            ?>  
+                            <div class="role member" id="role"><?=$role?></div>
+                            <form action="<?=ROOT?>/Supervisor/load" method="post">
+                            <input type="hidden" name="projectid" value="<?= $project->project_id ?>">
+                            <button type="submit">Visit</button>
+                            </form>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 70%;"></div>
+                            <div class="progress-percentage">70%</div>
+                        </div>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 70%;"></div>
-                        <div class="progress-percentage">70%</div>
-                    </div>
-                </div>
-                <div class="project">
-                    <div class="status completed">Completed</div>
-                    <div class="title">Project 2</div>
-                    <div class="description">Description of project 2. This is a brief overview of what the project is about.</div>
-                    <div class="actions">
-                        <div class="role co-supervisor">Co-Supervisor</div>
-                        <button>Visit</button>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 100%;"></div>
-                        <div class="progress-percentage">100%</div>
-                    </div>
-                </div>
-                <div class="project">
-                    <div class="status terminated">Terminated</div>
-                    <div class="title">Project 3</div>
-                    <div class="description">Description of project 3. This is a brief overview of what the project is about.</div>
-                    <div class="actions">
-                        <div class="role supervisor">Supervisor</div>
-                        <button>Visit</button>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 30%;"></div>
-                        <div class="progress-percentage">30%</div>
-                    </div>
-                </div>
-                <div class="project">
-                    <div class="status ongoing">Ongoing</div>
-                    <div class="title">Project 4</div>
-                    <div class="description">Description of project 4. This is a brief overview of what the project is about.</div>
-                    <div class="actions">
-                        <div class="role member">Member</div>
-                        <button>Visit</button>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 50%;"></div>
-                        <div class="progress-percentage">50%</div>
-                    </div>
-                </div>
-                <div class="project">
-                    <div class="status completed">Completed</div>
-                    <div class="title">Project 5</div>
-                    <div class="description">Description of project 5. This is a brief overview of what the project is about.</div>
-                    <div class="actions">
-                        <div class="role co-supervisor">Co-Supervisor</div>
-                        <button>Visit</button>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 100%;"></div>
-                        <div class="progress-percentage">100%</div>
-                    </div>
-                </div>
-                <div class="project">
-                    <div class="status terminated">Terminated</div>
-                    <div class="title">Project 6</div>
-                    <div class="description">Description of project 6. This is a brief overview of what the project is about.</div>
-                    <div class="actions">
-                        <div class="role supervisor">Supervisor</div>
-                        <button>Visit</button>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 20%;"></div>
-                        <div class="progress-percentage">20%</div>
-                    </div>
-                </div>
+                <?php endforeach ;?>
+                <?php endif ; ?>
+               
             </div>
         
        
@@ -130,7 +82,7 @@
                         <th class="py-2 px-4 border-b border-gray-300">Name</th>
                         <th class="py-2 px-4 border-b border-gray-300">Email</th>
                         <th class="py-2 px-4 border-b border-gray-300">Institute</th>
-                        <!-- <th class="py-2 px-4 border-b border-gray-100">Role</th> -->
+                        <th class="py-2 px-4 border-b border-gray-100">Date</th>
                         <th class="py-2 px-4 border-b border-gray-200">Actions</th>
                     </tr>
                 </thead>
@@ -143,6 +95,7 @@
                                     <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_name) ?></td>
                                     <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_email) ?></td>
                                     <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_institute) ?></td>
+                                    <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->date) ?></td>
                                     <!-- <td class="py-2 px-4 border-b border-gray-300">
                                         <php 
                                             if ($invitation->role == 2) {
@@ -157,14 +110,20 @@
                                         ?>
                                     </td> -->
                                     <td class="py-2 px-4 border-b border-gray-300">
-                                        <form action="<?=ROOT?>/reguser/acceptInvitation" method="post">
-                                        <input type="hidden" name="invitaton_id" value="<?=$invitation->id?>">
-                                        <input type="hidden" name="user_id" value="<?=$invitation->userid?>">
-                                        <input type="hidden" name="coordinator_id" value="<?=$invitation->coordinatorid?>">
-                                        <button class="bg-green-500 text-white p-2 rounded mr-2" name="submit">Accept</button>
-                                        <button class="bg-red-500 text-white p-2 rounded">Decline</button>
+                                    <div class="flex space-x-2">
+                                        <form action="<?= ROOT ?>/reguser/acceptInvitation" method="post">
+                                            <input type="hidden" name="invitation_id" value="<?= $invitation->id ?>"> <!-- Fixed field name -->
+                                            <input type="hidden" name="user_id" value="<?= $invitation->userid ?>">
+                                            <input type="hidden" name="coordinator_id" value="<?= $invitation->coordinatorid ?>">
+                                            <button class="bg-green-500 text-white p-2 rounded mr-2" name="submit">Accept</button>
                                         </form>
+                                        <form action="<?= ROOT ?>/reguser/declineInvitation" method="post">
+                                            <input type="hidden" name="invitation_id" value="<?= $invitation->id ?>">
+                                            <button type="submit" class="bg-red-500 text-white p-2 rounded" name="decline">Decline</button> <!-- Fixed type -->
+                                        </form>
+                                        </div>
                                     </td>
+
                                     </tr>
                                 <?php endif; ?>
                             <?php endforeach; ?>
@@ -179,40 +138,67 @@
                 <thead>
                     <tr>
                         <th class="py-2 px-4 border-b border-gray-300">Project ID</th>
-                        <th class="py-2 px-4 border-b border-gray-300">Project Name</th>
+                        <th class="py-2 px-4 border-b border-gray-300">Institute</th>
                         <th class="py-2 px-4 border-b border-gray-300">Coordinator Name</th>
                         <th class="py-2 px-4 border-b border-gray-300">Coordinator Email</th>
-                        <th class="py-2 px-4 border-b border-gray-300">Institute</th>
+                        <th class="py-2 px-4 border-b border-gray-300">Date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="py-2 px-4 border-b border-gray-300">P001</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Project Alpha</td>
-                        <td class="py-2 px-4 border-b border-gray-300">John Doe</td>
-                        <td class="py-2 px-4 border-b border-gray-300">john.doe@example.com</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Institute A</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-4 border-b border-gray-300">P002</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Project Beta</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Jane Smith</td>
-                        <td class="py-2 px-4 border-b border-gray-300">jane.smith@example.com</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Institute B</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-4 border-b border-gray-300">P003</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Project Gamma</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Alice Johnson</td>
-                        <td class="py-2 px-4 border-b border-gray-300">alice.johnson@example.com</td>
-                        <td class="py-2 px-4 border-b border-gray-300">Institute C</td>
-                    </tr>
+                <?php if (!empty($data['invitations'])) : ?>
+                            <?php foreach ($data['invitations'] as $invitation): ?>
+                                <?php if ($invitation->status==1) : ?>
+                                    <tr>
+                                    <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->id) ?></td>
+                                    <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_institute) ?></td>
+                                    <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_name) ?></td>
+                                    <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_email) ?></td>
+                                    <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->date) ?></td>
+                                    </tr>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                 </tbody>
             </table>
         </div>
         </div>
     </div>
     <script>
+        // Get the role value
+        let roleElement = document.getElementById('role');
+        let role = roleElement ? roleElement.textContent : '';
+
+        // Get the element whose color you want to change
+        let colorBox = document.getElementById('color-box');
+
+        // Function to change color based on the role
+        function changeColorBasedOnRole(role) {
+            switch(role.toLowerCase()) {
+                case 'admin':
+                    colorBox.style.backgroundColor = 'red'; // red for admin
+                    break;
+                case 'supervisor':
+                    colorBox.style.backgroundColor = 'blue'; // blue for supervisor
+                    break;
+                case 'member':
+                    colorBox.style.backgroundColor = 'green'; // green for member
+                    break;
+                case 'guest':
+                    colorBox.style.backgroundColor = 'gray'; // gray for guest
+                    break;
+                default:
+                    colorBox.style.backgroundColor = 'white'; // default color
+                    break;
+            }
+        }
+
+        // Call the function with the current role
+        changeColorBasedOnRole(role);
+
+
+
+
+
         // JavaScript to dynamically change the status and progress bar
         const projects = [
             { status: 'ongoing', progress: 70 },

@@ -82,5 +82,64 @@ class CoordinatorModel{
             u.email AS user_email FROM invitation i JOIN user u ON i.userid = u.id WHERE i.coordinatorid = :corid';
         return $this->query($sql, ['corid' => $corid]);
     }
+
+    public function fetchUsers()
+{   
+    $coordinatorId = $_SESSION['coordinator_id'];
+    try {
+        $sql = 'SELECT 
+                    u.id AS user_id,
+                    u.name AS user_name,
+                    u.email AS user_email,
+                    u.createdat,
+                    u.phone
+                FROM 
+                    `coordinator-user` cu
+                JOIN 
+                    `user` u 
+                ON 
+                    cu.userid = u.id
+                WHERE 
+                    cu.coordinatorid = :coordinator_id';
+
+        $result = $this->query($sql, ['coordinator_id' => $coordinatorId]);
+
+        return $result;
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+
+    
+}
+
+    public function removeUser($id){
+        $coordinatorId = $_SESSION['coordinator_id'];
+        $sql = 'DELETE FROM `coordinator-user` WHERE coordinatorid = :coordinatorid AND userid = :userid';
+        return $this->query($sql, ['coordinatorid' => $coordinatorId, 'userid' => $id]);
+    }    
+
+
+    public function fetchProjectList()
+{
+    $coordinatorId = $_SESSION['coordinator_id'];
+    try {
+        $sql = 'SELECT 
+                    *
+                FROM 
+                    `project`
+                WHERE 
+                    coordinatorid = :coordinator_id';
+
+        $result = $this->query($sql, ['coordinator_id' => $coordinatorId]);
+
+        return $result;
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
+
+   
     
 }

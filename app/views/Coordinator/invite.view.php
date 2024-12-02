@@ -42,11 +42,7 @@
             <form class="flex flex-col md:flex-row items-center mb-6" action="<?=ROOT?>/coordinator/invite" method="post">
                 <div class="flex flex-col md:flex-row items-center w-full md:w-auto mb-4 md:mb-0">
                     <input type="email" placeholder="Enter email" class="border border-gray-300 p-2 w-full md:w-64 mb-4 md:mb-0 md:mr-4" name="email">
-                    <select class="border border-gray-300 p-2 w-full md:w-48 mb-4 md:mb-0 md:mr-4" name="role">
-                        <option value="2">Project Supervisor</option>
-                        <option value="3">Co Supervisor</option>
-                        <option value="4">Member</option>
-                    </select>
+                    <input type="hidden" name="role" value="1">
                     <button type="submit" class="bg-blue-500 text-white p-2 w-full md:w-auto">
                         <i class="fas fa-plus"></i> Invite 
                     </button>
@@ -73,7 +69,7 @@
                         <th class="py-2 px-4 border-b border-gray-50">Id</th>
                         <th class="py-2 px-4 border-b border-gray-300">Name</th>
                         <th class="py-2 px-4 border-b border-gray-300">Email</th>
-                        <th class="py-2 px-4 border-b border-gray-100">Role</th>
+                        <th class="py-2 px-4 border-b border-gray-100">Date</th>
                         <th class="py-2 px-4 border-b border-gray-100">Status</th>
                     </tr>
                 </thead>
@@ -86,8 +82,9 @@
                                 <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->id) ?></td>
                                 <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_name) ?></td>
                                 <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_email) ?></td>
-                                <td class="py-2 px-4 border-b border-gray-300">
-                                    <?php 
+                                <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->date) ?></td>
+                                <!-- <td class="py-2 px-4 border-b border-gray-300">
+                                    <php 
                                         if ($invitation->role == 2) {
                                             echo 'Project Supervisor';
                                         } elseif ($invitation->role == 3) {
@@ -98,7 +95,7 @@
                                             echo 'Unknown Role';
                                         }
                                     ?>
-                                </td>
+                                </td> -->
                                 <td class="py-2 px-4 border-b border-gray-300 text-green-500">Pending</td>
                                 </tr>
                             <?php endif; ?>
@@ -115,7 +112,7 @@
                         <th class="py-2 px-4 border-b border-gray-50">Id</th>
                         <th class="py-2 px-4 border-b border-gray-300">Name</th>
                         <th class="py-2 px-4 border-b border-gray-300">Email</th>
-                        <th class="py-2 px-4 border-b border-gray-100">Role</th>
+                        <th class="py-2 px-4 border-b border-gray-100">Date</th>
                         <th class="py-2 px-4 border-b border-gray-100">Status</th>
                     </tr>
                 </thead>
@@ -128,8 +125,9 @@
                                 <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->id) ?></td>
                                 <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_name) ?></td>
                                 <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_email) ?></td>
-                                <td class="py-2 px-4 border-b border-gray-300">
-                                    <?php 
+                                <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->date) ?></td>
+                                <!-- <td class="py-2 px-4 border-b border-gray-300">
+                                    <php 
                                         if ($invitation->role == 2) {
                                             echo 'Project Supervisor';
                                         } elseif ($invitation->role == 3) {
@@ -140,8 +138,8 @@
                                             echo 'Unknown Role';
                                         }
                                     ?>
-                                </td>
-                                <td class="py-2 px-4 border-b border-gray-300 text-blue-500">Pending</td>
+                                </td> -->
+                                <td class="py-2 px-4 border-b border-gray-300 text-blue-500">Accepted</td>
                                 </tr>
                             <?php endif; ?>
                         <?php endforeach; ?>
@@ -157,7 +155,7 @@
                         <th class="py-2 px-4 border-b border-gray-50">Id</th>
                         <th class="py-2 px-4 border-b border-gray-300">Name</th>
                         <th class="py-2 px-4 border-b border-gray-300">Email</th>
-                        <th class="py-2 px-4 border-b border-gray-100">Role</th>
+                        <th class="py-2 px-4 border-b border-gray-100">date</th>
                         <th class="py-2 px-4 border-b border-gray-100">Status</th>
                     </tr>
                 </thead>
@@ -170,8 +168,9 @@
                                 <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->id) ?></td>
                                 <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_name) ?></td>
                                 <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->user_email) ?></td>
-                                <td class="py-2 px-4 border-b border-gray-300">
-                                    <?php 
+                                <td class="py-2 px-4 border-b border-gray-300"><?= htmlspecialchars($invitation->date) ?></td>
+                                <!-- <td class="py-2 px-4 border-b border-gray-300">
+                                    <php 
                                         if ($invitation->role == 2) {
                                             echo 'Project Supervisor';
                                         } elseif ($invitation->role == 3) {
@@ -182,8 +181,8 @@
                                             echo 'Unknown Role';
                                         }
                                     ?>
-                                </td>
-                                <td class="py-2 px-4 border-b border-gray-300 text-red-500">Pending</td>
+                                </td> -->
+                                <td class="py-2 px-4 border-b border-gray-300 text-red-500">Declined</td>
                                 </tr>
                             <?php endif; ?>
                         <?php endforeach; ?>
