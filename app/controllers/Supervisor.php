@@ -39,5 +39,35 @@ class Supervisor{
             $this->view('_404'); // Show a 404 view
         }
     }
+    public function showDocument(){
+        $prj = new ProjectModel;
+        $data = $prj->ShowDashboard4($_SESSION['project_id']);
+        if ($data) {
+            $this->view('supervisor/document', $data); // Pass data as an array
+        } else {
+            $this->view('_404'); // Show a 404 view
+        }
+    }
+
     
+    public function Chatbox(){
+        $prj = new ProjectModel;
+        $data = $prj->ShowDashboard4($_SESSION['project_id']);
+        if ($data) {
+            $this->view('supervisor/chatbox', $data); // Pass data as an array
+        } else {
+            $this->view('_404'); // Show a 404 view
+        }
+    }
+    
+
+    public function memberlist(){
+        $prj = new ProjectModel;
+        $data = $prj->ShowDashboard4($_SESSION['project_id']);
+        if ($data) {
+            $this->view('supervisor/memberlist', $data); // Pass data as an array
+        } else {
+            $this->view('_404'); // Show a 404 view
+        }
+    }
 }

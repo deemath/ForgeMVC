@@ -8,38 +8,60 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
    function showForm(sectionId, formId) {
-            const section = document.getElementById(sectionId);
-            const form = document.getElementById(formId);
-            section.classList.add("hidden");
-            section.classList.remove("visible");
-            form.classList.add("visible");
-            form.classList.remove("hidden");
-        }
+      const section = document.getElementById(sectionId);
+      const form = document.getElementById(formId);
+      section.classList.add("hidden");
+      section.classList.remove("visible");
+      form.classList.add("visible");
+      form.classList.remove("hidden");
+    }
 
-        function hideForm(sectionId, formId) {
-            const section = document.getElementById(sectionId);
-            const form = document.getElementById(formId);
-            section.classList.add("visible");
-            section.classList.remove("hidden");
-            form.classList.add("hidden");
-            form.classList.remove("visible");
-        }
-         
+    function hideForm(sectionId, formId) {
+      const section = document.getElementById(sectionId);
+      const form = document.getElementById(formId);
+      form.classList.add("hidden");
+      form.classList.remove("visible");
+      section.classList.add("visible");
+      section.classList.remove("hidden");
+    }
   </script>
   <style>
+    .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .alert-danger ul {
+            margin: 0;
+            padding-left: 20px;
+            list-style-type: disc;
+        }
    body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f5f5f5;
             color: #333;
-           
+            scroll-behavior: smooth; /* Enable smooth scrolling */
         }
         .container {
             width: 100%;
             max-width: 1200px;
-            margin: 0 ;
-            padding: 0;
+            margin: 0  ;
+            padding: 0px;
+        }
+        .dew{
+          color: red;
         }
         .header {
             display: flex;
@@ -83,7 +105,6 @@
             gap: 10px;
             margin-right: 20px; /* Move actions to the right */
         }
-        
         .header .actions a {
             text-decoration: none;
             padding: 10px 20px;
@@ -107,7 +128,7 @@
         }
         .hero {
             text-align: center;
-            padding: 160px 20px 60px; /* Adjusted padding to account for fixed header */
+            padding: 260px 20px 60px; /* Adjusted padding to account for fixed header */
             background-color: #f5f5f5;
             animation: fadeIn 1s ease-in-out;
         }
@@ -310,6 +331,11 @@
             color: #666;
             margin-bottom: 20px;
         }
+        .about-us p1 {
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
         .about-us .values {
             display: flex;
             justify-content: space-between;
@@ -402,22 +428,23 @@
                 transform: translateY(0);
             }
         }
-         
-   .transition-all {
-      transition: all 0.5s ease-in-out;
-    }
+    
     .hidden {
       opacity: 0;
-      visibility: hidden;
-      height: 0;
-      overflow: hidden;
+      pointer-events: none;
+      transform: translateY(20px);
+      transition: all 0.5s ease-in-out;
     }
     .visible {
       opacity: 1;
-      visibility: visible;
-      height: auto;
+      pointer-events: auto;
+      transform: translateY(0);
+      transition: all 0.5s ease-in-out;
     }
-  
+    .transition-all {
+      transition: all 0.5s ease-in-out;
+    }
+ 
   </style>
  </head>
  <body>
@@ -433,7 +460,7 @@
      <a href="#contact-us">Contact</a>
     </nav>
     <div class="actions">
-     <a class="login" href="#">Login</a>
+     <a class="login" href="<?=ROOT?>/login">Login</a>
      <a class="get-started" href="#register">Register</a>
     </div>
    </header>
@@ -441,12 +468,12 @@
     <h1>Effortless project management,<span>anytime</span></h1>
     <p>Manage projects easily with an all-in-one platform designed for seamless collaboration</p>
     <div class="buttons">
-     <a class="learn-more" href="#">Learn More</a>
-     <a class="sign-up" href="#">Sign Up</a>
+     <a class="learn-more" href="#features">Learn More</a>
+     <a class="sign-up" href="#register">Sign Up</a>
     </div>
    </section>
    <section class="screenshot">
-    <img alt="Screenshot of Project Forge interface showing a dashboard with project tasks, team members, and progress tracking" height="400" src="https://storage.googleapis.com/a1aa/image/f0luwQ7x231bekuytvYlR3fTBx8ReSxfaJ14ogaLTQEJ6hveE.jpg" width="800"/>
+    <img alt="Screenshot of Project Forge interface showing a dashboard with project tasks, team members, and progress tracking" height="400" src="<?=ROOT?>/assets/images/banner.png" width="800"/>
    </section>
    <section class="features" id="features">
     <h2>Features</h2>
@@ -558,147 +585,287 @@
    </div>
    <section class="about-us" id="register">
    
- <div class="bg-white rounded-lg shadow-lg flex flex-col md:flex-row w-full max-w-6xl min-h-[600px]">
+  <html>
+ <head>
+  <title>
+   Registration Page
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   .hidden {
+            display: none;
+        }
+  </style>
+  <script>
+   function showForm(sectionId, formId) {
+            const section = document.getElementById(sectionId);
+            const form = document.getElementById(formId);
+            section.classList.add("hidden");
+            section.classList.remove("visible");
+            form.classList.add("visible");
+            form.classList.remove("hidden");
+        }
+
+        function hideForm(sectionId, formId) {
+            const section = document.getElementById(sectionId);
+            const form = document.getElementById(formId);
+            section.classList.add("visible");
+            section.classList.remove("hidden");
+            form.classList.add("hidden");
+            form.classList.remove("visible");
+        }
+  </script>
+ </head>
+ <body class="bg-gray-100">
+  <div class="bg-white rounded-lg shadow-lg flex flex-col md:flex-row w-full max-w-6xl min-h-[600px] mx-auto mt-10">
    <!-- Project Coordinator Section -->
-   <div class="section bg-blue-600 text-white p-8 md:w-1/2 flex flex-col items-center justify-center transition-all visible min-h-[600px]" id="project-coordinator-section">
+   <div class="section bg-blue-600 text-white p-8 md:w-1/2 flex flex-col items-center justify-center transition-all visible min-h-[600px]" id="project-coordinator-section" onmouseenter="showForm('project-coordinator-section', 'project-coordinator-form')">
     <h2 class="text-2xl font-bold mb-4">
      Register as
     </h2>
-    <img alt="Icon of a project coordinator" class="mb-4" height="100" src="https://storage.googleapis.com/a1aa/image/Bn0JAvHOHjJUKpgGKVTYcVgADG7CSfHJ4pa2yAvsezO3ifrnA.jpg" width="100"/>
+    <img alt="Icon of a project coordinator" class="mb-4" height="100" src="https://storage.googleapis.com/a1aa/image/KAypvQHQ0saYItob9hMx5Nf6mm4sllW6nzv51iXGx6ZbGO7JA.jpg" width="100"/>
     <h3 class="text-xl font-bold mb-4">
      Project Coordinator
     </h3>
-    <p class="text-center mb-4">
+    <p1 class="text-center mb-4">
      As a Project Coordinator, you will be responsible for overseeing and managing various projects within your organization. Your role will involve planning, executing, and closing projects, ensuring they are completed on time and within budget. You will work closely with team members, stakeholders, and clients to achieve project goals and deliverables.
-    </p>
-    <button class="bg-white text-purple-500 font-bold py-2 px-4 rounded hover:bg-gray-200" onclick="showForm('project-coordinator-section', 'project-coordinator-form')">
+    </p1>
+    <button class="bg-white text-blue-600 font-bold py-2 px-4 rounded hover:bg-gray-200">
      REGISTER HERE
     </button>
    </div>
    <!-- Project Coordinator Form -->
-   <div class="hidden p-8 md:w-1/2 bg-purple-100 transition-all min-h-[600px]" id="project-coordinator-form" onmouseenter="showForm('project-coordinator-section', 'project-coordinator-form')" onmouseleave="hideForm('project-coordinator-section', 'project-coordinator-form')">
-    <h2 class="text-2xl font-bold mb-6 text-purple-500">
-     Register as Project Coordinator
-    </h2>
-    <form>
+   <div class="hidden p-8 md:w-1/2 bg-blue-100 transition-all min-h-[600px]" id="project-coordinator-form" onmouseleave="hideForm('project-coordinator-section', 'project-coordinator-form')">
+   <h2 class="text-xl font-serif font-bold mb-6 text-blue-600">Register as Project Coordinator</h2>
+
+    <form action="<?=ROOT?>/register/coordinator" method="post">
      <div class="mb-4">
       <label class="block text-sm font-medium text-gray-700" for="name">
        Name
       </label>
-      <input class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500" id="name" name="name" required="" type="text"/>
+       <input
+    class="w-full border border-blue-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-500 p-2 text-sm text-gray-700 placeholder-gray-400"
+    id="name"
+    name="name"
+    type="text"
+    placeholder="Enter your full name"
+    required
+/>
      </div>
-     <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700" for="address">
-       Address
-      </label>
-      <input class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500" id="address" name="address" required="" type="text"/>
-     </div>
+     
      <div class="mb-4">
       <label class="block text-sm font-medium text-gray-700" for="phone_number">
        Phone Number
       </label>
-      <input class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500" id="phone_number" name="phone_number" required="" type="tel"/>
+       <input
+    class="w-full border border-blue-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-500 p-2 text-sm text-gray-700 placeholder-gray-400"
+    id="phone"
+    name="phone"
+    type="tel"
+    placeholder="Enter your phone number"
+    required
+/>
+     </div>
+     <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700" for="phone_number">
+       Address
+      </label>
+       <input
+    class="w-full border border-blue-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-500 p-2 text-sm text-gray-700 placeholder-gray-400"
+    id="phone"
+    name="address"
+    type="tel"
+    placeholder="Enter your phone number"
+    required
+/>
+     </div>
+     <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700" for="phone_number">
+       Institute
+      </label>
+       <input
+    class="w-full border border-blue-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-500 p-2 text-sm text-gray-700 placeholder-gray-400"
+    id="phone"
+    name="institute"
+    type="tel"
+    placeholder="Enter your phone number"
+    required
+/>
      </div>
      <div class="mb-4">
       <label class="block text-sm font-medium text-gray-700" for="email">
        Email
       </label>
-      <input class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500" id="email" name="email" required="" type="email"/>
+<input
+    class="w-full border border-blue-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-500 p-2 text-sm text-gray-700 placeholder-gray-400"
+    id="email"
+    name="email"
+    type="email"
+    placeholder="Enter your email address"
+    required
+/>
      </div>
      <div class="mb-4">
       <label class="block text-sm font-medium text-gray-700" for="password">
        Password
       </label>
-      <input class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500" id="password" name="password" required="" type="password"/>
+<input
+    class="w-full border border-blue-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-500 p-2 text-sm text-gray-700 placeholder-gray-400"
+    id="password"
+    name="password"
+    type="password"
+    placeholder="Enter your password"
+    required
+/>
      </div>
      <div class="mb-4">
       <label class="block text-sm font-medium text-gray-700" for="confirm_password">
        Confirm Password
       </label>
-      <input class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500" id="confirm_password" name="confirm_password" required="" type="password"/>
+      <input
+    class="w-full border border-blue-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-500 p-2 text-sm text-gray-700 placeholder-gray-400"
+    id="confirm_password"
+    name="confirm_password"
+    type="password"
+    placeholder="Confirm your password"
+    required
+/>
      </div>
      <div class="flex justify-between">
-      <button class="bg-purple-500 text-white font-bold py-2 px-4 rounded hover:bg-purple-600" type="submit">
+      <button class="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-purple-600" type="submit" name="submit">
        Submit
       </button>
       <button class="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded hover:bg-gray-400" onclick="hideForm('project-coordinator-section', 'project-coordinator-form')" type="button">
        Back
       </button>
      </div>
+     <?php if (!empty($data)) : ?>
+                        <div class="alert alert-danger">
+                            <?php foreach($errors as $error)
+                                 echo htmlspecialchars($error) . "<br>";
+                            ?>
+                            
+                            
+                            <!-- <php print_r( $data) ?> -->
+                        </div> 
+            <?php endif; ?>
     </form>
    </div>
    <!-- Regular User Section -->
-   <div class="section bg-gray-200 text-gray-700 p-8 md:w-1/2 flex flex-col items-center justify-center transition-all visible min-h-[600px]" id="regular-user-section">
+   <div class="section bg-gray-200 text-gray-700 p-8 md:w-1/2 flex flex-col items-center justify-center transition-all visible min-h-[600px]" id="regular-user-section" onmouseenter="showForm('regular-user-section', 'regular-user-form')">
     <h2 class="text-2xl font-bold mb-4">
      Register as
     </h2>
-    <img alt="Icon of a regular user" class="mb-4" height="100" src="https://storage.googleapis.com/a1aa/image/6R8qq5d3EZK4NdeE8OWGdBfpcSyARSCqN9v2HefvcH0bLeveE.jpg" width="100"/>
+    <img alt="Icon of a regular user" class="mb-4" height="100" src="https://storage.googleapis.com/a1aa/image/nR8lLgDfDNSBPibWM0gxVxB7bLowRfhRiFBBeBbbJ3YpZ4snA.jpg" width="100"/>
     <h3 class="text-xl font-bold mb-4">
      Regular User
     </h3>
     <p class="text-center mb-4">
      As a Regular User, you will have access to a variety of features and resources that will help you in your daily tasks. You can participate in discussions, access exclusive content, and connect with other users. This role is perfect for individuals looking to enhance their skills and knowledge in a supportive community.
     </p>
-    <button class="bg-white text-gray-700 font-bold py-2 px-4 rounded hover:bg-gray-300" onclick="showForm('regular-user-section', 'regular-user-form')">
+    <button class="bg-white text-gray-700 font-bold py-2 px-4 rounded hover:bg-gray-300">
      REGISTER HERE
     </button>
    </div>
    <!-- Regular User Form -->
-   <div class="hidden p-8 md:w-1/2 bg-gray-100 transition-all min-h-[600px]" id="regular-user-form" onmouseenter="showForm('regular-user-section', 'regular-user-form')" onmouseleave="hideForm('regular-user-section', 'regular-user-form')">
-    <h2 class="text-2xl font-bold mb-6 text-gray-700">
-     Register as Regular User
-    </h2>
-    <form>
+   <div class="hidden p-8 md:w-1/2 bg-gray-100 transition-all min-h-[600px]" id="regular-user-form" onmouseleave="hideForm('regular-user-section', 'regular-user-form')">
+    <h2 class="text-xl font-serif font-bold mb-6 text-black-600">Register as Regular User</h2>
+
+    <form action="<?=ROOT?>/register/user" method="post">
      <div class="mb-4">
       <label class="block text-sm font-medium text-gray-700" for="name">
        Name
       </label>
-      <input class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500" id="name" name="name" required="" type="text"/>
-     </div>
-     <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700" for="address">
-       Address
-      </label>
-      <input class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500" id="address" name="address" required="" type="text"/>
-     </div>
+     <input
+    class="w-full border border-blue-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-500 p-2 text-sm text-gray-700 placeholder-gray-400"
+    id="name"
+    name="name"
+    type="text"
+    placeholder="Enter your full name"
+    required
+/>
+
      <div class="mb-4">
       <label class="block text-sm font-medium text-gray-700" for="phone_number">
        Phone Number
       </label>
-      <input class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500" id="phone_number" name="phone_number" required="" type="tel"/>
+     <input
+    class="w-full border border-blue-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-500 p-2 text-sm text-gray-700 placeholder-gray-400"
+    id="phone"
+    name="phone"
+    type="tel"
+    placeholder="Enter your phone number"
+    required
+/>
+
      </div>
      <div class="mb-4">
       <label class="block text-sm font-medium text-gray-700" for="email">
        Email
       </label>
-      <input class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500" id="email" name="email" required="" type="email"/>
+     <input
+    class="w-full border border-blue-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-500 p-2 text-sm text-gray-700 placeholder-gray-400"
+    id="email"
+    name="email"
+    type="email"
+    placeholder="Enter your email address"
+    required
+/>
+
      </div>
      <div class="mb-4">
       <label class="block text-sm font-medium text-gray-700" for="password">
        Password
       </label>
-      <input class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500" id="password" name="password" required="" type="password"/>
+     <input
+    class="w-full border border-blue-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-500 p-2 text-sm text-gray-700 placeholder-gray-400"
+    id="password"
+    name="password"
+    type="password"
+    placeholder="Enter your password"
+    required
+/>
+
      </div>
      <div class="mb-4">
       <label class="block text-sm font-medium text-gray-700" for="confirm_password">
        Confirm Password
       </label>
-      <input class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500" id="confirm_password" name="confirm_password" required="" type="password"/>
+     <input
+    class="w-full border border-blue-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-500 p-2 text-sm text-gray-700 placeholder-gray-400"
+    id="confirm_password"
+    name="confirm_password"
+    type="password"
+    placeholder="Confirm your password"
+    required
+/>
+
      </div>
      <div class="flex justify-between">
-      <button class="bg-gray-700 text-white font-bold py-2 px-4 rounded hover:bg-gray-800" type="submit">
+      <button class="bg-gray-700 text-white font-bold py-2 px-4 rounded hover:bg-gray-800" type="submit" name="submit">
        Submit
       </button>
       <button class="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded hover:bg-gray-400" onclick="hideForm('regular-user-section', 'regular-user-form')" type="button">
        Back
       </button>
      </div>
+     <?php if (!empty($data)) : ?>
+                        <div class="alert alert-danger">
+                            <?php foreach($errors as $error)
+                                 echo htmlspecialchars($error) . "<br>";
+                            ?>
+                            
+                            
+                            <!-- <php print_r( $data) ?> -->
+                        </div> 
+            <?php endif; ?>
     </form>
    </div>
   </div>
-
-
-
+ </body>
+</html>
   </section>
   <section class="contact-us" id="contact-us">
     <h2>

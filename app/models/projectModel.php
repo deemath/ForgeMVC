@@ -102,12 +102,54 @@ class ProjectModel{
 
         $sql = "SELECT t.*,u.name AS creator_name , u.email  AS creator_email FROM task t JOIN `user` u ON t.createdby=u.id WHERE t.projectid = :projectid";
         $data['creators']=$this->query($sql,$temp);
+
+        
+
         return $data ; 
         
         
         // Return null if no project is found
     }
 
+
+    public function deleteProject($data){
+        $this->table='project';
+        return $this->delete($data);
+    }
+
+    public function loadupdateproject($id){
+        $this->table='project';
+        $input['id']=$id;
+        $input1['projectid']=$id;
+        $data['project']=$this->first($input);
+
+        $sql1="SELECT s.* ,u.email AS sup_email FROM `supervisor-project` s JOIN user u ON s.userid=u.id WHERE s.projectid = :projectid";
+        $data['supervisor']=$this->query($sql1,$input1);
+
+        $sql2="SELECT m.*,u.email AS mememail FROM `member-project` m JOIN user u ON m.userid=u.id WHERE m.projectid = :projectid";
+        $data['member']=$this->query($sql2,$input1);
+
+        $sql3="SELECT c.* ,u.email AS cosup_email FROM `cosupervisor-project` c JOIN user u ON c.userid=u.id WHERE c.projectid = :projectid";
+        $data['cosupervisor']=$this->query($sql3,$input1);
+
+        return $data;
+
+
+
+    }
+
+
+    public function updateproject($id){
+        
+        return true;
+    }
+
+    public function deletesup($data){
+        $this->table='supervisor-project';
+        $sql = "DELETE FROM `supervisor-project` WHERE userid = :userid AND projectid = :projectid";
+        return $this->query($sql, $data);
+        
+    }
 
     
 }

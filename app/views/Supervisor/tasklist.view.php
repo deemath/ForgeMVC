@@ -24,24 +24,14 @@ require_once 'navigationbar.php'
 
                                     <?php foreach($data['creators'] as $creator) : ?>
                                     <?php if($creator->id == $task->id) : ?>
-                                        <?php print_r($creator->creator_name.$task->id);
-                                            $temp['name']=$creator->creator_name;
-                                            $temp['email']=$creator->creator_name;
-
-                                        ?>
                                         
+                                        
+                                
+                                <tr class="task-row">
+                                    <form action="<?=ROOT?>/task/showdetail" method="post">
+                                    <input type="hidden" name="id" value="<?=$task->id?>">
 
-                                <tr class="task-row" 
-                                    data-task-id="<?= $task->id ?>" 
-                                    data-task-title="<?= htmlspecialchars($task->title) ? htmlspecialchars($task->title) : 'Default Value' ?>" 
-                                    data-task-description="<?= htmlspecialchars($task->description)?:'' ?>" 
-                                    data-task-status="<?= $task->status ?>" 
-                                    data-task-assigned='<?= json_encode($task->assigned)?:'' ?>' 
-                                    data-task-duration="<?= htmlspecialchars($task->duration)?:'' ?>" 
-                                    data-task-createdby='<?= json_encode($temp)?:'' ?>' 
-                                    data-task-subtasks='<?= json_encode($task->subtasks)?:'' ?>'
-                                >
-                                    <td class="py-2 px-4 border-b"><?=$task->no?></td>
+                                    <td class="py-2 px-4 border-b"><?=$task->no?> </td>
                                     <td class="py-2 px-4 border-b font-bold"><?=$task->title?></td>
                                     <td class="py-2 px-4 border-b"><?= htmlspecialchars(substr($task->description, 0, 30)) . (strlen($task->description) > 200 ? ' ...' : '') ?></td>
                                     <td class="py-2 px-4 border-b">
@@ -61,6 +51,8 @@ require_once 'navigationbar.php'
                                         echo $status;
                             ?>  
                                 </td>
+                                <td><button class="flex-1 bg-blue-500 text-white py-2 px-4 rounded mr-2" name="submit" type="submit">View </button></td>
+                                </form>
                                 </tr>
                                 
                                 <?php if($data['subtasks']) : ?>
@@ -71,21 +63,22 @@ require_once 'navigationbar.php'
                     
                                             data-task-subtasks='<?= json_encode($task->subtasks)?:'' ?>'
                                         >
-                                            <td class="py-2 px-4 border-b"><?=$task->no?>.<?=$subtask->id?></td>
-                                            <td class="py-2 px-4 border-b font-bold"><?=$subtask->title?></td>
-                                            <td class="py-2 px-4 border-b"><?= htmlspecialchars(substr($subtask->description, 0, 30)) . (strlen($subtask->description) > 200 ? ' ...' : '') ?></td>
-                                            <td class="py-2 px-4 border-b">
+                                            <td class="py-2 px-8 border-b"><?=$task->no?>.<?=$subtask->id?></td>
+                                            <td class="py-2 px-8 border-b "><?=$subtask->title?></td>
+                                            <td class="py-2 px-8 border-b"><?= htmlspecialchars(substr($subtask->description, 0, 30)) . (strlen($subtask->description) > 200 ? ' ...' : '') ?></td>
+                                            <td class="py-2 px-8 border-b">
                                              
                                         </td>
                                         </tr>
-                                        
+                                       
                                     <?php endif;?>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
-
+                                
                                 <?php endif; ?>
                                 <?php endforeach; ?>
-                                
+                              
+                            
                                 
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -123,150 +116,103 @@ require_once 'navigationbar.php'
                         </tr> -->
                         </tbody>
                     </table>
-
+                  
+                    <a href="<?=ROOT?>/task/create">
                     <div class="mt-4 text-blue-500 cursor-pointer">+ create task</div>
+                    </a>
                 </div>
-                <!-- dump -->
-                <div class="w-1/3 bg-white p-6 shadow-md">
-                    <div class="text-lg font-bold mb-2">Task No </div>
-                    <div class="text-2xl font-bold mb-4 task-details-title">Select a task</div>
-                    <p class="text-gray-700 mb-4 task-details-description">Please select a task to see the details.</p>
-                    <div class="mb-4">
-                        <div class="font-bold mb-2">Assigned</div>
-                        <div class="task-details-assigned"></div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="font-bold mb-2">Duration</div>
-                        <div class="text-gray-700 task-details-duration"></div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="font-bold mb-2">Created By</div>
-                        <div class="task-details-created-by"></div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="font-bold mb-2">Status</div>
-                        <div class="text-gray-700 task-details-status"></div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="font-bold mb-2">Sub-Tasks</div>
-                        <div class="task-details-subtasks"></div>
-                    </div>
-                    <div class="flex">
-                        <button class="flex-1 bg-blue-500 text-white py-2 px-4 rounded mr-2" onclick="window.location.href='./taskedit.php'">Edit</button>
-                        <button class="flex-1 bg-red-500 text-white py-2 px-4 rounded">Delete</button>
-                    </div>
-                </div>
-                 <!-- dumpclose -->
-                <!-- Task Details -->
-                <div class="w-1/3 bg-white p-6 shadow-md">
-                            <!-- start -->
-                            <script>
-                                document.querySelectorAll('.task-row').forEach(row => {
-                                    row.addEventListener('click', function() {
-                                        // Get data attributes from the clicked row
-                                        const taskId = this.dataset.taskId;
-                                        const taskTitle = this.dataset.taskTitle;
-                                        const taskDescription = this.dataset.taskDescription;
-                                        const taskStatus = this.dataset.taskStatus;
-                                        const taskAssigned = this.dataset.taskAssigned;
-                                        const taskDuration = this.dataset.taskDuration;
-                                        const taskCreatedBy = this.dataset.taskCreatedBy;
-                                        const taskSubtasks = this.dataset.taskSubtasks;
-
-                                        // Update the task details section
-                                        document.querySelector('.task-details-title').innerText = taskTitle;
-                                        document.querySelector('.task-details-description').innerText = taskDescription;
-                                        document.querySelector('.task-details-status').innerText = taskStatus;
-                                        document.querySelector('.task-details-assigned').innerHTML = JSON.parse(taskAssigned).map(member => `
-                                            <div class="flex items-center mb-2">
-                                                <img alt="${member.name}" class="h-8 w-8 rounded-full mr-2" src="${member.avatar}" />
-                                                <div>
-                                                    <div class="font-bold">${member.name}</div>
-                                                    <div class="text-sm text-gray-500">${member.email}</div>
-                                                </div>
-                                            </div>
-                                        `).join('');
-                                        document.querySelector('.task-details-duration').innerText = taskDuration;
-                                        document.querySelector('.task-details-created-by').innerHTML = JSON.parse(taskCreatedBy).map(creator => `
-                                            <div class="flex items-center mb-2">
-                                                <img alt="${creator.name}" class="h-8 w-8 rounded-full mr-2" src="${creator.avatar}" />
-                                                <div>
-                                                    <div class="font-bold">${creator.name}</div>
-                                                    <div class="text-sm text-gray-500">${creator.email}</div>
-                                                </div>
-                                            </div>
-                                        `).join('');
-                                        document.querySelector('.task-details-subtasks').innerHTML = JSON.parse(taskSubtasks).map(subtask => `
-                                            <div class="text-gray-700">${subtask}</div>
-                                        `).join('');
-                                    });
-                                });
-                            </script>
-
-
-                           
-
-
-
-                       <!-- end -->
-                    <div class="text-lg font-bold mb-2">#02</div>
-                    <div class="text-2xl font-bold mb-4">task 02</div>
-                    <p class="text-gray-700 mb-4">
-                        Description of task 02 simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
-                    </p>
-                    <div class="mb-4">
-                        <div class="font-bold mb-2">Assigned</div>
-                        <div class="flex items-center mb-2">
-                            <img alt="Dewmini Paboda" class="h-8 w-8 rounded-full mr-2" height="40" src="https://storage.googleapis.com/a1aa/image/pJdqPaSTfY3yUiKHZ6maANZSwLNsmHkhLMN584QoRKxEJG4JA.jpg" width="40"/>
-                            <div>
-                                <div class="font-bold">Dewmini Paboda</div>
-                                <div class="text-sm text-gray-500">dissanayakej@gmail.com</div>
+                    <?php if (!empty($selected)): ?>
+                        <?php foreach($data['selected'] as $selected) : ?>
+                        
+                        <div class="w-1/3 bg-white p-6 shadow-md">
+                            
+                            <div class="text-lg font-bold mb-2"># <?=$selected->no?></div>
+                            <div class="text-2xl font-bold mb-4"><?=$selected->title?></div>
+                            <p class="text-gray-700 mb-4"><?=$selected->description?></p>
+                            <div class="mb-4">
+                                <div class="font-bold mb-2">Assigned</div>
+                                <div class="flex items-center mb-2">
+                                <?php if($data['read']) : ?>
+                            
+                                    <?php foreach($data['read'] as $read) : ?>
+                                        <!-- <=$task->id?>
+                                        <=$read->taskid?> -->
+                                        <img alt="Dewmini Paboda" class="h-8 w-8 rounded-full mr-2" height="40" src="https://storage.googleapis.com/a1aa/image/pJdqPaSTfY3yUiKHZ6maANZSwLNsmHkhLMN584QoRKxEJG4JA.jpg" width="40"/>
+                                        <div>
+                                            <div class="font-bold"><?=$read->user_name?></div>
+                                            <div class="text-sm text-gray-500"><?=$read->user_email?></div>
+                                        </div>
+                                        <span class="ml-auto bg-purple-200 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">Member</span>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>       
+                                </div>
+                                <!-- <div class="flex items-center">
+                                    <img alt="Peter Alan" class="h-8 w-8 rounded-full mr-2" height="40" src="https://storage.googleapis.com/a1aa/image/6d1Oox55aSKVABfvwDWyfkImqgPkGPtxx4aqrOZDc62KSMwTA.jpg" width="40"/>
+                                    <div>
+                                        <div class="font-bold">Peter Alan</div>
+                                        <div class="text-sm text-gray-500">Alanwalker@gmail.com</div>
+                                    </div>
+                                    <span class="ml-auto bg-purple-200 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">Member</span>
+                                </div> -->
                             </div>
-                            <span class="ml-auto bg-purple-200 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">Member</span>
-                        </div>
-                        <div class="flex items-center">
-                            <img alt="Peter Alan" class="h-8 w-8 rounded-full mr-2" height="40" src="https://storage.googleapis.com/a1aa/image/6d1Oox55aSKVABfvwDWyfkImqgPkGPtxx4aqrOZDc62KSMwTA.jpg" width="40"/>
-                            <div>
-                                <div class="font-bold">Peter Alan</div>
-                                <div class="text-sm text-gray-500">Alanwalker@gmail.com</div>
+                            <div class="mb-4">
+                                <div class="font-bold mb-2">Duration</div>
+                                <div class="text-gray-700"><b>from </b> <?=$selected->startdate?><b>  to  </b><?=$selected->enddate?></div>
                             </div>
-                            <span class="ml-auto bg-purple-200 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">Member</span>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="font-bold mb-2">Duration</div>
-                        <div class="text-gray-700">23 June 2023 - 13 Aug 2023</div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="font-bold mb-2">Created By</div>
-                        <div class="flex items-center">
-                            <img alt="Sunil Perera" class="h-8 w-8 rounded-full mr-2" height="40" src="https://storage.googleapis.com/a1aa/image/H3nZD5kB38odA5CAswIYzS9r2CoTsoig3f9SzapW9eNLSMwTA.jpg" width="40"/>
-                            <div>
-                                <div class="font-bold">Sunil Perera</div>
-                                <div class="text-sm text-gray-500">sperera@gmail.com</div>
+                            <div class="mb-4">
+                                <div class="font-bold mb-2">Created By</div>
+                                <div class="flex items-center">
+                                    <img alt="Sunil Perera" class="h-8 w-8 rounded-full mr-2" height="40" src="https://storage.googleapis.com/a1aa/image/H3nZD5kB38odA5CAswIYzS9r2CoTsoig3f9SzapW9eNLSMwTA.jpg" width="40"/>
+                                    <div>
+                                        <div class="font-bold"> <?=$selected->create_user?></div>
+                                        <div class="text-sm text-gray-500"><?=$selected->create_email?></div>
+                                    </div>
+                                    <span class="ml-auto bg-green-200 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Co-Supervisor</span>
+                                </div>
                             </div>
-                            <span class="ml-auto bg-green-200 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Co-Supervisor</span>
+                            <div class="mb-4">
+                                <div class="font-bold mb-2">Status</div>
+                                <div class="flex items-center">
+                                    <span class="bg-green-200 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                        
+                                  
+                                    <?php
+                                        if ($selected->status == 1) {
+                                            $status = 'Todo';
+                                        }else
+                                        if ($selected->status == 2) {
+                                            $status = 'In Progress';
+                                        } elseif ($selected->status == 3) {
+                                            $status = 'Complete';
+                                        } elseif ($selected->status == 4) {
+                                            $status = 'Terminate';
+                                        } else {
+                                            $status = 'Overdue';
+                                        }
+                                        echo $status;
+                                        ?>
+                                
+                                </span>
+                                    <span class="ml-2 text-gray-500 text-sm">(Created on <?=$selected->createddate?>)</span>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="font-bold mb-2">Sub-Tasks</div>
+                                <div class="text-gray-700">2.1 sub task of task 2</div>
+                                <div class="text-gray-700">2.2 sub task of task 2</div>
+                            </div>
+                            <div class="flex">
+                                <form action="">
+                                <button class="flex-1 bg-blue-500 text-white py-2 px-4 rounded mr-2" onclick="window.location.href='./taskedit.php'">Edit</button>
+                                </form>
+                                <form action="<?=ROOT?>/task/delete" method="post">
+                                    <input type="hidden" name="id" value="<?=$selected->id?>">
+                                <button class="flex-1 bg-red-500 text-white py-2 px-4 rounded" type="submit">Delete</button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="font-bold mb-2">Status</div>
-                        <div class="flex items-center">
-                            <span class="bg-green-200 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">On Progress</span>
-                            <span class="ml-2 text-gray-500 text-sm">(last updated on 17 May 24)</span>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="font-bold mb-2">Sub-Tasks</div>
-                        <div class="text-gray-700">2.1 sub task of task 2</div>
-                        <div class="text-gray-700">2.2 sub task of task 2</div>
-                    </div>
-                    <div class="flex">
-                       
-                        <button class="flex-1 bg-blue-500 text-white py-2 px-4 rounded mr-2" onclick="window.location.href='./taskedit.php'">Edit</button>
-                      
-                        <button class="flex-1 bg-red-500 text-white py-2 px-4 rounded">Delete</button>
-                    </div>
-                </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
             </div>
         </main>
     </div>

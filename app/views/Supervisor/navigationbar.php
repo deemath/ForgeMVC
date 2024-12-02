@@ -37,7 +37,7 @@
                 <img alt="Dummy Project Logo" class="h-10 w-10" height="40" src="https://storage.googleapis.com/a1aa/image/m9MmFMflo3VjaqCbWInRx9fg1sOW9ZNN4cpCf7YfQoghIxAPB.jpg" width="40"/>
                 <div class="ml-2">
                     <div class="text-lg font-bold">
-                        <?php if($data['project']) : ?>
+                    <?php if(!empty($data['project'])): ?>
                 
                 
                     
@@ -60,7 +60,7 @@
                         </a>
                     </li>
                     <li class="mb-4 ">
-                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Supervisor/showTimeline"">
+                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Supervisor/showTimeline">
                             <i class="fas fa-stream mr-3"></i>
                             <span>Timeline</span>
                         </a>
@@ -72,7 +72,7 @@
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a class="flex items-center text-gray-700" href="#">
+                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Supervisor/Chatbox">
                             <i class="fas fa-comments mr-3"></i>
                             <span>Forum</span>
                         </a>
@@ -90,13 +90,13 @@
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a class="flex items-center text-gray-700" href="#">
+                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Supervisor/showDocument">
                             <i class="fas fa-hdd mr-3"></i>
                             <span>Drive Space</span>
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a class="flex items-center text-gray-700" href="#">
+                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Supervisor/memberlist">
                             <i class="fas fa-users mr-3"></i>
                             <span>Members</span>
                         </a>
@@ -116,10 +116,11 @@
         <!-- Header -->
         <header class="flex items-center justify-between bg-white shadow-md px-6 py-4">
             <div class="text-lg font-bold">Projects /
-            <?php if($data['project']) : ?>
+            <?php if(!empty($data['project'])): ?>
             
     
-                <?=$project->title?>
+                <?=$project->title?:''?>
+
             
             <?php endif; ?>
 

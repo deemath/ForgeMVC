@@ -1,4 +1,8 @@
 <html>
+
+<?php 
+require_once 'navigationbar.php'
+?>
 <head>
     <title>Storage</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -155,10 +159,12 @@
             <i class="fas fa-cloud"></i>
             <h1>Storage</h1>
         </div>
+        <a href="<?=ROOT?>/document/addpop">
         <div class="new-button">
             <i class="fas fa-plus"></i>
             <span>New</span>
         </div>
+        </a>
     </div>
     <div class="storage-info">
         <div class="progress-bar">

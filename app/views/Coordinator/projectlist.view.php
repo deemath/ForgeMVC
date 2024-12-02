@@ -175,8 +175,11 @@
                         <td class="prj-td"><?= htmlspecialchars($project->enddate) ?></td>
                         <td class="prj-td"><?= htmlspecialchars($project->id) ?>%</td>
                         <td class="prj-td prj-action-buttons">
-                            <button class="prj-edit-btn" onclick="editProject('<?= htmlspecialchars($project->id) ?>')">View</button>
-                            <button class="prj-remove-btn" onclick="confirmDelete('<?= htmlspecialchars($project->id) ?>')">Remove</button>
+                            <form action="<?=ROOT?>/coordinator/loadupdateproject" method="post">
+                                <input type="hidden" name="id" value="<?=$project->id?>">
+                            <button class="prj-edit-btn" type="submit">View</button></form>
+                            <div>
+                            <button class="prj-remove-btn" onclick="confirmDelete('<?= htmlspecialchars($project->id) ?>')">Remove</button></div>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -189,7 +192,7 @@
         <div class="prj-modal-content">
             <p>Are you sure you want to delete <span class="bold" id="delete-title"></span>?</p>
             <div class="prj-modal-buttons">
-                <form action="<?=ROOT?>/Admin/deleteProject" method="post">
+                <form action="<?=ROOT?>/coordinator/deleteProject" method="post">
                     <input type="hidden" id="delete-id" name="id">
                     <button class="prj-yes-btn" type="submit">Yes</button>
                     <button type="button" class="prj-no-btn" onclick="closeModal()">No</button>

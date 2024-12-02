@@ -1,6 +1,6 @@
 
 <?php
-require_once "./navigationbar.php";
+require_once "navigationbar.php";
 
 ?>
     <title>Task 02</title>
@@ -255,13 +255,26 @@ require_once "./navigationbar.php";
     <div class="container">
         <form id="task-form">
             <div class="header">
-                <h1 id="task-title">#02 task 02</h1>
+                <h1 id="task-title">
+                <?php if($data['project']) : ?>
+                    
+                    <?=$task->title?>
+                
+                <?php endif; ?>
+                    
+                </h1>
                 <input type="text" id="task-title-edit" style="display: none; width: 100%;" />
                 <i class="fas fa-pencil-alt edit-icon" onclick="editTaskTitle()"></i>
             </div>
             <div class="section description">
                 <h2>Description</h2>
-                <p id="description-text">Description of task 02 simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
+                <p id="description-text">
+                        <?php if($data['project']) : ?>
+                            
+                            <?=$task->description?>
+                        
+                        <?php endif; ?>
+                </p>
                 <textarea id="description-edit" style="display: none; width: 100%; height: 100px;"></textarea>
                 <i class="fas fa-pencil-alt edit-icon" onclick="editDescription()"></i>
             </div>
@@ -296,11 +309,11 @@ require_once "./navigationbar.php";
                 <h2>Duration</h2>
                 <div class="date">
                     <div>
-                        <input type="text" id="start-date" value="23 June 2023">
+                        <input type="text" id="start-date" value="<?=$task->startdate?>">
                         <i class="fas fa-calendar-alt" onclick="$('#start-date').datepicker('show')"></i>
                     </div>
                     <div>
-                        <input type="text" id="end-date" value="23 Aug 2023">
+                        <input type="text" id="end-date" value="<?=$task->enddate?>">
                         <i class="fas fa-calendar-alt" onclick="$('#end-date').datepicker('show')"></i>
                     </div>
                 </div>
@@ -330,15 +343,19 @@ require_once "./navigationbar.php";
                 <h2>Assign</h2>
                 <div class="member-list">
                     <div class="member-item">
+                        <?php foreach($data['assign'] as $assign):?>
+                            <span><?= $assign->user_name?></span>
+                        
+                     
+                        <span><?= $assign->user_email?></span>
+                        <?php endforeach;?>
+                        <i class="fas fa-times remove-icon"></i>
+                    </div>
+                    <!-- <div class="member-item">
                         <span>Dewmini Paboda</span>
                         <span>dissanayake@gmail.com</span>
                         <i class="fas fa-times remove-icon"></i>
-                    </div>
-                    <div class="member-item">
-                        <span>Dewmini Paboda</span>
-                        <span>dissanayake@gmail.com</span>
-                        <i class="fas fa-times remove-icon"></i>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="add-member">
                     <i class="fas fa-plus"></i>
