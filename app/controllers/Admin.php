@@ -164,7 +164,7 @@ class Admin{
         exit;
     }else{
         $this->view('_404');
-}
+    }
         $this->projectlist();
     }
 
