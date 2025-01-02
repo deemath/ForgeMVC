@@ -39,6 +39,8 @@ class Login
                    /// print_r($result);
                     if(!empty($result['user'])&& isset($result['user'])){
                         $_SESSION['user_id'] = $result['user'];
+                        
+                       
                     }
 
                     if(!empty($result['coordinator']) && isset($result['coordinator'])){

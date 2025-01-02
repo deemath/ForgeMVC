@@ -58,7 +58,7 @@
                                 }
                             ?>  
                             <div class="role member" id="role"><?=$role?></div>
-                            <form action="<?=ROOT?>/Supervisor/load" method="post">
+                            <form action="<?=ROOT?>/regularuser/load" method="post">
                             <input type="hidden" name="projectid" value="<?= $project->project_id ?>">
                             <button type="submit">Visit</button>
                             </form>
