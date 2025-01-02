@@ -76,4 +76,53 @@ class RegUserModel {
                 echo $e->getMessage();
             }
     }
+
+
+
+
+
+///loading dashboards fro project
+    public function loadDashboards($dump) {
+        $id['id']=$dump;
+        $this->table = 'project';
+        
+        $data['project']=$this->first($id);
+        $_SESSION['project_id'] = $data['project']->id;
+        $_SESSION['project_title'] = $data['project']->title;
+
+        ///fecting institute name from the coordinator id 
+
+        $this->table='coordinator';
+        $id['id']=$data['project']->coordinatorid;
+        $data['coordinator']=$this->first($id);
+
+        $_SESSION['institute_name']=$data['coordinator']->institute;
+
+           //fetching user name using session id
+           $id['id']=$_SESSION['user_id'];
+           $this->table = 'user'; 
+           $data['user']=$this->first($id);
+           $_SESSION['user_name']=$data['user']->name;
+
+           //fetching userrole using user id 
+           $id['id']=$dump;
+           $this->table = 'userrole';
+           
+           $data['role']=$this->first($id);
+           $_SESSION['user_role']=$data['role']->role;
+
+
+
+        return $data;
+
+
+    }
+
+
+
+
+
+
+
+
 }
