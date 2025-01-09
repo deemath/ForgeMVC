@@ -9,7 +9,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
 	define('DBPASS', '');
 	define('DBDRIVER', '');
 	
-	define('ROOT', 'http://localhost/testgit mvc/public');
+	define('ROOT', 'http://localhost/testmvc/public');
 
 }else
 {
