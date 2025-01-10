@@ -62,10 +62,30 @@ class taskModel{
     
         
     }
-    public function createtask($data){
-        $this->table='task';
-        $data=$this->insert($data);
-        return true;
+    public function createtask($data, $memlist) {
+        $this->table = 'task';
+        $task = $this->insert($data); // Ensure this returns the inserted task with its ID
+    
+        $sql = "Select * from task ORDER BY id DESC";
+        $findId = $this->query($sql,[]);
+        // if ($task === false) {
+        //     // Handle the error, e.g., log it or return false
+        //     return false; // Indicate that the task creation failed
+        // }
+    
+       
+        if (!empty($memlist)) {
+            foreach ($memlist as $memberId) { // Assuming $memberId is the ID directly
+                $dummy = [
+                    'taskid' => $findId[0]->id, // Ensure $task['id'] is valid
+                    'memberid' => $memberId
+                ];
+                $sql = "INSERT INTO `taskassign` (`taskid`, `memberid`) VALUES (:taskid, :memberid)";
+                $this->query($sql, $dummy);
+            }
+        }
+    
+        return true; // Indicate success
     }
 
     public function fetchNumber($data){

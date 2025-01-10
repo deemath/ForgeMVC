@@ -14,6 +14,7 @@ require_once 'navigationbar.php'
                             <th class="py-2 px-4 border-b">Topic</th>
                             <th class="py-2 px-4 border-b">Description</th>
                             <th class="py-2 px-4 border-b">Status</th>
+                            <th class="py-2 px-4 border-b">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -34,19 +35,24 @@ require_once 'navigationbar.php'
                                     <td class="py-2 px-4 border-b"><?=$task->no?> </td>
                                     <td class="py-2 px-4 border-b font-bold"><?=$task->title?></td>
                                     <td class="py-2 px-4 border-b"><?= htmlspecialchars(substr($task->description, 0, 30)) . (strlen($task->description) > 200 ? ' ...' : '') ?></td>
-                                    <td class="py-2 px-4 border-b">
+                                    <td class="py-2 px-4 border-b flex justify-center items-center">
                                     <?php
                                         if ($task->status == 1) {
-                                            $status = 'Todo';
+                                            $status = '<div class="px-2 py-2 border-2 border-blue-800 rounded-2xl bg-blue-100 text-blue-900">
+                                                            To Do  </div>';
                                         }else
                                         if ($task->status == 2) {
-                                            $status = 'In Progress';
+                                            $status = '<div class="px-2 py-2 border-2 border-green-800 rounded-2xl bg-green-100 text-green-900">
+                                                            In Progress  </div>';
                                         } elseif ($task->status == 3) {
-                                            $status = 'Complete';
+                                            $status = '<div class="px-2 py-2 border-2 border-orange-800 rounded-2xl bg-orange-100 text-orange-900">
+                                                            Complete  </div>';
                                         } elseif ($task->status == 4) {
-                                            $status = 'Terminate';
+                                            $status = '<div class="px-2 py-2 border-2 border-gray-800 rounded-2xl bg-gray-100 text-gray-900">
+                                                            Terminated  </div>';
                                         } else {
-                                            $status = 'Overdue';
+                                            $status = '<div class="px-2 py-2 border-2 border-red-800 rounded-2xl bg-red-100 text-red-900">
+                                                            Overdue  </div>';
                                         }
                                         echo $status;
                             ?>  
@@ -117,8 +123,8 @@ require_once 'navigationbar.php'
                         </tbody>
                     </table>
                   
-                    <a href="<?=ROOT?>/task/create">
-                    <div class="mt-4 text-blue-500 cursor-pointer">+ create task</div>
+                    <a href="<?=ROOT?>/task/create" alt="Task can be create only if you are supervisor or Co-Supervisor">
+                    <div class="mt-4 text-blue-500 cursor-pointer" >+ create task</div>
                     </a>
                 </div>
                     <?php if (!empty($selected)): ?>
@@ -178,7 +184,7 @@ require_once 'navigationbar.php'
                                   
                                     <?php
                                         if ($selected->status == 1) {
-                                            $status = 'Todo';
+                                            $status = 'To Do';
                                         }else
                                         if ($selected->status == 2) {
                                             $status = 'In Progress';

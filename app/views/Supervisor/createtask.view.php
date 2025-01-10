@@ -101,6 +101,7 @@
                             <!-- <php print_r( $data) ?> -->
                         </div> 
             <?php endif; ?>
+            
             <form action="<?=ROOT?>/task/createtask" method="post">
                 <div class="mb-4">
                     <label class="block text-gray-700 font-bold mb-2" for="project-name">Task Title</label>
