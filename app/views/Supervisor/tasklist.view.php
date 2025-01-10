@@ -211,9 +211,9 @@ require_once 'navigationbar.php'
                                 <form action="">
                                 <button class="flex-1 bg-blue-500 text-white py-2 px-4 rounded mr-2" onclick="window.location.href='./taskedit.php'">Edit</button>
                                 </form>
-                                <form action="<?=ROOT?>/task/delete" method="post">
+                                <form action="<?=ROOT?>/task/delete" method="post" id="deleteForm">
                                     <input type="hidden" name="id" value="<?=$selected->id?>">
-                                <button class="flex-1 bg-red-500 text-white py-2 px-4 rounded" type="submit">Delete</button>
+                                    <button class="flex-1 bg-red-500 text-white py-2 px-4 rounded" type="button" onclick="showDeleteModal()">Delete</button>
                                 </form>
                             </div>
                         </div>
@@ -223,5 +223,34 @@ require_once 'navigationbar.php'
         </main>
     </div>
 </div>
+    <div id="deleteModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full relative">
+            <div class="absolute -top-5 left-1/2 transform -translate-x-1/2">
+                <i class="fas fa-exclamation-triangle text-6xl text-red-600"></i>
+            </div>
+            <h2 class="text-xl font-semibold mb-4 mt-8 text-center">Are you sure you want to delete?</h2>
+            <div class="flex justify-center space-x-4">
+                <button class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400" onclick="closeDeleteModal()">No</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600" id="confirmDeleteButton">Yes</button>
+            </div>
+            
+        </div>
+    </div>
 </body>
+    <script>
+        let deleteForm = document.getElementById('deleteForm');
+        let deleteModal = document.getElementById('deleteModal');
+
+        function showDeleteModal() {
+            deleteModal.classList.remove('hidden');
+        }
+
+        function closeDeleteModal() {
+            deleteModal.classList.add('hidden');
+        }
+
+        document.getElementById('confirmDeleteButton').addEventListener('click', function() {
+            deleteForm.submit(); // Submit the form if confirmed
+        });
+    </script>
 </html>

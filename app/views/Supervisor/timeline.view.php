@@ -1,6 +1,18 @@
-
 <?php
 require_once "navigationbar.php";
+
+// Sample tasks data (in a real scenario, you'd fetch this from a database)
+// $tasks = [
+//     ['title' => 'Generate UI', 'startdate' => '2023-06-01', 'enddate' => '2023-06-15'],
+//     ['title' => 'Design Database', 'startdate' => '2023-06-15', 'enddate' => '2023-07-01'],
+//     ['title' => 'Create API', 'startdate' => '2023-07-01', 'enddate' => '2023-07-15'],
+//     ['title' => 'Write Documentation', 'startdate' => '2023-07-15', 'enddate' => '2023-08-01'],
+//     ['title' => 'Fix Bugs', 'startdate' => '2023-08-01', 'enddate' => '2023-08-15'],
+//     ['title' => 'Optimize Performance', 'startdate' => '2023-08-15', 'enddate' => '2023-09-01'],
+//     ['title' => 'Deploy Application', 'startdate' => '2023-09-01', 'enddate' => '2023-09-15'],
+//     ['title' => 'User Training', 'startdate' => '2023-09-15', 'enddate' => '2023-09-30'],
+//     ['title' => 'User Training', 'startdate' => '2023-09-15', 'enddate' => '2023-09-30']
+// ];
 
 ?>
 
@@ -111,72 +123,34 @@ require_once "navigationbar.php";
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="logo">Project Forge</div>
-            <div class="user">
-                <i class="fas fa-cogs settings"></i>
-                <div class="avatar"></div>
-            </div>
-        </div>
+     
         <div class="content">
             <div class="gantt-chart">
                 <div class="chart-header">Project Agile Timeline</div>
+                <?php
+                    // Find the earliest and latest dates from the tasks
+                    $startDate = strtotime(min(array_column($tasks, 'startdate')));
+                    $endDate = strtotime(max(array_column($tasks, 'enddate')));
+                    $totalDuration = ($endDate - $startDate) / (60 * 60 * 24); // Duration in days
+
+                    // Loop through the tasks and display them on the timeline
+                    foreach ($tasks as $task):
+                        $taskStart = strtotime($task->startdate);
+                        $taskEnd = strtotime($task->enddate);
+                        $taskDuration = ($taskEnd - $taskStart) / (60 * 60 * 24); // Duration in days
+
+                        // Calculate the left position and width as percentage values
+                        $left = (($taskStart - $startDate) / (60 * 60 * 24)) / $totalDuration * 100;
+                        $width = ($taskDuration / $totalDuration) * 100;
+                ?>
                 <div class="chart-row">
-                    <div class="task-name">Generate UI</div>
+                    <div class="task-name"><?= htmlspecialchars($task->title) ?></div>
                     <div class="task-bar">
-                        <div class="bar ongoing" style="width: 20%; left: 0%;"></div>
+                        <div class="bar ongoing" style="left: <?= $left ?>%; width: <?= $width ?>%;"></div>
                     </div>
-                    <div class="task-dates">2023-06-01 to 2023-06-15</div>
+                    <div class="task-dates"><?= date('Y-m-d', $taskStart) ?> to <?= date('Y-m-d', $taskEnd) ?></div>
                 </div>
-                <div class="chart-row">
-                    <div class="task-name">Design Database</div>
-                    <div class="task-bar">
-                        <div class="bar ongoing" style="width: 20%; left: 20%;"></div>
-                    </div>
-                    <div class="task-dates">2023-06-15 to 2023-07-01</div>
-                </div>
-                <div class="chart-row">
-                    <div class="task-name">Create API</div>
-                    <div class="task-bar">
-                        <div class="bar ongoing" style="width: 20%; left: 40%;"></div>
-                    </div>
-                    <div class="task-dates">2023-07-01 to 2023-07-15</div>
-                </div>
-                <div class="chart-row">
-                    <div class="task-name">Write Documentation</div>
-                    <div class="task-bar">
-                        <div class="bar ongoing" style="width: 20%; left: 60%;"></div>
-                    </div>
-                    <div class="task-dates">2023-07-15 to 2023-08-01</div>
-                </div>
-                <div class="chart-row">
-                    <div class="task-name">Fix Bugs</div>
-                    <div class="task-bar">
-                        <div class="bar ongoing" style="width: 20%; left: 80%;"></div>
-                    </div>
-                    <div class="task-dates">2023-08-01 to 2023-08-15</div>
-                </div>
-                <div class="chart-row">
-                    <div class="task-name">Optimize Performance</div>
-                    <div class="task-bar">
-                        <div class="bar ongoing" style="width: 20%; left: 100%;"></div>
-                    </div>
-                    <div class="task-dates">2023-08-15 to 2023-09-01</div>
-                </div>
-                <div class="chart-row">
-                    <div class="task-name">Deploy Application</div>
-                    <div class="task-bar">
-                        <div class="bar completed" style="width: 20%; left: 120%;"></div>
-                    </div>
-                    <div class="task-dates">2023-09-01 to 2023-09-15</div>
-                </div>
-                <div class="chart-row">
-                    <div class="task-name">User Training</div>
-                    <div class="task-bar">
-                        <div class="bar completed" style="width: 20%; left: 140%;"></div>
-                    </div>
-                    <div class="task-dates">2023-09-15 to 2023-09-30</div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
