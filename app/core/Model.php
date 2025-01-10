@@ -165,4 +165,27 @@ Trait Model
 
 		return $this->query($query, $data);
 	}
+
+	public function insertAndReturnId($data)
+	{
+		
+		/** remove unwanted data **/
+		if(!empty($this->allowedColumns))
+		{
+			foreach ($data as $key => $value) {
+				
+				if(!in_array($key, $this->allowedColumns))
+				{
+					unset($data[$key]);
+				}
+			}
+		}
+
+		$keys = array_keys($data);
+
+		$query = "insert into $this->table (".implode(",", $keys).") values (:".implode(",:", $keys).")";
+		$resultset=$this->query($query, $data);
+
+		return $this->query->id;
+	}
 }
