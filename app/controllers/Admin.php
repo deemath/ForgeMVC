@@ -155,6 +155,19 @@ class Admin{
         }  
     }
 
+    public function deleteProject(){
+        if(!empty($_SESSION['admin_id'])){
+        $id = $_POST['id'];
+        $dsd = new AdminModel;
+        $dsd->deleteProject($id);
+        header('Location:'.ROOT.'/Admin/projectlist');
+        exit;
+    }else{
+        $this->view('_404');
+    }
+        $this->projectlist();
+    }
+
 }
 
 

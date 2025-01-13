@@ -79,7 +79,7 @@ class task{
 
         $project = new taskModel;
 
-        $status = $project->createtask($basicData);
+        $status = $project->createtask($basicData,$selected_members);
         if($status){
             header('Location: ' . ROOT . '/supervisor/tasklist');
             exit;

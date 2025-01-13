@@ -140,7 +140,7 @@ class Coordinator{
         $fkd = new ProjectModel;
         $data =$fkd->loadupdateproject($id);
       ///var_dump($data);
-        $this->view('coordinator/editproject',$data);
+        return $this->view('coordinator/projectedit',$data);
      }
 
      public function updateProject(){
@@ -173,4 +173,7 @@ class Coordinator{
       ///var_dump($data);
         return $this->view('coordinator/editproject',$data);
      }
+
+
+     
 }

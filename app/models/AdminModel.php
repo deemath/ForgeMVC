@@ -127,4 +127,10 @@ class AdminModel{
         return $data;
     }
 
+    public function deleteProject($id){
+        $this->table='project';
+        return $this->delete($id);
+
+    }
+
 }
