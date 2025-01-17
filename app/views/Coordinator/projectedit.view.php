@@ -15,7 +15,8 @@
             <!-- Left Side: Project Form -->
             <div class="w-full max-w-md bg-white p-10 border border-gray-300">
                 <h2 class="text-2xl font-bold mb-4">Edit Project</h2>
-                <form>
+                <form method="post" action="<?=ROOT?>/Coordinator/updateProject">
+                    <input type="hidden" name="id" value="<?=$project->id?>">
                     <div class="mb-4">
                         <label for="project-name" class="block text-gray-700 font-bold mb-2">Project Name</label>
                         <input type="text" id="project-name" name="project-name" class="w-full px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter project name" value="<?=$project->title?:''?>">
@@ -93,7 +94,7 @@
                     <?php endif;?>
                 </div>
                 <div class="mb-4">
-                    <label for="add-supervisor" class="block text-gray-700 font-bold mb-2">Add Supervisor</label>
+                    <label for="add-supervisor" class="block text-gray-700 font-bold mb-2">Add Co-supervisor</label>
                     <div class="flex">
                         <select id="add-supervisor" name="add-supervisor" class="w-full px-3 py-2 border border-r-0 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="user1">user1@gmail.com</option>
@@ -125,7 +126,7 @@
                     <?php endif;?>
                 </div>
                 <div class="mb-4">
-                    <label for="add-supervisor" class="block text-gray-700 font-bold mb-2">Add Supervisor</label>
+                    <label for="add-supervisor" class="block text-gray-700 font-bold mb-2">Add member</label>
                     <div class="flex">
                         <select id="add-supervisor" name="add-supervisor" class="w-full px-3 py-2 border border-r-0 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="user1">user1@gmail.com</option>

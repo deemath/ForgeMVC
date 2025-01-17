@@ -147,8 +147,37 @@ class Coordinator{
         $errors=[];
         // Retrieve data from POST request
         $id = $_POST['id'];
-        $dmp = new ProjectModel;
-        $data = $dmp->updateproject($id);
+        $title = $_POST['project-name'] ?? null;
+        $description = $_POST['project-description'] ?? null;
+        $startDate = $_POST['start-date'] ?? null;
+        $endDate = $_POST['end-date'] ?? null;
+        
+        if(empty($title) || empty($description) || empty($startDate) || empty($endDate)){
+            $errors['errors']= "Please fill in all required fields.";
+            $this->loadupdateproject();
+            return;
+        }
+
+        $projectData = [
+            'id' => $id,
+            'title' => $title,
+            'description' => $description,
+            'startdate' => $startDate,
+            'enddate' => $endDate,
+        ];
+
+        $model = new CoordinatorModel;
+        $status = $model->updateProject($projectData);
+
+        if($status){
+            $this->projectlist();
+        } else{
+            $errors['errors'] = "Failed to update project.";
+            $this->loadupdateproject();
+        }
+
+        //$dmp = new ProjectModel;
+        //$data = $dmp->updateproject($id);
         
      }
 
