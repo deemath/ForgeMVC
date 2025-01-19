@@ -163,6 +163,7 @@ require_once 'navigationbar.php'
         <div class="new-button">
             <i class="fas fa-plus"></i>
             <span>New</span>
+           
         </div>
         </a>
     </div>
@@ -172,6 +173,12 @@ require_once 'navigationbar.php'
         </div>
         <div class="storage-text">0.35GB of 1GB</div>
     </div>
+    <?php if (isset($data['success'])): ?>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <span class="block sm:inline"><?= $data['success'] ?></span>
+        </div>
+    <?php endif; ?>
+
     <div class="content">
         <div class="card">
             <div class="card-header">
