@@ -83,7 +83,7 @@
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a class="flex items-center text-gray-700" href="#">
+                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Meeting/meetings">
                             <i class="fas fa-handshake mr-3"></i>
                             <span>Meetings</span>
                         </a>

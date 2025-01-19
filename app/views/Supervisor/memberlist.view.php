@@ -1,117 +1,163 @@
+<?php
+require_once "navigationbar.php";
+
+?>
+
 <html>
 <head>
     <title>Members List</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f5f5f5;
-            margin: 0;
-            padding: 20px;
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function confirmDelete(name) {
+            if (confirm(`Are you sure you want to delete ${name}?`)) {
+                // Perform delete action here
+                alert(`${name} has been deleted.`);
+            }
         }
-        h1 {
-            font-size: 24px;
-            font-weight: bold;
-            color: #000080; /* Navy Blue */
-            margin-bottom: 10px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-            font-size: 14px;
-        }
-        th {
-            background-color: #000080; /* Navy Blue */
-            font-weight: bold;
-            color: #fff;
-        }
-        tr:nth-child(even) {
-            background-color: #f0f8ff; /* Alice Blue */
-        }
-        tr:nth-child(odd) {
-            background-color: #e6f0ff; /* Light Blue */
-        }
-        .main-color {
-            color: #000080; /* Navy Blue */
-        }
-    </style>
+    </script>
 </head>
-<body>
-    <h1 class="main-color">Supervisors</h1>
-    <table>
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Email</th>
-        </tr>
-        <tr>
-            <td>01</td>
-            <td>John Doe</td>
-            <td>john.doe@example.com</td>
-        </tr>
-        <tr>
-            <td>02</td>
-            <td>Jane Smith</td>
-            <td>jane.smith@example.com</td>
-        </tr>
-    </table>
+<body class="bg-gray-100 p-7 font-poppins">
+    <div class="container mx-auto p-5">
+        <h1 class="text-xl font-semibold text-blue-900 mb-4">Supervisors</h1>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                <thead class="bg-blue-900 text-white">
+                    <tr>
+                       
+                        <th class="py-3 px-4 text-left">Name</th>
+                        <th class="py-3 px-4 text-left">Email</th>
+                        <th class="py-3 px-4 text-left">Phone</th>
+                        <th class="py-3 px-4 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-gray-100">
+                       
+                        <td class="py-3 px-4">John Doe</td>
+                        <td class="py-3 px-4">john.doe@example.com</td>
+                        <td class="py-3 px-4">123-456-7890</td>
+                        <td class="py-3 px-4">
+                            <button onclick="confirmDelete('John Doe')" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-100">
+                       
+                        <td class="py-3 px-4">Jane Smith</td>
+                        <td class="py-3 px-4">jane.smith@example.com</td>
+                        <td class="py-3 px-4">987-654-3210</td>
+                        <td class="py-3 px-4">
+                            <button onclick="confirmDelete('Jane Smith')" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <h1 class="main-color">Co-Supervisors</h1>
-    <table>
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Email</th>
-        </tr>
-        <tr>
-            <td>01</td>
-            <td>Michael Brown</td>
-            <td>michael.brown@example.com</td>
-        </tr>
-        <tr>
-            <td>02</td>
-            <td>Emily Davis</td>
-            <td>emily.davis@example.com</td>
-        </tr>
-    </table>
+        <h1 class="text-xl font-semibold text-blue-900 mt-8 mb-4">Co-Supervisors</h1>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                <thead class="bg-blue-900 text-white">
+                    <tr>
+                        
+                        <th class="py-3 px-4 text-left">Name</th>
+                        <th class="py-3 px-4 text-left">Email</th>
+                        <th class="py-3 px-4 text-left">Phone</th>
+                        <th class="py-3 px-4 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-gray-100">
+                        
+                        <td class="py-3 px-4">Michael Brown</td>
+                        <td class="py-3 px-4">michael.brown@example.com</td>
+                        <td class="py-3 px-4">555-123-4567</td>
+                        <td class="py-3 px-4">
+                            <button onclick="confirmDelete('Michael Brown')" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-100">
+                        
+                        <td class="py-3 px-4">Emily Davis</td>
+                        <td class="py-3 px-4">emily.davis@example.com</td>
+                        <td class="py-3 px-4">555-987-6543</td>
+                        <td class="py-3 px-4">
+                            <button onclick="confirmDelete('Emily Davis')" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <h1 class="main-color">Members</h1>
-    <table>
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Email</th>
-        </tr>
-        <tr>
-            <td>01</td>
-            <td>Chris Johnson</td>
-            <td>chris.johnson@example.com</td>
-        </tr>
-        <tr>
-            <td>02</td>
-            <td>Patricia Williams</td>
-            <td>patricia.williams@example.com</td>
-        </tr>
-        <tr>
-            <td>03</td>
-            <td>David Miller</td>
-            <td>david.miller@example.com</td>
-        </tr>
-        <tr>
-            <td>04</td>
-            <td>Linda Wilson</td>
-            <td>linda.wilson@example.com</td>
-        </tr>
-    </table>
+        <h1 class="text-xl font-semibold text-blue-900 mt-8 mb-4">Members</h1>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                <thead class="bg-blue-900 text-white">
+                    <tr>
+                       
+                        <th class="py-3 px-4 text-left">Name</th>
+                        <th class="py-3 px-4 text-left">Email</th>
+                        <th class="py-3 px-4 text-left">Phone</th>
+                        <th class="py-3 px-4 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-gray-100">
+                        
+                        <td class="py-3 px-4">Chris Johnson</td>
+                        <td class="py-3 px-4">chris.johnson@example.com</td>
+                        <td class="py-3 px-4">555-111-2222</td>
+                        <td class="py-3 px-4">
+                            <button onclick="confirmDelete('Chris Johnson')" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-100">
+                  
+                        <td class="py-3 px-4">Patricia Williams</td>
+                        <td class="py-3 px-4">patricia.williams@example.com</td>
+                        <td class="py-3 px-4">555-333-4444</td>
+                        <td class="py-3 px-4">
+                            <button onclick="confirmDelete('Patricia Williams')" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-100">
+             
+                        <td class="py-3 px-4">David Miller</td>
+                        <td class="py-3 px-4">david.miller@example.com</td>
+                        <td class="py-3 px-4">555-555-6666</td>
+                        <td class="py-3 px-4">
+                            <button onclick="confirmDelete('David Miller')" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-100">
+                        
+                        <td class="py-3 px-4">Linda Wilson</td>
+                        <td class="py-3 px-4">linda.wilson@example.com</td>
+                        <td class="py-3 px-4">555-777-8888</td>
+                        <td class="py-3 px-4">
+                            <button onclick="confirmDelete('Linda Wilson')" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

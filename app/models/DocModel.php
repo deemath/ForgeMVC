@@ -8,4 +8,12 @@ class DocModel{
         $dmp['users']= $this->first($data);
         return $dmp;
     }
+
+    public function adding($fileName,$filePath){
+        $this->table='document';
+        $data['filename'] = $fileName;
+        $data['filepath'] = $filePath;
+        $this->insert($data);
+        return true;
+    }
 }

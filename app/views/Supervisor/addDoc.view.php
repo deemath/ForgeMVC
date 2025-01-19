@@ -64,7 +64,7 @@
 <body>
 
     <div class="dc-container">
-    <form action="<?=ROOT?>/document/upload" method="POST" enctype="multipart/form-data">
+    <form action="<?=ROOT?>/document/upload1" method="POST" enctype="multipart/form-data">
             <div class="dc-form-group">
                 <label for="attachment">Attachment</label>
                 <input type="file" name="file" required>
@@ -76,10 +76,14 @@
             <div class="dc-form-group">
                 <label for="author">Author</label>
                 <input type="text" id="author" name="author" value="<?=$data['users']->name;?>">
-                <input type="text" id="author" name="email" value="<?=$data['users']->email;?>">
+   
             </div>
             <button type="submit" class="dc-btn">Upload this file</button>
         </form>
+            
+               
+  
+         
     </div>
 </body>
 </html>

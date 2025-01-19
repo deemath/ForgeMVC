@@ -8,40 +8,31 @@ class Document{
         if($data){
             //print_r($data);
             $this->view('supervisor/addDoc',$data);
+        }else{
+            $this->view('_404');
         }
       
     }
-    public function upload()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Define the target directory as a local file system path
-        $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/testmvc/public/upload/"; 
-        
-        // Ensure the target directory exists
-        if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0777, true); // Create directory if it doesn't exist
-        }
+    
 
-        // Set the full path for the uploaded file
-        $targetFile = $targetDir . basename($_FILES["file"]["name"]);
+    public function upload1(){
+        $file = $_FILES['file'];
+        $fileName = $file['name'];
+        $fileTmpName = $file['tmp_name'];
+        $filePath = __DIR__.'./../../public/document/' . $fileName;
 
-        // Debugging: Check the actual target file path
-        var_dump($targetFile);
-
-        // Ensure the uploaded file is valid and attempt to move it
-        if (is_uploaded_file($_FILES["file"]["tmp_name"])) {
-            if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
-                // Redirect after successful upload
-                header("Location: " . "/testmvc/Supervisor/showDocument");
-                exit;
-            } else {
-                echo "Error uploading file!";
+        if (move_uploaded_file($fileTmpName, $filePath)) {
+            $doc = new DocModel;
+            $status = $doc->adding($fileName,$filePath);
+            if($status){ 
+                $data['success']= "File uploaded successfully";
+                return $this->view('supervisor/document',$data);
             }
+           
         } else {
-            echo "Invalid file upload!";
-        }
+            echo "Failed to upload file.";
     }
-}
+    }
 
 
 
