@@ -130,11 +130,12 @@
                         <?php if(isset($_SESSION['user_role'])){
                             if ($_SESSION['user_role'] == 2) {
                                 
-                                    echo '<div class="role member" id="role"> Project Supervisor</div>';
+                                    echo '<div class="role member px-3 py-1 mx-3 border-2 border-yellow-800 rounded-2xl bg-yellow-100 text-yellow-900" id="role">Project Supervisor</div> ';
+                                    
                                 } elseif ($_SESSION['user_role'] == 3) {
-                                    echo '<div class="role member" id="role"> Co Supervisor</div>';
+                                    echo '<div class="role member px-3 py-1 mx-3 border-2 border-green-800 rounded-2xl bg-green-100 text-green-900" id="role"> Co Supervisor</div>';
                                 } elseif ($_SESSION['user_role'] == 4) {
-                                    echo '<div class="role member" id="role"> member</div>';
+                                    echo '<div class="role member px-3 py-1 mx-3 border-2 border-purple-800 rounded-2xl bg-purple-100 text-purple-900" id="role"> member</div>';
                                 } else {
                                     echo '<div class="role member" id="role"> Unknown Role</div>';
                                 }

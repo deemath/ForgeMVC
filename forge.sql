@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 19, 2025 at 07:43 PM
+-- Generation Time: Jan 20, 2025 at 06:12 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -126,8 +126,20 @@ CREATE TABLE `document` (
   `filepath` varchar(255) NOT NULL,
   `uploadby` int(11) NOT NULL,
   `projectid` int(11) NOT NULL,
-  `createdat` datetime NOT NULL DEFAULT current_timestamp()
+  `createdat` datetime NOT NULL DEFAULT current_timestamp(),
+  `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `document`
+--
+
+INSERT INTO `document` (`id`, `filename`, `filepath`, `uploadby`, `projectid`, `createdat`, `name`) VALUES
+(8, '1.jpg', '/Applications/XAMPP/xamppfiles/htdocs/testmvc/app/controllers./../../public/document/1.jpg', 1, 4, '2025-01-20 09:20:23', 'document testing'),
+(9, 'magicstudio-art (1).jpg', '/Applications/XAMPP/xamppfiles/htdocs/testmvc/public/document/magicstudio-art (1).jpg', 1, 4, '2025-01-20 09:27:37', 'pdf file here'),
+(10, 'magicstudio-art (1).jpg', '/Applications/XAMPP/xamppfiles/htdocs/testmvc/app/controllers./../../public/document/magicstudio-art (1).jpg', 1, 4, '2025-01-20 09:28:07', 'dennm epa wenwa me reddath'),
+(11, 'magicstudio-art (1).jpg', '/Applications/XAMPP/xamppfiles/htdocs/testmvc/app/controllers./../../public/document/magicstudio-art (1).jpg', 1, 4, '2025-01-20 10:07:17', 'Ane mata baaaa'),
+(12, '1.pdf', '/Applications/XAMPP/xamppfiles/htdocs/testmvc/app/controllers./../../public/document/1.pdf', 1, 4, '2025-01-20 10:25:56', 'Presentation');
 
 -- --------------------------------------------------------
 
@@ -506,7 +518,7 @@ ALTER TABLE `cosupervisor-project`
 -- AUTO_INCREMENT for table `document`
 --
 ALTER TABLE `document`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `invitation`
