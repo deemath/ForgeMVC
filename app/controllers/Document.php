@@ -20,10 +20,14 @@ class Document{
         $fileName = $file['name'];
         $fileTmpName = $file['tmp_name'];
         $filePath = __DIR__.'./../../public/document/' . $fileName;
+        $userid = $_SESSION['user_id'];
+        $projectid = $_SESSION['project_id'];
+        $name = $_POST['name'];
+        
 
         if (move_uploaded_file($fileTmpName, $filePath)) {
             $doc = new DocModel;
-            $status = $doc->adding($fileName,$filePath);
+            $status = $doc->adding($fileName,$filePath,$userid,$projectid,$name);
             if($status){ 
                 $data['success']= "File uploaded successfully";
                 return $this->view('supervisor/document',$data);

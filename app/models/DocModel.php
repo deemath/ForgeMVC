@@ -9,11 +9,24 @@ class DocModel{
         return $dmp;
     }
 
-    public function adding($fileName,$filePath){
+    public function adding($fileName,$filePath,$userid,$projectid,$name){
         $this->table='document';
         $data['filename'] = $fileName;
         $data['filepath'] = $filePath;
+        $data['uploadby'] = $userid;
+        $data['projectid'] = $projectid;
+        $data['name']=$name;
         $this->insert($data);
         return true;
+    }
+
+
+    public function getdoc($projectid){
+        $this->table='document';
+      
+        $sql = "SELECT d.* ,u.name AS username, u.email, u.image from document d JOIN user u ON d.uploadby=u.id WHERE d.projectid = '$projectid'";
+
+        $dmp['documents'] = $this->query($sql);
+        return $dmp;
     }
 }

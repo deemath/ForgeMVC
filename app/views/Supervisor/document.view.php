@@ -76,16 +76,19 @@ require_once 'navigationbar.php'
         .content {
             display: flex;
             flex-wrap: wrap;
-            padding: 20px;
+            padding: 10px;
+            gap: 0px; /* Add consistent spacing between rows and columns */
+            align-items: flex-start;
         }
         .card {
             background-color: #ffffff;
             border: 1px solid #e0e0e0;
             border-radius: 5px;
-            width: 30%;
+            width: 23%;
             margin: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: relative;
+            height: 23vh;
         }
         .card .card-header {
             display: flex;
@@ -108,6 +111,7 @@ require_once 'navigationbar.php'
         .card .card-content {
             height: 100px;
             background-color: #f5f5f5;
+            
         }
         .card .card-footer {
             display: flex;
@@ -180,108 +184,68 @@ require_once 'navigationbar.php'
     <?php endif; ?>
 
     <div class="content">
-        <div class="card">
-            <div class="card-header">
-                <h2>Student project manage.....</h2>
-                <i class="fas fa-ellipsis-v" onclick="toggleDropdown(this)"></i>
-                <div class="dropdown">
-                    <a href="#">Delete</a>
-                </div>
-            </div>
-            <div class="card-content"></div>
-            <div class="card-footer">
-                <div class="avatar">A</div>
-                <div class="info">
-                    <div>abc@gmail.com</div>
-                    <div>Last edit : 16 Aug 2024</div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <h2>Student project manage.....</h2>
-                <i class="fas fa-ellipsis-v" onclick="toggleDropdown(this)"></i>
-                <div class="dropdown">
-                    <a href="#">Delete</a>
-                </div>
-            </div>
-            <div class="card-content"></div>
-            <div class="card-footer">
-                <div class="avatar">A</div>
-                <div class="info">
-                    <div>abc@gmail.com</div>
-                    <div>Last edit : 16 Aug 2024</div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <h2>Student project manage.....</h2>
-                <i class="fas fa-ellipsis-v" onclick="toggleDropdown(this)"></i>
-                <div class="dropdown">
-                    <a href="#">Delete</a>
-                </div>
-            </div>
-            <div class="card-content"></div>
-            <div class="card-footer">
-                <div class="avatar">A</div>
-                <div class="info">
-                    <div>abc@gmail.com</div>
-                    <div>Last edit : 16 Aug 2024</div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <h2>Student project manage.....</h2>
-                <i class="fas fa-ellipsis-v" onclick="toggleDropdown(this)"></i>
-                <div class="dropdown">
-                    <a href="#">Delete</a>
-                </div>
-            </div>
-            <div class="card-content"></div>
-            <div class="card-footer">
-                <div class="avatar">A</div>
-                <div class="info">
-                    <div>abc@gmail.com</div>
-                    <div>Last edit : 16 Aug 2024</div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <h2>Student project manage.....</h2>
-                <i class="fas fa-ellipsis-v" onclick="toggleDropdown(this)"></i>
-                <div class="dropdown">
-                    <a href="#">Delete</a>
-                </div>
-            </div>
-            <div class="card-content"></div>
-            <div class="card-footer">
-                <div class="avatar">A</div>
-                <div class="info">
-                    <div>abc@gmail.com</div>
-                    <div>Last edit : 16 Aug 2024</div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <h2>Student project manage.....</h2>
-                <i class="fas fa-ellipsis-v" onclick="toggleDropdown(this)"></i>
-                <div class="dropdown">
-                    <a href="#">Delete</a>
-                </div>
-            </div>
-            <div class="card-content"></div>
-            <div class="card-footer">
-                <div class="avatar">A</div>
-                <div class="info">
-                    <div>abc@gmail.com</div>
-                    <div>Last edit : 16 Aug 2024</div>
-                </div>
-            </div>
-        </div>
+        <?php if (isset($data['documents'])): ?>
+            <?php foreach($data['documents']as $document): ?>
+                        <div class="card">
+                            <div class="card-header">
+                                <h2><?=$document->name?></h2>
+                                <i class="fas fa-ellipsis-v" onclick="toggleDropdown(this)"></i>
+                                <div class="dropdown">
+                                    <a href="#">Delete</a>
+                                </div>
+                            </div>
+
+
+                           <div class="card-content">
+                                            <?php
+                                            $filePath = ROOT . '/public/document/' . $document->filepath; // Adjust file path as per your setup
+                                            $fileExtension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION)); // Get file extension
+                                            ?>
+
+                                            <?php if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif'])): ?>
+                                                <!-- Image Preview -->
+                                                <img src="http://localhost/testmvc/public/document/<?=$document->filename?>" 
+                                                    alt="Document Image" 
+                                                    style="width: 100%; height: 100%; object-fit: cover;">
+                                                    
+                                            <?php elseif ($fileExtension === 'pdf'): ?>
+                                                <!-- PDF Preview -->
+                                                <embed src="http://localhost/testmvc/public/document/<?=$document->filename?> ?>" 
+                                                    type="application/pdf" 
+                                                    width="100%" 
+                                                    height="100%">
+                                            <?php elseif (in_array($fileExtension, ['txt', 'csv'])): ?>
+                                                <!-- Text File Preview -->
+                                                <textarea style="width: 100%; height: 100%; border: none; resize: none;" readonly>
+                                                    <?= file_get_contents("http://localhost/testmvc/public/document/". htmlspecialchars($document->filepath)) ?>
+                                                </textarea>
+                                            <?php else: ?>
+                                                <!-- Fallback for Unsupported Types -->
+                                                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                                                    <i class="fas fa-file" style="font-size: 24px; color: #999;"></i>
+                                                    <span style="margin-left: 10px; font-size: 14px;">No Preview Available</span>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+
+
+
+
+
+
+                            <div class="card-footer">
+                                <div class="avatar"><?=$document->image?></div>
+                                <div class="info">
+                                    <div><?=$document->username?></div>
+                                    <div>Uploaded at : <?=$document->createdat?></div>
+                                </div>
+                            </div>
+                        </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+
+        
     </div>
     <script>
         function toggleDropdown(element) {
