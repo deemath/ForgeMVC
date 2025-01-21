@@ -77,7 +77,7 @@
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Supervisor/Chatbox">
+                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Message/chatbox">
                             <i class="fas fa-comments mr-3"></i>
                             <span>Forum</span>
                         </a>
@@ -138,6 +138,7 @@
                                     echo '<div class="role member px-3 py-1 mx-3 border-2 border-purple-800 rounded-2xl bg-purple-100 text-purple-900" id="role"> member</div>';
                                 } else {
                                     echo '<div class="role member" id="role"> Unknown Role</div>';
+
                                 }
                             }
                          ?>
