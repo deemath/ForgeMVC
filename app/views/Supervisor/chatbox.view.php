@@ -18,22 +18,36 @@ require_once "navigationbar.php";
         <div class="content">
             <div class="chat">
                 <!-- Message from another user -->
-                <div class="message">
-                    <div class="avatar"></div>
-                    <div class="name">Member 1</div>
-                    <div class="content">
-                        This is a sample message from another user. It gives you an idea of how messages appear in the chatbox.
-                    </div>
-                </div>
+
+                <?php if(isset($data['messages'])): ?>
+                    <?php foreach($data['messages'] as $message): ?>
+                        <!-- Debugging to check the message user ID -->
+                        <?php echo "<!-- Message User ID: {$message->userid}, Logged-in User ID: {$_SESSION['user_id']} -->"; ?>
+                        
+                        <?php if($message->userid == $_SESSION['user_id']): ?>
+                            <div class="message blue sender">
+                                <div class="sender content">
+                                    <?= htmlspecialchars($message->message, ENT_QUOTES, 'UTF-8') ?> 
+                                </div>
+                                <div class="avatar"></div>
+                                <div class="sender name">You</div>
+                            </div>
+                        <?php endif; ?>
+                        <?php if($message->userid != $_SESSION['user_id']): ?>
+                            <div class="message receiver">
+                                <div class="avatar"></div>
+                                <div class="receiver name">Member 1</div>
+                                <div class="receiver content">
+                                    <?= htmlspecialchars($message->message, ENT_QUOTES, 'UTF-8') ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
 
                 <!-- Message from the user -->
-                <div class="message blue">
-                    <div class="content">
-                        This is a response message from the user. It is highlighted in blue to indicate it's from you.
-                    </div>
-                    <div class="avatar"></div>
-                    <div class="name">You</div>
-                </div>
+                
             </div>
 
             <!-- Members Section -->
@@ -57,8 +71,11 @@ require_once "navigationbar.php";
 
         <!-- Footer Section -->
         <div class="footer">
-            <input type="text" placeholder="Type a message...">
-            <button>Send <i class="fas fa-paper-plane"></i></button>
+        <form action="sendMessage" method="post">
+            <input type="text" placeholder="Type a message..." name="messagetext" required>
+            <button type="submit">Send <i class="fas fa-paper-plane"></i></button>
+        </form>
+
         </div>
     </div>
 </body>
