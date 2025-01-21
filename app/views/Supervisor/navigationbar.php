@@ -89,7 +89,7 @@
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a class="flex items-center text-gray-700" href="#">
+                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Announcement/announcements">
                             <i class="fas fa-bullhorn mr-3"></i>
                             <span>Announcements</span>
                         </a>
