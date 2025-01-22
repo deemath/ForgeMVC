@@ -77,19 +77,19 @@
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Supervisor/Chatbox">
+                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Message/chatbox">
                             <i class="fas fa-comments mr-3"></i>
                             <span>Forum</span>
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a class="flex items-center text-gray-700" href="#">
+                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Meeting/meetings">
                             <i class="fas fa-handshake mr-3"></i>
                             <span>Meetings</span>
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a class="flex items-center text-gray-700" href="#">
+                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Announcement/announcements">
                             <i class="fas fa-bullhorn mr-3"></i>
                             <span>Announcements</span>
                         </a>
@@ -130,13 +130,15 @@
                         <?php if(isset($_SESSION['user_role'])){
                             if ($_SESSION['user_role'] == 2) {
                                 
-                                    echo '<div class="role member" id="role"> Project Supervisor</div>';
+                                    echo '<div class="role member px-3 py-1 mx-3 border-2 border-yellow-800 rounded-2xl bg-yellow-100 text-yellow-900" id="role">Project Supervisor</div> ';
+                                    
                                 } elseif ($_SESSION['user_role'] == 3) {
-                                    echo '<div class="role member" id="role"> Co Supervisor</div>';
+                                    echo '<div class="role member px-3 py-1 mx-3 border-2 border-green-800 rounded-2xl bg-green-100 text-green-900" id="role"> Co Supervisor</div>';
                                 } elseif ($_SESSION['user_role'] == 4) {
-                                    echo '<div class="role member" id="role"> member</div>';
+                                    echo '<div class="role member px-3 py-1 mx-3 border-2 border-purple-800 rounded-2xl bg-purple-100 text-purple-900" id="role"> member</div>';
                                 } else {
                                     echo '<div class="role member" id="role"> Unknown Role</div>';
+
                                 }
                             }
                          ?>

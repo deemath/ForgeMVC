@@ -198,7 +198,7 @@ class Coordinator{
         }
      
         $fkd = new ProjectModel;
-        $data =$fkd->loadupdateproject($projectid);
+        $data =$fkd->loadupdateproject($dat['projectid']);
       ///var_dump($data);
         return $this->view('coordinator/editproject',$data);
      }

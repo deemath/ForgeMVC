@@ -40,8 +40,10 @@ class Supervisor{
         }
     }
     public function showDocument(){
-        $prj = new ProjectModel;
-        $data = $prj->ShowDashboard4($_SESSION['project_id']);
+        // $prj = new ProjectModel;
+        // $data = $prj->ShowDashboard4($_SESSION['project_id']);
+        $docModel = new DocModel;
+        $data = $docModel->getdoc($_SESSION['project_id']);
         if ($data) {
             $this->view('supervisor/document', $data); // Pass data as an array
         } else {
