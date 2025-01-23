@@ -140,6 +140,10 @@ class Coordinator{
         $fkd = new ProjectModel;
         $data =$fkd->loadupdateproject($id);
       ///var_dump($data);
+
+      $corModel = new CoordinatorModel();
+      $data['users'] = $corModel->fetchUsers();
+
         return $this->view('coordinator/projectedit',$data);
      }
 
@@ -147,8 +151,37 @@ class Coordinator{
         $errors=[];
         // Retrieve data from POST request
         $id = $_POST['id'];
-        $dmp = new ProjectModel;
-        $data = $dmp->updateproject($id);
+        $title = $_POST['project-name'] ?? null;
+        $description = $_POST['project-description'] ?? null;
+        $startDate = $_POST['start-date'] ?? null;
+        $endDate = $_POST['end-date'] ?? null;
+        
+        if(empty($title) || empty($description) || empty($startDate) || empty($endDate)){
+            $errors['errors']= "Please fill in all required fields.";
+            $this->loadupdateproject();
+            return;
+        }
+
+        $projectData = [
+            'id' => $id,
+            'title' => $title,
+            'description' => $description,
+            'startdate' => $startDate,
+            'enddate' => $endDate,
+        ];
+
+        $model = new CoordinatorModel;
+        $status = $model->updateProject($projectData);
+
+        if($status){
+            $this->projectlist();
+        } else{
+            $errors['errors'] = "Failed to update project.";
+            $this->loadupdateproject();
+        }
+
+        //$dmp = new ProjectModel;
+        //$data = $dmp->updateproject($id);
         
      }
 
@@ -174,6 +207,34 @@ class Coordinator{
         return $this->view('coordinator/editproject',$data);
      }
 
+     public function addMembersToProject($projectId) {
+        // Get the coordinator ID from the session or request
+        $coordinatorId = $_SESSION['user_id']; // Assuming user_id is stored in session
+
+        // Load the model
+        $this->loadModel('CoordinatorModel');
+        $model = new CoordinatorModel();
+
+        // Retrieve user emails assigned to this coordinator
+        $emails = $model->getUserEmailsByCoordinatorId($coordinatorId);
+
+        // Check if form is submitted
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $supervisorEmail = $_POST['supervisor_email'];
+            $memberEmails = $_POST['member_emails']; // Array of member emails
+            $coSupervisorEmail = $_POST['cosupervisor_email'];
+
+            // Update the project with the selected members
+            $model->updateProjectMembers($projectId, $supervisorEmail, $memberEmails, $coSupervisorEmail);
+
+            // Redirect to the same project list page to refresh the view
+            header('Location: /coordinator/projectlist');
+            exit;
+        }
+
+        // Load the view with the emails
+        $this->view('Coordinator/projectlist', ['emails' => $emails]);
+    }
 
      
 }

@@ -140,6 +140,17 @@ class CoordinatorModel{
     }
 }
 
+   public function loadupdateproject($id) {
+    $this->table = 'project';
+    return $this->first(['id' => $id]);
+   }
+
+   public function updateproject($data) {
+    $this->table = 'project';
+    return $this->update($data['id'], $data);
+   }
+
    
+
     
 }

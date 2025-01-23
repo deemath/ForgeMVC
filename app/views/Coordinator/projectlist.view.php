@@ -164,7 +164,7 @@
             </thead>
             <tbody id="project-list">
 
-            <?php if (!empty($data)) : ?>
+            <?php if (!empty($data['projects'])) : ?>
                 <?php foreach ($data['projects'] as $project): ?>
                     <tr class="prj-tr">
                         <td class="prj-td" id="project-id-<?= htmlspecialchars($project->id) ?>"><?= htmlspecialchars($project->id) ?></td>

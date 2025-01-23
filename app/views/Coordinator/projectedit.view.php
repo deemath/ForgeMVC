@@ -15,7 +15,8 @@
             <!-- Left Side: Project Form -->
             <div class="w-full max-w-md bg-white p-10 border border-gray-300">
                 <h2 class="text-2xl font-bold mb-4">Edit Project</h2>
-                <form>
+                <form method="post" action="<?=ROOT?>/Coordinator/updateProject">
+                    <input type="hidden" name="id" value="<?=$project->id?>">
                     <div class="mb-4">
                         <label for="project-name" class="block text-gray-700 font-bold mb-2">Project Name</label>
                         <input type="text" id="project-name" name="project-name" class="w-full px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter project name" value="<?=$project->title?:''?>">
@@ -38,7 +39,7 @@
                 </form>
             </div>
 
-            <!-- Right Side: Project Supervisors -->
+            <!-- Right Side: Project Supervisors 
             <div class="w-full max-w-md bg-white p-6 border border-gray-300">
                 <h2 class="text-2xl font-bold mb-4">Project Supervisors</h2>
                 <div class="mb-4">
@@ -93,7 +94,7 @@
                     <?php endif;?>
                 </div>
                 <div class="mb-4">
-                    <label for="add-supervisor" class="block text-gray-700 font-bold mb-2">Add Supervisor</label>
+                    <label for="add-supervisor" class="block text-gray-700 font-bold mb-2">Add Co-supervisor</label>
                     <div class="flex">
                         <select id="add-supervisor" name="add-supervisor" class="w-full px-3 py-2 border border-r-0 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="user1">user1@gmail.com</option>
@@ -125,7 +126,7 @@
                     <?php endif;?>
                 </div>
                 <div class="mb-4">
-                    <label for="add-supervisor" class="block text-gray-700 font-bold mb-2">Add Supervisor</label>
+                    <label for="add-supervisor" class="block text-gray-700 font-bold mb-2">Add member</label>
                     <div class="flex">
                         <select id="add-supervisor" name="add-supervisor" class="w-full px-3 py-2 border border-r-0 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="user1">user1@gmail.com</option>
@@ -137,7 +138,108 @@
                         </button>
                     </div>
                 </div>
+            </div>   -->
+
+            <div class="w-full max-w-md bg-white p-6 border border-gray-300">
+                <h2 class="text-2xl font-bold mb-4">Project Supervisors</h2>
+                <div class="mb-4">
+
+                <?php if(!empty($data['supervisor'])):?>
+                    <?php foreach ($data['supervisor'] as $supervisor): ?>
+                    
+                    <div class="flex justify-between items-center mb-2">
+                        <form action="<?=ROOT?>/" method="post">
+                        <span class="text-gray-700"><?= htmlspecialchars($supervisor->sup_email ?: 'No Supervisors Assigned yet !') ?></span>
+                        <input type="hidden" name="supid" value="<?= $supervisor->id?>">
+                        <input type="hidden" name="project_id" value="<?=$project->id?:''?>">
+                        <button class="bg-red-500 text-white px-2 py-1 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500" type="submit">
+                            Remove
+                        </button>
+                        </form>
+                    </div>
+                    <?php endforeach;?>
+                    <?php endif;?>
+                </div>
+                <div class="mb-4">
+    <label for="add-supervisor" class="block text-gray-700 font-bold mb-2">Add Supervisor</label>
+    <div class="flex">
+        <select id="add-supervisor" name="add-supervisor" class="w-full px-3 py-2 border border-r-0 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <?php foreach ($data['users'] as $user): ?>
+                <option value="<?= $user->user_id ?>"><?= htmlspecialchars($user->user_email) ?></option>
+            <?php endforeach; ?>
+        </select>
+        <button class="bg-green-500 text-white px-4 py-2 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+            Add
+        </button>
+    </div>
+</div>
+
+                <h2 class="text-2xl font-bold mb-4">Project Co Supervisors</h2>
+                <div class="mb-4">
+
+                <?php if(!empty($data['cosupervisor'])):?>
+                    <?php foreach ($data['cosupervisor'] as $cosupervisor): ?>
+                    
+                    <div class="flex justify-between items-center mb-2">
+                        <form action="<?=ROOT?>/" method="post">
+                        <span class="text-gray-700"><?= htmlspecialchars($cosupervisor->cosup_email ?: 'No Supervisors Assigned yet !') ?></span>
+                        <input type="hidden" name="supid" value="<?= $cosupervisor->id?>">
+                        <input type="hidden" name="project_id" value="<?=$project->id?:''?>">
+                        <button class="bg-red-500 text-white px-2 py-1 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500" type="submit">
+                            Remove
+                        </button>
+                        </form>
+                    </div>
+                    <?php endforeach;?>
+                    <?php endif;?>
+                </div>
+                <div class="mb-4">
+    <label for="add-cosupervisor" class="block text-gray-700 font-bold mb-2">Add Co-Supervisor</label>
+    <div class="flex">
+        <select id="add-cosupervisor" name="add-cosupervisor" class="w-full px-3 py-2 border border-r-0 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <?php foreach ($data['users'] as $user): ?>
+                <option value="<?= $user->user_id ?>"><?= htmlspecialchars($user->user_email) ?></option>
+            <?php endforeach; ?>
+        </select>
+        <button class="bg-green-500 text-white px-4 py-2 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+            Add
+        </button>
+    </div>
+</div>
+                <h2 class="text-2xl font-bold mb-4">Project Members</h2>
+                <div class="mb-4">
+
+                <?php if(!empty($data['member'])):?>
+                    <?php foreach ($data['member'] as $member): ?>
+                    
+                    <div class="flex justify-between items-center mb-2">
+                        <form action="<?=ROOT?>/" method="post">
+                        <span class="text-gray-700"><?= htmlspecialchars($member->mememail ?: 'No Supervisors Assigned yet !') ?></span>
+                        <input type="hidden" name="supid" value="<?= $member->id?>">
+                        <input type="hidden" name="project_id" value="<?=$project->id?:''?>">
+                        <button class="bg-red-500 text-white px-2 py-1 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500" type="submit">
+                            Remove
+                        </button>
+                        </form>
+                    </div>
+                    <?php endforeach;?>
+                    <?php endif;?>
+                </div>
+                <div class="mb-4">
+    <label for="add-member" class="block text-gray-700 font-bold mb-2">Add Member</label>
+    <div class="flex">
+        <select id="add-member" name="add-member" class="w-full px-3 py-2 border border-r-0 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <?php foreach ($data['users'] as $user): ?>
+                <option value="<?= $user->user_id ?>"><?= htmlspecialchars($user->user_email) ?></option>
+            <?php endforeach; ?>
+        </select>
+        <button class="bg-green-500 text-white px-4 py-2 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+            Add
+        </button>
+    </div>
+</div>
             </div>
+
         </div>
     </div>
 </body>
