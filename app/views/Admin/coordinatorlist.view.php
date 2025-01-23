@@ -19,6 +19,8 @@
             width: 90%;
             margin: 0 auto;
             padding: 20px;
+            overflow-y: auto;
+            max-height: 90vh;
         }
         .prj-search-bar {
             display: flex;
