@@ -1,8 +1,9 @@
-
-<?php
-require_once "navigationbar.php";
-
+<!DOCTYPE html>
+<?php 
+require_once 'navigationbar.php'
 ?>
+<html lang="en">
+<head>
     <title>Task 02</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
@@ -90,21 +91,6 @@ require_once "navigationbar.php";
         }
         .status .dropdown div:hover {
             background-color: #f0f0f0;
-        }
-        .status .dropdown .to-do {
-            color: purple;
-        }
-        .status .dropdown .on-progress {
-            color: green;
-        }
-        .status .dropdown .completed {
-            color: orange;
-        }
-        .status .dropdown .overdue {
-            color: red;
-        }
-        .status .dropdown .terminated {
-            color: gray;
         }
         .duration .date {
             display: flex;
@@ -233,48 +219,19 @@ require_once "navigationbar.php";
             background-color: #007bff;
             color: #fff;
         }
-        .flags .dropdown {
-            display: none;
-            position: absolute;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
-            margin-top: 5px;
-            z-index: 1;
-        }
-        .flags .dropdown div {
-            padding: 10px;
-            cursor: pointer;
-        }
-        .flags .dropdown div:hover {
-            background-color: #f0f0f0;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <form id="task-form">
             <div class="header">
-                <h1 id="task-title">
-                <?php if($data['project']) : ?>
-                    
-                    <?=$task->title?>
-                
-                <?php endif; ?>
-                    
-                </h1>
+                <h1 id="task-title">Task Title Example</h1>
                 <input type="text" id="task-title-edit" style="display: none; width: 100%;" />
                 <i class="fas fa-pencil-alt edit-icon" onclick="editTaskTitle()"></i>
             </div>
             <div class="section description">
                 <h2>Description</h2>
-                <p id="description-text">
-                        <?php if($data['project']) : ?>
-                            
-                            <?=$task->description?>
-                        
-                        <?php endif; ?>
-                </p>
+                <p id="description-text">This is a sample description for the task. It provides details about what needs to be done.</p>
                 <textarea id="description-edit" style="display: none; width: 100%; height: 100px;"></textarea>
                 <i class="fas fa-pencil-alt edit-icon" onclick="editDescription()"></i>
             </div>
@@ -309,11 +266,11 @@ require_once "navigationbar.php";
                 <h2>Duration</h2>
                 <div class="date">
                     <div>
-                        <input type="text" id="start-date" value="<?=$task->startdate?>">
+                        <input type="text" id="start-date" value="2024-01-01">
                         <i class="fas fa-calendar-alt" onclick="$('#start-date').datepicker('show')"></i>
                     </div>
                     <div>
-                        <input type="text" id="end-date" value="<?=$task->enddate?>">
+                        <input type="text" id="end-date" value="2024-01-10">
                         <i class="fas fa-calendar-alt" onclick="$('#end-date').datepicker('show')"></i>
                     </div>
                 </div>
@@ -322,15 +279,15 @@ require_once "navigationbar.php";
                 <h2>Sub-Tasks</h2>
                 <div class="task-list" id="task-list">
                     <div class="task-item">
-                        <span>sub task of task 2</span>
+                        <span>Sub-task 1</span>
                         <i class="fas fa-times remove-icon" onclick="removeTask(this)"></i>
                     </div>
                     <div class="task-item">
-                        <span>sub task of task 2</span>
+                        <span>Sub-task 2</span>
                         <i class="fas fa-times remove-icon" onclick="removeTask(this)"></i>
                     </div>
                     <div class="task-item">
-                        <span>sub task of task 2</span>
+                        <span>Sub-task 3</span>
                         <i class="fas fa-times remove-icon" onclick="removeTask(this)"></i>
                     </div>
                 </div>
@@ -343,19 +300,15 @@ require_once "navigationbar.php";
                 <h2>Assign</h2>
                 <div class="member-list">
                     <div class="member-item">
-                        <?php foreach($data['assign'] as $assign):?>
-                            <span><?= $assign->user_name?></span>
-                        
-                     
-                        <span><?= $assign->user_email?></span>
-                        <?php endforeach;?>
+                        <span>John Doe</span>
+                        <span>john.doe@example.com</span>
                         <i class="fas fa-times remove-icon"></i>
                     </div>
-                    <!-- <div class="member-item">
-                        <span>Dewmini Paboda</span>
-                        <span>dissanayake@gmail.com</span>
+                    <div class="member-item">
+                        <span>Jane Smith</span>
+                        <span>jane.smith@example.com</span>
                         <i class="fas fa-times remove-icon"></i>
-                    </div> -->
+                    </div>
                 </div>
                 <div class="add-member">
                     <i class="fas fa-plus"></i>
@@ -366,9 +319,9 @@ require_once "navigationbar.php";
                 <h2>Created By</h2>
                 <div class="creator">
                     <div class="creator-item">
-                        <span>Sunil Perera</span>
-                        <span>sperera@gmail.com</span>
-                        <span class="role">Co Supervisor</span>
+                        <span>Admin User</span>
+                        <span>admin@example.com</span>
+                        <span class="role">Project Manager</span>
                     </div>
                 </div>
             </div>
@@ -376,19 +329,19 @@ require_once "navigationbar.php";
                 <h2>Comments</h2>
                 <div class="comment-list">
                     <div class="comment-item">
-                        <div class="comment-text">since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</div>
+                        <div class="comment-text">This is a comment about the task.</div>
                         <div class="comment-author">
-                            <div>Dewmini Paboda</div>
+                            <div>John Doe</div>
                             <div>Member</div>
                             <div>12/08/2024</div>
                         </div>
                     </div>
                     <div class="comment-item">
-                        <div class="comment-text">since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has s five centuries,</div>
+                        <div class="comment-text">Another comment regarding the task.</div>
                         <div class="comment-author">
-                            <div>Dewmini Paboda</div>
+                            <div>Jane Smith</div>
                             <div>Member</div>
-                            <div>12/08/2024</div>
+                            <div>12/09/2024</div>
                         </div>
                     </div>
                 </div>
@@ -399,7 +352,7 @@ require_once "navigationbar.php";
             </div>
             <div class="footer">
                 <button type="button" class="discard">Discard</button>
-                <button type="submit" class="save">save</button>
+                <button type="submit" class="save">Save</button>
             </div>
         </form>
     </div>
@@ -413,11 +366,7 @@ require_once "navigationbar.php";
 
         function toggleStatusDropdown() {
             var dropdown = document.getElementById("status-dropdown");
-            if (dropdown.style.display === "none" || dropdown.style.display === "") {
-                dropdown.style.display = "block";
-            } else {
-                dropdown.style.display = "none";
-            }
+            dropdown.style.display = dropdown.style.display === "none" || dropdown.style.display === "" ? "block" : "none";
         }
 
         function selectStatus(status, color, bgColor) {
@@ -430,11 +379,7 @@ require_once "navigationbar.php";
 
         function toggleFlagDropdown() {
             var dropdown = document.getElementById("flag-dropdown");
-            if (dropdown.style.display === "none" || dropdown.style.display === "") {
-                dropdown.style.display = "block";
-            } else {
-                dropdown.style.display = "none";
-            }
+            dropdown.style.display = dropdown.style.display === "none" || dropdown.style.display === "" ? "block" : "none";
         }
 
         function selectFlag(flag) {
@@ -473,18 +418,28 @@ require_once "navigationbar.php";
         }
 
         function removeTask(element) {
-            var taskItem = element.parentElement;
-            taskItem.remove();
+            if (element && element.parentElement) {
+                var taskItem = element.parentElement;
+                taskItem.remove();
+            } else {
+                console.error("Error: Unable to remove task. Element not found.");
+            }
         }
 
         function addSubTask() {
             var subTask = prompt("Enter sub task:");
             if (subTask) {
+                if (subTask.trim() === "") {
+                    alert("Error: Sub-task cannot be empty.");
+                    return; // Exit the function if input is invalid
+                }
                 var taskList = document.getElementById("task-list");
                 var taskItem = document.createElement("div");
                 taskItem.className = "task-item";
                 taskItem.innerHTML = '<span>' + subTask + '</span><i class="fas fa-times remove-icon" onclick="removeTask(this)"></i>';
                 taskList.appendChild(taskItem);
+            } else {
+                alert("Error: Sub-task input was cancelled.");
             }
         }
 
