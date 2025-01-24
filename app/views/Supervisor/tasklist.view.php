@@ -137,18 +137,20 @@ require_once 'navigationbar.php'
                             <p class="text-gray-700 mb-4"><?=$selected->description?></p>
                             <div class="mb-4">
                                 <div class="font-bold mb-2">Assigned</div>
-                                <div class="flex items-center mb-2">
+                                <div class="items-center mb-2">
                                 <?php if($data['read']) : ?>
-                            
+                                    
                                     <?php foreach($data['read'] as $read) : ?>
                                         <!-- <=$task->id?>
                                         <=$read->taskid?> -->
+                                        <div class="flex items-center mb-2">
                                         <img alt="Dewmini Paboda" class="h-8 w-8 rounded-full mr-2" height="40" src="https://storage.googleapis.com/a1aa/image/pJdqPaSTfY3yUiKHZ6maANZSwLNsmHkhLMN584QoRKxEJG4JA.jpg" width="40"/>
                                         <div>
                                             <div class="font-bold"><?=$read->user_name?></div>
                                             <div class="text-sm text-gray-500"><?=$read->user_email?></div>
                                         </div>
                                         <span class="ml-auto bg-purple-200 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">Member</span>
+                                        </div>
                                     <?php endforeach; ?>
                                 <?php endif; ?>       
                                 </div>
@@ -208,7 +210,7 @@ require_once 'navigationbar.php'
                                 <div class="text-gray-700">2.2 sub task of task 2</div>
                             </div>
                             <div class="flex">
-                                <form action="">
+                                <form action="<?=ROOT?>/task/edit" method="post">
                                 <button class="flex-1 bg-blue-500 text-white py-2 px-4 rounded mr-2" onclick="window.location.href='./taskedit.php'">Edit</button>
                                 </form>
                                 <form action="<?=ROOT?>/task/delete" method="post" id="deleteForm">

@@ -92,7 +92,7 @@ class task{
     }
 
     public function showdetail(){
-        $id = $_POST['id'];
+        $id = 4;
         $prj = new taskModel;
         $data = $prj->fetchAssign($id);
         if ($data) {
@@ -116,6 +116,9 @@ class task{
         }else{
             $this->view('_404');
         }
+    }
+    public function edit(){
+        return $this->view('supervisor/edittask');
     }
 
 
