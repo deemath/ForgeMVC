@@ -122,10 +122,14 @@ require_once 'navigationbar.php'
                         </tr> -->
                         </tbody>
                     </table>
-                  
-                    <a href="<?=ROOT?>/task/create" alt="Task can be create only if you are supervisor or Co-Supervisor">
-                    <div class="mt-4 text-blue-500 cursor-pointer" >+ create task</div>
-                    </a>
+                    <?php 
+                        if($_SESSION['user_role']==2 || $_SESSION['user_role']==3 ):
+                    ?>
+
+                            <a href="<?=ROOT?>/task/create" alt="Task can be create only if you are supervisor or Co-Supervisor">
+                            <div class="mt-4 text-blue-500 cursor-pointer" >+ create task</div>
+                            </a>
+                    <?php endif; ?>
                 </div>
                     <?php if (!empty($selected)): ?>
                         <?php foreach($data['selected'] as $selected) : ?>
