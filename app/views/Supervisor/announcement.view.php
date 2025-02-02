@@ -16,23 +16,52 @@ require_once 'navigationbar.php'
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto p-4">
+
+            <?php
+                if(isset($data['errors'])){
+                    foreach($data['errors'] as $error){
+                        echo '<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            <span class="block sm:inline">'.$error.'</span>
+                        </div>';
+                    }
+                }
+
+                if(isset($_SESSION['status'])){
+                    echo '<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <span class="block sm:inline">'.$_SESSION['status'].'</span>
+                    </div>';
+                    unset($_SESSION['status']);
+                }
+                if(isset($_SESSION['status-error'])){
+                    echo '<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <span class="block sm:inline">'.$_SESSION['status-error'].'</span>
+                    </div>';
+                    unset($_SESSION['status-error']);
+                }
+
+            ?>
+    
    
 
         <main class="flex flex-col lg:flex-row lg:space-x-8">
+        <?php 
+            if($_SESSION['user_role']==2 || $_SESSION['user_role']==3 ):
+        ?>
             <section class="mb-8 lg:w-1/2">
                 <h2 class="text-xl font-semibold mb-4">Make an Announcement</h2>
-                <form class="bg-white p-6 rounded shadow-md">
+                <form class="bg-white p-6 rounded shadow-md" action="<?=ROOT?>/Announcement/makeAnnouncement" method="post">
                     <div class="mb-4">
                         <label for="title" class="block text-gray-700 font-medium mb-2">Title</label>
-                        <input type="text" id="title" class="w-full p-2 border border-gray-300 rounded" placeholder="Announcement Title">
+                        <input type="text" id="title" class="w-full p-2 border border-gray-300 rounded" placeholder="Announcement Title" name="title">
                     </div>
                     <div class="mb-4">
                         <label for="content" class="block text-gray-700 font-medium mb-2">Content</label>
-                        <textarea id="content" class="w-full p-2 border border-gray-300 rounded" rows="4" placeholder="Announcement Content"></textarea>
+                        <textarea id="content" class="w-full p-2 border border-gray-300 rounded" rows="4" placeholder="Announcement Content" name="content"></textarea>
                     </div>
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Post Announcement</button>
                 </form>
             </section>
+        <?php endif; ?>
 
             <section class="lg:w-1/2">
                 <h2 class="text-xl font-semibold mb-4">Previous Announcements</h2>

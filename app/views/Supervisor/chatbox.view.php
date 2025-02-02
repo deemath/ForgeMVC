@@ -16,7 +16,7 @@ require_once "navigationbar.php";
     <div class="container">
         <div class="header">Chat Box</div>
         <div class="content">
-            <div class="chat">
+            <div class="chat" id="chat-container"v>
                 <!-- Message from another user -->
 
                 <?php if(isset($data['messages'])): ?>
@@ -78,5 +78,12 @@ require_once "navigationbar.php";
 
         </div>
     </div>
+    <script>
+        // Scroll to the bottom of the chat container
+        window.onload = function() {
+            var chatContainer = document.getElementById('chat-container');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        };
+    </script>
 </body>
 </html>
