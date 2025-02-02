@@ -208,33 +208,52 @@ class Coordinator{
      }
 
      public function addMembersToProject($projectId) {
-        // Get the coordinator ID from the session or request
-        $coordinatorId = $_SESSION['user_id']; // Assuming user_id is stored in session
+        $coordinatorId = $_SESSION['user_id'];
 
-        // Load the model
         $this->loadModel('CoordinatorModel');
         $model = new CoordinatorModel();
 
-        // Retrieve user emails assigned to this coordinator
         $emails = $model->getUserEmailsByCoordinatorId($coordinatorId);
 
-        // Check if form is submitted
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $supervisorEmail = $_POST['supervisor_email'];
-            $memberEmails = $_POST['member_emails']; // Array of member emails
+            $memberEmails = $_POST['member_emails'];
             $coSupervisorEmail = $_POST['cosupervisor_email'];
 
-            // Update the project with the selected members
-            $model->updateProjectMembers($projectId, $supervisorEmail, $memberEmails, $coSupervisorEmail);
+            $model->addProjectMembers($projectId, $supervisorEmail, $memberEmails, $coSupervisorEmail);
 
-            // Redirect to the same project list page to refresh the view
             header('Location: /coordinator/projectlist');
             exit;
         }
 
-        // Load the view with the emails
         $this->view('Coordinator/projectlist', ['emails' => $emails]);
     }
 
-     
+
+    public function removeFromProject() {
+        $cor6 = new CoordinatorModel();
+        $id = $_POST['supid'];
+        $project_id = $_POST['project_id'];
+        $user_type = $_POST['user_type'];
+        
+        // Debugging statements
+        error_log("Removing user: ID = $id, Project ID = $project_id, User Type = $user_type");
+
+        $data = ['id' => $id, 'project_id' => $project_id];
+        
+        if ($user_type === 'supervisor') {
+            $result = $cor6->removeSupervisor($data);
+            error_log("Supervisor removal result: " . ($result ? "Success" : "Failure"));
+        } elseif ($user_type === 'cosupervisor') {
+            $result = $cor6->removeCoSupervisor($data);
+            error_log("Co-supervisor removal result: " . ($result ? "Success" : "Failure"));
+        } elseif ($user_type === 'member') {
+            $result = $cor6->removeMember($data);
+            error_log("Member removal result: " . ($result ? "Success" : "Failure"));
+        }
+        
+        $projectData = $cor6->removemembers($project_id);
+        
+        return $this->view('Coordinator/projectedit', $projectData);
+    }
 }

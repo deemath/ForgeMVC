@@ -150,7 +150,46 @@ class CoordinatorModel{
     return $this->update($data['id'], $data);
    }
 
-   
+   public function removeSupervisor($data) {
+    $sql = 'DELETE FROM `supervisor-project` WHERE projectid = :projectid AND id = :id';
+    return $this->query($sql, ['projectid' => $data['project_id'], 'id' => $data['id']]);
+    }
+
+    public function removeCoSupervisor($data) {
+        $sql = 'DELETE FROM `cosupervisor-project` WHERE projectid = :projectid AND id = :id';
+        return $this->query($sql, ['projectid' => $data['project_id'], 'id' => $data['id']]);
+    }
+
+    public function removeMember($data) {
+        $sql = 'DELETE FROM `member-project` WHERE projectid = :projectid AND id = :id';
+        return $this->query($sql, ['projectid' => $data['project_id'], 'id' => $data['id']]);
+    }
+
+    
+
+    public function removemembers($projectId,$id) {
+        $this->table = 'supervisor-project';
+        $supervisors = $this->query('SELECT * FROM `supervisor-project` WHERE projectid = :projectid', ['projectid' => $projectId]);
+
+        $this->table = 'cosupervisor-project';
+        $cosupervisors = $this->query('SELECT * FROM `cosupervisor-project` WHERE projectid = :projectid', ['projectid' => $projectId]);
+
+        $this->table = 'member-project';
+        $members = $this->query('SELECT * FROM `member-project` WHERE projectid = :projectid', ['projectid' => $projectId]);
+
+
+        return [
+            'supervisors' => $supervisors,
+            'cosupervisors' => $cosupervisors,
+            'members' => $members,
+        ];
+        
+    }
+
+    
+        
+    
+
 
     
 }
