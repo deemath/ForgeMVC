@@ -54,7 +54,7 @@ class ProjectModel{
     }
 
 
-    public function addMember($memlist,$id){
+    public function addMem($memlist,$id){
         foreach($memlist as $suppa){
             $dummy['userid']= $suppa[0];
             $dummy['projectid'] = $id;
@@ -145,11 +145,52 @@ class ProjectModel{
     }
 
     public function deletesup($data){
-        $this->table='supervisor-project';
-        $sql = "DELETE FROM `supervisor-project` WHERE userid = :userid AND projectid = :projectid";
-        return $this->query($sql, $data);
-        
+        $sql = 'DELETE FROM `supervisor-project` WHERE projectid = :projectid AND id = :id';
+        return $this->query($sql, ['projectid' => $data['project_id'], 'id' => $data['id']]);
     }
 
+    public function deletecosup($data){
+        $sql = 'DELETE FROM `cosupervisor-project` WHERE projectid = :projectid AND id = :id';
+        return $this->query($sql, ['projectid' => $data['project_id'], 'id' => $data['id']]);
+    }
+
+    public function deletemem($data){
+        $sql = 'DELETE FROM `member-project` WHERE projectid = :projectid AND id = :id';
+        return $this->query($sql, ['projectid' => $data['project_id'], 'id' => $data['id']]);
+    }
+
+
+    public function addCosupervisor($projectId, $userId){
+        $this->table = '`cosupervisor-project`';
+
+        $data = [
+            'userid' => $userId,
+            'projectid' => $projectId
+        ];
+
+        return $this->insert($data);
+    }
+
+    public function addSupervisor($projectId, $userId){
+        $this->table = '`supervisor-project`';
+
+        $data = [
+            'userid' => $userId,
+            'projectid' => $projectId
+        ];
+
+        return $this->insert($data);
+    }
+
+    public function addMember($projectId, $userId){
+        $this->table = '`member-project`';
+
+        $data = [
+            'userid' => $userId,
+            'projectid' => $projectId
+        ];
+
+        return $this->insert($data);
+    }
     
 }
