@@ -258,11 +258,15 @@ class Coordinator{
             $result = $cor6->deletemem($data);
             error_log("Member removal result: " . ($result ? "Success" : "Failure"));
         }
-        
-        $projectData = $cor6->loadupdateproject($id);
-        
-        return $this->view('coordinator/projectedit', $projectData);
+
+        // Redirect to load the updated project edit form
+        echo '<form id="redirectForm" method="post" action="' . ROOT . '/Coordinator/loadupdateproject">
+                <input type="hidden" name="id" value="' . $project_id . '">
+              </form>
+              <script>document.getElementById("redirectForm").submit();</script>';
+        exit;
     } 
+
 
 
     public function addSup($projectId){
