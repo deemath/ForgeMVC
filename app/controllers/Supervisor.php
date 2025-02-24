@@ -1,11 +1,16 @@
 <?php 
-class Supervisor{
+class Supervisor {
+    use Controller;
+
     use Controller;
     public function load() {
         $prj = new ProjectModel;
-        if(isset($_POST['projectid'])){
-            $id = $_POST['projectid'];
-        }else{
+
+        if (isset($_POST['projectid']) && !empty($_POST['projectid'])) {
+            $id = htmlspecialchars($_POST['projectid']);
+        } else {
+            // Handle the case where projectid is not set or empty
+            throw new Exception("Project ID is required.");
             $id = $_SESSION['project_id'];
         }
         
@@ -64,12 +69,18 @@ class Supervisor{
     
 
     public function memberlist(){
-        $prj = new ProjectModel;
-        $data = $prj->ShowDashboard4($_SESSION['project_id']);
+        if (!isset($_SESSION['project_id'])) {
+            $this->view('_404'); // Show a 404 view if project_id is not set
+            return;
+        }
+        
+        $userModel = new userModel; // Assuming userModel is the correct model to fetch users
+        $data = $userModel->Showusers($_SESSION['project_id']); // Fetch users based on roles
         if ($data) {
             $this->view('supervisor/memberlist', $data); // Pass data as an array
         } else {
-            $this->view('_404'); // Show a 404 view
+            // $this->view('_404'); // Show a 404 view if no data is returned
+            $this->view('supervisor/memberlist', $data); 
         }
     }
 }

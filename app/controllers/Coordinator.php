@@ -1,31 +1,26 @@
 <?php 
-class Coordinator{
-     use Controller;
+class Coordinator {
+    use Controller;
 
-     public function Dashboard(){
-        $this->view('coordinator/dashboard');
-     }
+    public function Dashboard(){
+        try {
+            $this->view('coordinator/dashboard');
+        } catch (Exception $e) {
+            // Handle the error appropriately
+            $this->view('_404'); // Show a 404 view on error
+        }
+    }
 
-     public function ShowInvite($data=[]){
+    public function ShowInvite($data=[]){
         $cor2 = new CoordinatorModel;
-       
-        $data['invitations']= $cor2->showInvite();
-        
+        $data['invitations'] = $cor2->showInvite(); // Corrected method call
+        $this->view('coordinator/invite', $data);
+    }
 
-
-        $this->view('coordinator/invite',$data);
-
-     }
-
-
-
-     public function invite() {
+    public function invite() {
         // Sanitize and validate inputs
         $inputs['email'] = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
         $inputs['role'] = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
-    
-        // Debugging print statement (remove in production)
-        print_r($inputs);
     
         // Call the invite method from the CoordinatorModel
         $cor1 = new CoordinatorModel;
@@ -42,53 +37,50 @@ class Coordinator{
             $this->showInvite($data);
         }
     }
-    
 
     public function Userlist(){
-
-        $cor5= new CoordinatorModel;
-        $result['users']= $cor5->fetchUsers();
-        if( $result){
-        $this->view('Coordinator/userList',$result);
-        }else{
+        $cor5 = new CoordinatorModel;
+        $result['users'] = $cor5->fetchUsers();
+        if ($result) {
+            $this->view('Coordinator/userList', $result);
+        } else {
             $this->view('_404');
         }
     }
-     public function removeUser(){
+
+    public function removeUser(){
         $cor6 = new CoordinatorModel;
         $id = $_POST['id'];
-        $result=$cor6->removeUser($id);
-        if(!$result){
-           header('Location: ' . ROOT . '/coordinator/userList');      
-         }
-     }
+        $result = $cor6->removeUser($id);
+        if (!$result) {
+            header('Location: ' . ROOT . '/coordinator/userList');      
+        }
+    }
 
-     public function projectlist(){
+    public function projectlist(){
         $cor7 = new CoordinatorModel;
         $id = $_POST['id'];
-        $result['projects']=$cor7->fetchProjectList($id);
-        if($result){
-            $this->view('Coordinator/projectList',$result);
-            }else
-            {
-                $this->view('_404');
-                }
-     }
-
-
-     public function createprojectForm($errors=[]){
-        $cor5= new CoordinatorModel;
-        $result['users']= $cor5->fetchUsers();
-        $result['errors']= $errors;
-        if( $result){
-        $this->view('coordinator/addproject',$result);
-        }else{
+        $result['projects'] = $cor7->fetchProjectList($id);
+        if ($result) {
+            $this->view('Coordinator/projectList', $result);
+        } else {
             $this->view('_404');
         }
-     }
+    }
 
-     public function createProject() {
-        $errors=[];
+    public function createprojectForm($errors=[]){
+        $cor5 = new CoordinatorModel;
+        $result['users'] = $cor5->fetchUsers();
+        $result['errors'] = $errors;
+        if ($result) {
+            $this->view('coordinator/addproject', $result);
+        } else {
+            $this->view('_404');
+        }
+    }
+
+    public function createProject() {
+        $errors = [];
         // Retrieve data from POST request
         $title = $_POST['title'] ?? null;
         $description = $_POST['description'] ?? null;
@@ -100,80 +92,69 @@ class Coordinator{
 
         if (empty($title) || empty($description) || empty($startDate) || empty($endDate)) {
             // Handle missing data, e.g., return an error message
-            $errors['errors']= "Please fill in all required fields.";
-            $this->createProjectForm($errors);
-            
+            $errors['errors'] = "Please fill in all required fields.";
+            $this->createprojectForm($errors);
         }
+
         $allIds = array_merge($supervisors, $cosupervisors, $selected_members);
-            if (count($allIds) !== count(array_unique($allIds))) {
-                $errors['errors'] = "Duplicate IDs found in supervisors, cosupervisors, or members.";
-                $this->createProjectForm($errors);
+        if (count($allIds) !== count(array_unique($allIds))) {
+            $errors['errors'] = "Duplicate IDs found in supervisors, cosupervisors, or members.";
+            $this->createprojectForm($errors);
         }
-        $basicData['title']= $title;
-        $basicData['description']= $description;
-        $basicData['startdate']= $startDate;
-        $basicData['enddate']= $endDate;
-        $basicData['updatedat']= date('Y-m-d H:i:s');
-        $basicData['coordinatorid']= $_SESSION['coordinator_id'];
+
+        $basicData['title'] = $title;
+        $basicData['description'] = $description;
+        $basicData['startdate'] = $startDate;
+        $basicData['enddate'] = $endDate;
+        $basicData['updatedat'] = date('Y-m-d H:i:s');
+        $basicData['coordinatorid'] = $_SESSION['coordinator_id'];
 
         $project = new ProjectModel;
-        $status = $project->createProject($basicData,$supervisors,$cosupervisors,$selected_members);
-        if($status){
+        $status = $project->createProject($basicData, $supervisors, $cosupervisors, $selected_members);
+        if ($status) {
             $this->projectlist();
-        }else{
+        } else {
             $errors['errors'] = "Failed to create project.";
-            $this->createProjectForm($errors);
+            $this->createprojectForm($errors);
         }
+    }
 
-     }
-
-     public function deleteProject(){
-        $data=$_POST['id'];
+    public function deleteProject(){
+        $data = $_POST['id'];
         $project = new ProjectModel;
         $status = $project->deleteProject($data);
         $this->projectlist();
+    }
 
-     }
-
-     public function loadupdateproject(){
-        $id=$_POST['id'];
+    public function loadupdateproject(){
+        $id = $_POST['id'];
         $fkd = new ProjectModel;
-        $data =$fkd->loadupdateproject($id);
-      ///var_dump($data);
-        return $this->view('coordinator/projectedit',$data);
-     }
+        $data = $fkd->loadupdateproject($id);
+        return $this->view('coordinator/projectedit', $data);
+    }
 
-     public function updateProject(){
-        $errors=[];
+    public function updateProject(){
+        $errors = [];
         // Retrieve data from POST request
         $id = $_POST['id'];
         $dmp = new ProjectModel;
         $data = $dmp->updateproject($id);
-        
-     }
+    }
 
-     public function deletsup(){
-
-        echo "pass";
-
-
+    public function deletsup(){
         $dat['userid'] = $_POST['supervisor_id'];
         $dat['projectid'] = $_POST['project_id'];
 
-        $df= new ProjectModel;
+        $df = new ProjectModel;
 
-        if($df->deletesup($dat)){
+        if ($df->deletesup($dat)) {
             echo "pass";
-        }else{
+        } else {
             echo "fail";
         }
      
         $fkd = new ProjectModel;
-        $data =$fkd->loadupdateproject($dat['projectid']);
-      ///var_dump($data);
-        return $this->view('coordinator/editproject',$data);
-     }
-
-
-     
+        $data = $fkd->loadupdateproject($dat['projectid']);
+        return $this->view('coordinator/editproject', $data);
+    }
 }

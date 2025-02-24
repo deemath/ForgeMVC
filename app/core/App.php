@@ -43,10 +43,13 @@ class App
 			}	
 		}
 
-		call_user_func_array([$controller,$this->method], $URL);
+		// Debugging: Log the accessed controller and method
+		error_log("Accessing Controller: " . $this->controller);
+		error_log("Accessing Method: " . $this->method);
+		
+		call_user_func_array([$controller, $this->method], $URL);
+
 
 	}	
 
 }
-
-
