@@ -3,7 +3,13 @@ class Announcement{
     use Controller;
 
     public function announcements(){
-        return $this->view('Supervisor/announcement');
+        ///fuction for fetch from data base all the announcements that related to session project_id
+        $project_id = 4;
+        $model = new AnnounceModel;
+        $data = $model->getAnnouncements($project_id);
+
+        return $this->view('Supervisor/announcement',$data);
+
     }
 
     public function makeAnnouncement(){
@@ -41,5 +47,19 @@ class Announcement{
         }
 
     }
+    public function showAnnouncement() {
+        if (!isset($_GET['id'])) {
+            die("Error: No ID provided.");
+        }
+    
+        $id = intval($_GET['id']); // Sanitize input
+        
+    
+        $model = new AnnounceModel;
+        $data = $model->readAnnouncement($id);
+    
+        return $this->view('Supervisor/announceFile', $data);
+    }
+    
 
 }

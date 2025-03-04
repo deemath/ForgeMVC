@@ -66,31 +66,22 @@ require_once 'navigationbar.php'
             <section class="lg:w-1/2">
                 <h2 class="text-xl font-semibold mb-4">Previous Announcements</h2>
                 <div class="space-y-4">
-                    <div class="bg-white p-6 rounded shadow-md">
-                        <h3 class="text-lg font-semibold mb-2">Announcement Title 1</h3>
-                        <p class="text-gray-700 mb-2">This is the content of the first announcement. It contains important information for all users.</p>
-                        <p class="text-gray-500 text-sm">Posted on: 2023-10-01</p>
-                    </div>
-                    <div class="bg-white p-6 rounded shadow-md">
-                        <h3 class="text-lg font-semibold mb-2">Announcement Title 2</h3>
-                        <p class="text-gray-700 mb-2">This is the content of the second announcement. It contains important information for all users.</p>
-                        <p class="text-gray-500 text-sm">Posted on: 2023-09-25</p>
-                    </div>
-                    <div class="bg-white p-6 rounded shadow-md">
-                        <h3 class="text-lg font-semibold mb-2">Announcement Title 3</h3>
-                        <p class="text-gray-700 mb-2">This is the content of the third announcement. It contains important information for all users.</p>
-                        <p class="text-gray-500 text-sm">Posted on: 2023-09-20</p>
-                    </div>
-                    <div class="bg-white p-6 rounded shadow-md">
-                        <h3 class="text-lg font-semibold mb-2">Announcement Title 4</h3>
-                        <p class="text-gray-700 mb-2">This is the content of the fourth announcement. It contains important information for all users.</p>
-                        <p class="text-gray-500 text-sm">Posted on: 2023-09-15</p>
-                    </div>
-                    <div class="bg-white p-6 rounded shadow-md">
-                        <h3 class="text-lg font-semibold mb-2">Announcement Title 5</h3>
-                        <p class="text-gray-700 mb-2">This is the content of the fifth announcement. It contains important information for all users.</p>
-                        <p class="text-gray-500 text-sm">Posted on: 2023-09-10</p>
-                    </div>
+                    <?php if(isset($data['announcements'])): ?>
+                        <?php foreach($data['announcements'] as $announcement):?>
+                            <div class="bg-white p-6 rounded shadow-md">
+                            <a href="showAnnouncement?id=<?= $announcement->id?>">
+                                <h3 class="text-lg font-semibold mb-2"><?= $announcement->title?></h3>
+                                <p class="text-gray-700 mb-2">
+                                    <?= substr($announcement->description, 0, 100) . (strlen($announcement->description) > 100 ? '...' : '') ?>
+                                </p>
+                                <p class="text-gray-500 text-sm">Posted on: <?= $announcement->createdat?></p>
+                                </a>
+                            </div>
+                        <?php endforeach ;?>
+                    <?php endif; ?>
+                   
+                  
+              
                 </div>
             </section>
         </main>
