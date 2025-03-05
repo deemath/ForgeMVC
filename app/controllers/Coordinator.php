@@ -273,7 +273,7 @@ class Coordinator{
         if($_SERVER['REQUEST_METHOD']==='POST'){
             $supervisor_Id = $_POST['add-supervisor'];
 
-            $projectModel = new ProjectModel();
+            $projectModel = new CoordinatorModel();
             $result = $projectModel->addSupervisor($projectId, $supervisor_Id);
 
             if($result){
@@ -297,7 +297,7 @@ class Coordinator{
         if($_SERVER['REQUEST_METHOD']==='POST'){
             $cosupervisor_Id = $_POST['add-cosupervisor'];
 
-            $projectModel = new ProjectModel();
+            $projectModel = new CoordinatorModel();
             $result = $projectModel->addCosupervisor($projectId, $cosupervisor_Id);
 
             if($result){
@@ -321,7 +321,7 @@ class Coordinator{
         if($_SERVER['REQUEST_METHOD']==='POST'){
             $member_Id = $_POST['add-member'];
 
-            $projectModel = new ProjectModel();
+            $projectModel = new CoordinatorModel();
             $result = $projectModel->addMember($projectId, $member_Id);
 
             if($result){

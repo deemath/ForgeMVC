@@ -151,7 +151,38 @@ class CoordinatorModel{
    }
 
    
+   public function addCosupervisor($projectId, $userId){
+    $this->table = '`cosupervisor-project`';
 
+    $data = [
+        'userid' => $userId,
+        'projectid' => $projectId
+    ];
+
+    return $this->insert($data);
+}
+
+public function addSupervisor($projectId, $userId){
+    $this->table = '`supervisor-project`';
+
+    $data = [
+        'userid' => $userId,
+        'projectid' => $projectId
+    ];
+
+    return $this->insert($data);
+}
+
+public function addMember($projectId, $userId){
+    $this->table = '`member-project`';
+
+    $data = [
+        'userid' => $userId,
+        'projectid' => $projectId
+    ];
+
+    return $this->insert($data);
+}
     
         
 
