@@ -107,7 +107,7 @@
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a class="flex items-center text-gray-700" href="#">
+                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Logout/Ask">
                             <i class="fas fa-sign-out-alt mr-3"></i>
                             <span>Logout</span>
                         </a>

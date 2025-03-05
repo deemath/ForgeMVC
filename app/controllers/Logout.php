@@ -7,6 +7,10 @@ class Logout
 {
 	use Controller;
 
+	public function Ask(){
+		$this->view('Supervisor/logout');
+	}
+
 	public function index()
 	{
 
