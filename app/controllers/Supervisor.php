@@ -72,4 +72,5 @@ class Supervisor{
             $this->view('_404'); // Show a 404 view
         }
     }
+    
 }
