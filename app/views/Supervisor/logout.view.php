@@ -118,7 +118,7 @@
         function performLogout() {
             // Add your logout logic here
             alert('Logging out...');
-            window.location.href = '/login';
+            window.location.href = 'http://localhost/testmvc/public/logout';
         }
 
         function cancelLogout() {
