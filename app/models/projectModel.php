@@ -151,5 +151,12 @@ class ProjectModel{
         
     }
 
+    public function loadmembers(){
+        $sql = "SELECT r.role AS userrole , u.name AS username,
+        u.email AS useremail,
+        u.phone AS userphone FROM userrole r JOIN user u ON r.userid=u.id WHERE r.projectid = :projectid";
+        $data['members'] = $this->query($sql, ['projectid' => $_SESSION['project_id']]);
+        return $data;
+    }
     
 }

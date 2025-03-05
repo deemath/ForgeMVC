@@ -65,7 +65,7 @@ class Supervisor{
 
     public function memberlist(){
         $prj = new ProjectModel;
-        $data = $prj->ShowDashboard4($_SESSION['project_id']);
+        $data = $prj->loadmembers();
         if ($data) {
             $this->view('supervisor/memberlist', $data); // Pass data as an array
         } else {
