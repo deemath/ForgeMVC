@@ -238,7 +238,7 @@ class Coordinator{
 
 
     public function removeFromProject() {
-        $cor6 = new ProjectModel();
+        $cor6 = new CoordinatorModel();
         $id = $_POST['supid'];
         $project_id = $_POST['project_id'];
         $user_type = $_POST['user_type'];

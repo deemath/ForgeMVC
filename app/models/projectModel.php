@@ -106,20 +106,6 @@ class ProjectModel{
         return true;
     }
 
-    public function deletesup($data){
-        $sql = 'DELETE FROM `supervisor-project` WHERE projectid = :projectid AND id = :id';
-        return $this->query($sql, ['projectid' => $data['project_id'], 'id' => $data['id']]);
-    }
-
-    public function deletecosup($data){
-        $sql = 'DELETE FROM `cosupervisor-project` WHERE projectid = :projectid AND id = :id';
-        return $this->query($sql, ['projectid' => $data['project_id'], 'id' => $data['id']]);
-    }
-
-    public function deletemem($data){
-        $sql = 'DELETE FROM `member-project` WHERE projectid = :projectid AND id = :id';
-        return $this->query($sql, ['projectid' => $data['project_id'], 'id' => $data['id']]);
-    }
 
     public function loadmembers(){
         $sql = "SELECT r.role AS userrole , u.name AS username,
