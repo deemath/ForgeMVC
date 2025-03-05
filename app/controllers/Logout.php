@@ -16,7 +16,7 @@ class Logout
 
 		if(!empty($_SESSION['USER']))
 			unset($_SESSION['USER']);
-
+			session_unset();
 		redirect('home');
 	}
 
