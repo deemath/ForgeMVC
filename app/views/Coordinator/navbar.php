@@ -122,6 +122,7 @@
             margin: 5px 0;
         }
         .add-project-box {
+            transition: transform 0.3s ease;
             background-color: #1e3a8a;
             color: #fff;
             padding: 15px;
@@ -134,6 +135,7 @@
             cursor: pointer;
         }
         .add-project-box:hover {
+            transform: scale(1.05);
             background-color: #1a2e6b;
         }
         .add-project-box i {
@@ -146,15 +148,19 @@
         }
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
         }
         .project-box {
-            background-color:rgb(95, 159, 255);
+            transition: transform 0.3s ease;
+            background-color:rgb(130, 180, 255);
             padding: 15px;
             box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
             border-radius: 8px;
             text-align: center;
+        }
+        .project-box:hover {
+            transform: scale(1.05);
         }
         .project-box h4 {
             margin: 0;
@@ -203,7 +209,7 @@
     </i>
     Users List
    </a>
-   <a href="#">
+   <a href="<?=ROOT?>/Coordinator/Settings">
     <i class="fas fa-cogs">
     </i>
     Settings

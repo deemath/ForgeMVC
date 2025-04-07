@@ -3,7 +3,19 @@ class Coordinator{
      use Controller;
 
      public function Dashboard(){
-        $this->view('coordinator/dashboard');
+        $coordinatorId = $_SESSION['coordinator_id'];
+
+        $dashboardModel = new CoordinatorModel();
+
+        $data = [
+            'totalProjects' => $dashboardModel->getTotalProjects($coordinatorId),
+            'recentProject' => $dashboardModel->getRecentProject($coordinatorId),
+            'completedProjects' => $dashboardModel->getCompletedProjects($coordinatorId),
+            'ongoingProjects' => $dashboardModel->getOngoingProjects($coordinatorId),
+            'Projects' => $dashboardModel->getAllProjects($coordinatorId)
+        ];
+        
+        $this->view('Coordinator/Dashboard', $data);
      }
 
      public function ShowInvite($data=[]){
@@ -340,7 +352,27 @@ class Coordinator{
             }
         }
     }
-    
+
+    public function dashProjects() {
+        $coordinatorId = $_SESSION['coordinator_id'];
+
+        $dashboardModel = new CoordinatorModel();
+
+        $data = [
+            'totalProjects' => $dashboardModel->getTotalProjects($coordinatorId),
+            'recentProject' => $dashboardModel->getRecentProject($coordinatorId),
+            'completedProjects' => $dashboardModel->getCompletedProjects($coordinatorId),
+            'ongoingProjects' => $dashboardModel->getOngoingProjects($coordinatorId),
+            'Projects' => $dashboardModel->getProjects($coordinatorId)
+        ];
+        
+        $this->view('Coordinator/Dashboard', $data);
+    }
+
+    public function Settings() {
+        $this->view('coordinator/coordSettings');
+    }
     
 
 }
+

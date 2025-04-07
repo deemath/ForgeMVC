@@ -200,6 +200,33 @@ public function deletemem($data){
     return $this->query($sql, ['projectid' => $data['project_id'], 'id' => $data['id']]);
 }
 
+public function getTotalProjects($coordinatorId){
+    $sql = 'SELECT COUNT(*) as total FROM project WHERE coordinatorid = :coordinatorid';
+    $result = $this->query($sql, ['coordinatorid' => $coordinatorId]);
 
-    
+    return isset($result[0]->total) ? (int)$result[0]->total : 0;
 }
+
+public function getRecentProject($coordinatorId){
+    $sql = 'SELECT title FROM project WHERE coordinatorid = :coordinatorid ORDER BY createdat DESC LIMIT 1';
+    $result = $this->query($sql, ['coordinatorid' => $coordinatorId]);
+
+    return $result && isset($result[0]->title) ? $result[0]->title : null;
+}
+
+public function getCompletedProjects($coordinatorId){
+
+}
+
+public function getOngoingProjects($coordinatorId){
+}
+
+public function getAllProjects($coordinatorId){
+    $sql = 'SELECT * FROM project WHERE coordinatorid = :coordinatorid';
+    return $this->query($sql, ['coordinatorid' => $coordinatorId]);
+}
+
+
+
+}
+
