@@ -92,7 +92,7 @@ class task{
     }
 
     public function showdetail(){
-        $id = 4;
+        $id = $_POST['id'];
         $prj = new taskModel;
         $data = $prj->fetchAssign($id);
         if ($data) {

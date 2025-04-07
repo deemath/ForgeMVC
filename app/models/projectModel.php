@@ -114,4 +114,7 @@ class ProjectModel{
         $data['members'] = $this->query($sql, ['projectid' => $_SESSION['project_id']]);
         return $data;
     }
+
+    
 }
+
