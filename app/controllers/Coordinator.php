@@ -135,17 +135,24 @@ class Coordinator{
 
      }
 
-     public function loadupdateproject(){
-        $id=$_POST['id'];
+     public function loadupdateproject($id = null){
+        if(!$id) {
+            $id = $_POST['id'] ?? null;
+        }
+        if(!$id) {
+            $this->view('_404');
+            return;
+        }
+
         $fkd = new ProjectModel;
         $data =$fkd->loadupdateproject($id);
-      ///var_dump($data);
-
-      $corModel = new CoordinatorModel();
-      $data['users'] = $corModel->fetchUsers();
+        
+        $corModel = new CoordinatorModel();
+        $data['users'] = $corModel->fetchUsers();
 
         return $this->view('coordinator/projectedit',$data);
      }
+
 
      public function updateProject(){
         $errors=[];
@@ -185,7 +192,7 @@ class Coordinator{
         
      }
 
-     public function deletsup(){
+     public function deletesup(){
 
         echo "pass";
 
@@ -204,37 +211,136 @@ class Coordinator{
         $fkd = new ProjectModel;
         $data =$fkd->loadupdateproject($dat['projectid']);
       ///var_dump($data);
-        return $this->view('coordinator/editproject',$data);
+        return $this->view('Coordinator/projectedit',$data);
      }
 
      public function addMembersToProject($projectId) {
-        // Get the coordinator ID from the session or request
-        $coordinatorId = $_SESSION['user_id']; // Assuming user_id is stored in session
+        $coordinatorId = $_SESSION['user_id'];
 
-        // Load the model
         $this->loadModel('CoordinatorModel');
         $model = new CoordinatorModel();
 
-        // Retrieve user emails assigned to this coordinator
         $emails = $model->getUserEmailsByCoordinatorId($coordinatorId);
 
-        // Check if form is submitted
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $supervisorEmail = $_POST['supervisor_email'];
-            $memberEmails = $_POST['member_emails']; // Array of member emails
-            $coSupervisorEmail = $_POST['cosupervisor_email'];
+            $supervisorEmail = $_POST['user_email'];
+            $memberEmails = $_POST['user_emails'];
+            $coSupervisorEmail = $_POST['user_email'];
 
-            // Update the project with the selected members
-            $model->updateProjectMembers($projectId, $supervisorEmail, $memberEmails, $coSupervisorEmail);
+            $model->addProjectMembers($projectId, $supervisorEmail, $memberEmails, $coSupervisorEmail);
 
-            // Redirect to the same project list page to refresh the view
             header('Location: /coordinator/projectlist');
             exit;
         }
 
-        // Load the view with the emails
         $this->view('Coordinator/projectlist', ['emails' => $emails]);
     }
 
-     
+
+    public function removeFromProject() {
+        $cor6 = new CoordinatorModel();
+        $id = $_POST['supid'];
+        $project_id = $_POST['project_id'];
+        $user_type = $_POST['user_type'];
+        
+        // Debugging statements
+        error_log("Removing user: ID = $id, Project ID = $project_id, User Type = $user_type");
+
+        $data = ['id' => $id, 'project_id' => $project_id];
+        
+        if ($user_type === 'supervisor') {
+            $result = $cor6->deletesup($data);
+            error_log("Supervisor removal result: " . ($result ? "Success" : "Failure"));
+        } elseif ($user_type === 'cosupervisor') {
+            $result = $cor6->deletecosup($data);
+            error_log("Co-supervisor removal result: " . ($result ? "Success" : "Failure"));
+        } elseif ($user_type === 'member') {
+            $result = $cor6->deletemem($data);
+            error_log("Member removal result: " . ($result ? "Success" : "Failure"));
+        }
+
+        // Redirect to load the updated project edit form
+        echo '<form id="redirectForm" method="post" action="' . ROOT . '/Coordinator/loadupdateproject">
+                <input type="hidden" name="id" value="' . $project_id . '">
+              </form>
+              <script>document.getElementById("redirectForm").submit();</script>';
+        exit;
+    } 
+
+
+
+    public function addSup($projectId){
+        if($_SERVER['REQUEST_METHOD']==='POST'){
+            $supervisor_Id = $_POST['add-supervisor'];
+
+            $projectModel = new CoordinatorModel();
+            $result = $projectModel->addSupervisor($projectId, $supervisor_Id);
+
+            if($result){
+                echo '<form id = "redirectForm" method = "post" action = "' . ROOT . '/coordinator/loadupdateproject">
+                <input type = "hidden" name = "id" value = "' . $projectId . '">
+                </form>
+                <script>document.getElementById("redirectForm").submit();</script>';
+                exit;
+            }else{
+                $_SESSION['error_message'] = 'Failed to add supervisor';
+                echo '<form id = "redirectForm" method = "post" action = "' . ROOT . '/coordinator/loadupdateproject">
+                <input type = "hidden" name = "id" value = "' . $projectId . '">
+                </form>
+                <script>document.getElementById("redirectForm").submit();</script>';
+                exit;
+            }
+        }
+    }
+
+    public function addCosup($projectId){
+        if($_SERVER['REQUEST_METHOD']==='POST'){
+            $cosupervisor_Id = $_POST['add-cosupervisor'];
+
+            $projectModel = new CoordinatorModel();
+            $result = $projectModel->addCosupervisor($projectId, $cosupervisor_Id);
+
+            if($result){
+                echo '<form id = "redirectForm" method = "post" action = "' . ROOT . '/coordinator/loadupdateproject">
+                <input type = "hidden" name = "id" value = "' . $projectId . '">
+                </form>
+                <script>document.getElementById("redirectForm").submit();</script>';
+                exit;
+            }else{
+                $_SESSION['error_message'] = 'Failed to add co-supervisor';
+                echo '<form id = "redirectForm" method = "post" action = "' . ROOT . '/coordinator/loadupdateproject">
+                <input type = "hidden" name = "id" value = "' . $projectId . '">
+                </form>
+                <script>document.getElementById("redirectForm").submit();</script>';
+                exit;
+            }
+        }
+    }
+
+    public function addMem($projectId){
+        if($_SERVER['REQUEST_METHOD']==='POST'){
+            $member_Id = $_POST['add-member'];
+
+            $projectModel = new CoordinatorModel();
+            $result = $projectModel->addMember($projectId, $member_Id);
+
+            if($result){
+                echo '<form id = "redirectForm" method = "post" action = "' . ROOT . '/coordinator/loadupdateproject">
+                <input type = "hidden" name = "id" value = "' . $projectId . '">
+                </form>
+                <script>document.getElementById("redirectForm").submit();</script>';
+                exit;
+            }else{
+                $_SESSION['error_message'] = 'Failed to add member';
+                echo '<form id = "redirectForm" method = "post" action = "' . ROOT . '/coordinator/loadupdateproject">
+                <input type = "hidden" name = "id" value = "' . $projectId . '">
+                </form>
+                <script>document.getElementById("redirectForm").submit();</script>';
+                exit;
+            }
+        }
+    }
+    
+    
+
 }

@@ -150,9 +150,9 @@
             gap: 20px;
         }
         .project-box {
-            background-color: #fff;
+            background-color:rgb(95, 159, 255);
             padding: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
             border-radius: 8px;
             text-align: center;
         }
@@ -166,11 +166,11 @@
         }
         .project-box .date {
             font-size: 10px;
-            color: #888;
+            color: #555;
         }
         .project-box .supervisor {
             font-size: 12px;
-            color: #555;
+            color:rgb(0, 0, 0);
             margin-top: 5px;
         }
   </style>
