@@ -108,19 +108,41 @@
         }
         .stats-box {
             background-color: #fff;
-            padding: 15px;
+            padding: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             border-radius: 8px;
             text-align: center;
+            letter-spacing: 0.3px;
         }
         .stats-box h4 {
             margin: 0;
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #555;
         }
         .stats-box p {
-            font-size: 12px;
-            margin: 5px 0;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 8px 0 0 0;
+            color: #111827;
         }
+        .total-projects-box {
+            background-color: #7fb3d5;
+            color: #000000;
+        }
+        .recent-project-box {
+            background-color: #85c1e9;
+            color: #000000;
+        }
+        .completed-projects-box {
+            background-color: #76d7c4;
+            color: #000000;
+        }   
+        .ongoing-projects-box {
+            background-color: #f7dc6f;
+            color: #000000;
+        }
+
         .add-project-box {
             transition: transform 0.3s ease;
             background-color: #1e3a8a;
@@ -145,40 +167,109 @@
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 20px;
+            margin-top: 80px;
         }
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
         }
         .project-box {
             transition: transform 0.3s ease;
-            background-color:rgb(130, 180, 255);
+            background-color: #dbeafe;
             padding: 15px;
             box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
             border-radius: 8px;
             text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .project-box:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
-        .project-box h4 {
-            margin: 0;
-            font-size: 14px;
+        .project-box h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+            color: #0c4a6e;
         }
         .project-box p {
-            font-size: 12px;
+            font-size: 14px;
             margin: 5px 0;
         }
         .project-box .date {
-            font-size: 10px;
-            color: #555;
+            font-size: 12px;
+            color: #666;
         }
         .project-box .supervisor {
-            font-size: 12px;
-            color:rgb(0, 0, 0);
-            margin-top: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1e3a8a;
+            margin-top: 10px;
         }
+
+        .settings-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .settings-section:hover {
+            transform: scale(1.01);
+        }
+        .settings-title {
+            font-size: 24px;
+            margin-bottom: 30px;
+            margin-top: 80px;
+            color: #1e3a8a;
+            text-align: center;
+        }
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        .settings-section {
+            transition: transform 0.3s ease;
+            background-color: #e6f0ff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        .settings-section h3 {
+            margin-bottom: 15px;
+            color: #1e3a8a;
+        }
+
+        .settings-section label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: 500;
+        }
+
+        .settings-section input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .save-btn {
+            margin-top: 15px;
+            background-color: #1e3a8a;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .save-btn:hover {
+            background-color: #3356c1;
+        }
+
   </style>
  </head>
  <body>

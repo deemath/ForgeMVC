@@ -215,10 +215,17 @@ public function getRecentProject($coordinatorId){
 }
 
 public function getCompletedProjects($coordinatorId){
+    $sql = 'SELECT COUNT(*) as completed FROM project WHERE coordinatorid = :coordinatorid AND enddate < CURDATE()';
+    $result = $this->query($sql, ['coordinatorid' => $coordinatorId]);
 
+    return isset($result[0]->completed) ? (int)$result[0]->completed : 0;
 }
 
 public function getOngoingProjects($coordinatorId){
+    $sql = 'SELECT COUNT(*) as ongoing FROM project WHERE coordinatorid = :coordinatorid AND enddate > CURDATE() AND startdate < CURDATE()';
+    $result = $this->query($sql, ['coordinatorid' => $coordinatorId]);
+
+    return isset($result[0]->ongoing) ? (int)$result[0]->ongoing : 0;
 }
 
 public function getAllProjects($coordinatorId){
@@ -226,7 +233,15 @@ public function getAllProjects($coordinatorId){
     return $this->query($sql, ['coordinatorid' => $coordinatorId]);
 }
 
+public function getCoordInfo($coordinatorId) {
+    $sql = 'SELECT * FROM coordinator WHERE id = :id';
+    return $this->query($sql, ['id' => $coordinatorId]);
+}
 
+public function updateCoord($coordData) {
+    $sql = "UPDATE coordinator SET name = :name, email = :email WHERE id = :id";
+    return $this->query($sql, ['name' => $coordData['name'], 'email' => $coordData['email'], 'id' => $coordData['id']]);
+}
 
 }
 

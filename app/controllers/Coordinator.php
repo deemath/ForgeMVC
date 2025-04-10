@@ -353,25 +353,41 @@ class Coordinator{
         }
     }
 
-    public function dashProjects() {
-        $coordinatorId = $_SESSION['coordinator_id'];
 
-        $dashboardModel = new CoordinatorModel();
-
-        $data = [
-            'totalProjects' => $dashboardModel->getTotalProjects($coordinatorId),
-            'recentProject' => $dashboardModel->getRecentProject($coordinatorId),
-            'completedProjects' => $dashboardModel->getCompletedProjects($coordinatorId),
-            'ongoingProjects' => $dashboardModel->getOngoingProjects($coordinatorId),
-            'Projects' => $dashboardModel->getProjects($coordinatorId)
-        ];
-        
-        $this->view('Coordinator/Dashboard', $data);
-    }
 
     public function Settings() {
-        $this->view('coordinator/coordSettings');
+        $coordinatorId = $_SESSION['coordinator_id'];
+
+        $model = new CoordinatorModel();
+        $data = $model->getCoordInfo($coordinatorId);
+
+        $this->view('coordinator/coordSettings', $data);
     }
+
+    public function updateProfile() {
+        $errors = [];
+        $id = $_POST['id'];
+        $name = $_POST['name'] ?? null;
+        $email = $_POST['email'] ?? null;
+
+        $coordData = [
+            'id' => $id,
+            'name' => $name,
+            'email' => $email
+        ];
+
+        $model = new CoordinatorModel;
+        $status = $model->updateCoord($coordData);
+
+        if($status) {
+            $this->Settings();
+        }else {
+            $errors['errors'] = "Failed to update details.";
+            $this->Settings();
+        }
+    }
+
+        
     
 
 }
