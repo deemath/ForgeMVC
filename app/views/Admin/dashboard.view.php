@@ -12,7 +12,7 @@
             <div class="content">
                 <div class="stats">
                     <div class="stat">
-                        <div class="number">10</div>
+                        <div class="number"><?= $project_count ?></div>
                         <div class="label">Total Projects</div>
                     </div>
                     <div class="stat">
@@ -24,7 +24,7 @@
                         <div class="label">Deactivated Accounts</div>
                     </div>
                     <div class="stat">
-                        <div class="number">50</div>
+                        <div class="number"><?= $total_users ?></div>
                         <div class="label">Total Registered Users</div>
                     </div>
                     <a href="<?=ROOT?>/Admin/registerView">
@@ -73,31 +73,26 @@
             </div>
 
             <div class="coordinators">
-            <div class="title">Project Coordinators</div>
+             <div class="title">Project Coordinators</div>
 
             <?php if (!empty($data)) : ?>
             <?php foreach ($data['coordinators'] as $coordinator): ?>
-                <div class="coordinator">
-                        <div class="avatar">
-                            <?php if (!empty($coordinator->image)): ?>
-                                <img src="data:image/jpeg;base64,<?= base64_encode($coordinator->image) ?>" alt="<?= htmlspecialchars($coordinator->name) ?>" />
-                            <?php else: ?>
-                                <img src="default-avatar.png" alt="Default Avatar" />
-                            <?php endif; ?>
-                        </div>
-                        <div class="info">
-                            <div class="name"><?= htmlspecialchars($coordinator->name) ?></div>
-                            <div class="email"><?= htmlspecialchars($coordinator->email) ?></div>
-                        </div>
-                </div>
-                    
+                <a href="<?= ROOT ?>/Admin/profilecard/<?= $coordinator->id ?>" class="coordinator">
+                            <div class="avatar">
+                                <?php if (!empty($coordinator->image)): ?>
+                                    <img src="data:image/jpeg;base64,<?= base64_encode($coordinator->image) ?>" alt="<?= htmlspecialchars($coordinator->name) ?>" />
+                                <?php else: ?>
+                                    <img src="default-avatar.png" alt="Default Avatar" />
+                                <?php endif; ?>
+                            </div>
+                            <div class="info">
+                                <div class="name"><?= htmlspecialchars($coordinator->name) ?></div>
+                                <div class="email"><?= htmlspecialchars($coordinator->email) ?></div>
+                            </div>
+                 </a>   
             <?php endforeach; ?>
 
             <?php endif; ?>
-
-               
-                
-            </div>
         </div>
     </div>
 </body>

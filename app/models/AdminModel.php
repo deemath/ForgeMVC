@@ -133,4 +133,27 @@ class AdminModel{
 
     }
 
+    public function getProjectCount() {
+        $this->table = 'project';
+        // return $this->count();
+        $query = "SELECT COUNT(*) as count FROM project";
+        $result = $this->query($query);
+        return $result[0]->count;
+    }
+
+    public function getTotalRegisteredUsers() {
+        // Count users from 'users' table
+        $query1 = "SELECT COUNT(*) as count FROM user";
+        $result1 = $this->query($query1);
+        $usersCount = !empty($result1) ? $result1[0]->count : 0;
+        
+        // Count coordinators from 'coordinators' table
+        $query2 = "SELECT COUNT(*) as count FROM coordinator";
+        $result2 = $this->query($query2);
+        $coordinatorsCount = !empty($result2) ? $result2[0]->count : 0;
+        
+        // Return the sum
+        return $usersCount + $coordinatorsCount;
+    }
+
 }

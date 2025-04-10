@@ -55,6 +55,8 @@ class Admin{
             //fecting moast recent 10 projects
             $admin1 = new AdminModel;
             $data = $admin1->Dashboard();
+            $data['project_count'] = $admin1->getProjectCount();
+            $data['total_users'] = $admin1->getTotalRegisteredUsers();
             $this->view('Admin/dashboard',$data);
         }else{
             $this->view('_404');
@@ -166,6 +168,10 @@ class Admin{
         $this->view('_404');
     }
         $this->projectlist();
+    }
+
+    public function profilecard(){
+        return $this->view(name:'Admin/profilecard');
     }
 
 }
