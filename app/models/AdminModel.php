@@ -156,4 +156,55 @@ class AdminModel{
         return $usersCount + $coordinatorsCount;
     }
 
+    public function getProjectById($id) {
+        $this->table = 'project';
+        $query = "SELECT * FROM $this->table WHERE id = :id LIMIT 1";
+        $result = $this->query($query, array(':id' => $id));
+        // $result = $this->project->query($query, ['id' => $id]);
+        
+        if(!empty($result)) {
+            return $result[0];
+        }
+        
+        return false;
+    }
+
+    public function updateProject($id, $data) {
+        $this->table = 'project';
+        
+        // Create SET part of SQL query
+        $setValues = [];
+        foreach($data as $key => $value) {
+            $setValues[] = "$key = :$key";
+        }
+        
+        $setClause = implode(', ', $setValues);
+        
+        // Create SQL query
+        $query = "UPDATE $this->table SET $setClause WHERE id = :id";
+        
+        // Add ID to data array
+        $data['id'] = $id;
+        
+        // Execute query
+        return $this->query($query, $data);
+    }
+    
+    
+
+    public function getCoordinatorById($id) {
+        $this->table = 'coordinator';
+        $query = "SELECT * FROM $this->table WHERE id = :id LIMIT 1";
+        $result = $this->query($query, array(':id' => $id));
+        // $result = $this->project->query($query, ['id' => $id]);
+        // $result = $this->project->query($query, ['id' => $id]);
+        
+        if(!empty($result)) {
+            return $result[0];
+        }
+        
+        return false;
+    }
+
+
 }

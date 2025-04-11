@@ -83,6 +83,7 @@
 </head>
 <body>
     <div class="container">
+   
         <div class="header">
             <div class="profile">
                 <img src="https://placehold.co/100x100" alt="Profile picture placeholder" width="100" height="100">
