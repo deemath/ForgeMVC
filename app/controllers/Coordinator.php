@@ -387,6 +387,30 @@ class Coordinator{
         }
     }
 
+    public function updatePassword() {
+        if($_SERVER['REQUEST_METHOD']==='POST') {
+            $currentPassword = $_POST['currentPassword'];
+            $newPassword = $_POST['newPassword'];
+            $confirmPassword = $_POST['confirmPassword'];
+
+            $modelpwd = new CoordinatorModel();
+            $message = $modelpwd->changePassword($currentPassword, $newPassword, $confirmPassword);
+
+            $_SESSION['flash'] = [
+                'type' => str_starts_with($message, 'Password updated') ? 'success' : 'error',
+                'message' => $message
+            ];
+    
+            $coordinatorId = $_SESSION['coordinator_id'];
+            $model = new CoordinatorModel();
+            $data = $model->getCoordInfo($coordinatorId);
+
+            $data['flash'] = $_SESSION['flash'];
+            $this->view('coordinator/coordSettings', $data);
+            //$this->view('coordinator/coordSettings', ['data'=>$data, 'flash'=>$_SESSION['flash']]);
+            unset($_SESSION['flash']);
+        }
+    }
         
     
 

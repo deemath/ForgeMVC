@@ -1,5 +1,16 @@
 <?php require_once 'navbar.php'; ?>
 
+<?php if (!empty($flash)): ?>
+    <div class="flash-message <?= htmlspecialchars($flash['type']) ?>">
+        <?= htmlspecialchars($flash['message']) ?>
+    </div>
+<?php elseif (!empty($_SESSION['flash'])): ?>
+    <div class="flash-message <?= htmlspecialchars($_SESSION['flash']['type']) ?>">
+        <?= htmlspecialchars($_SESSION['flash']['message']) ?>
+    </div>
+    <?php unset($_SESSION['flash']); ?>
+<?php endif; ?>
+
 <div class="settings-container">
     <h2 class="settings-title">Settings</h2>
     <div class="settings-grid">
@@ -19,16 +30,20 @@
 
         <div class="settings-section">
             <h3>Change Password</h3>
-            <label for="currentPassword">Current Password</label>
-            <input type="password" id="currentPassword" />
+            <form method="POST" action="<?=ROOT?>/Coordinator/updatePassword">
+                <input type="hidden" name="id" value="<?= $_SESSION['coordinator_id'] ?>">
 
-            <label for="newPassword">New Password</label>
-            <input type="password" id="newPassword" />
+                <label for="currentPassword">Current Password</label>
+                <input type="password" id="currentPassword" name="currentPassword"/>
 
-            <label for="confirmPassword">Confirm New Password</label>
-            <input type="password" id="confirmPassword" />
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" name="newPassword"/>
 
-            <button class="save-btn">Update Password</button>
+                <label for="confirmPassword">Confirm New Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword"/>
+
+                <button class="save-btn">Update Password</button>
+            </form>
         </div>  
     </div>
 </div>

@@ -243,5 +243,45 @@ public function updateCoord($coordData) {
     return $this->query($sql, ['name' => $coordData['name'], 'email' => $coordData['email'], 'id' => $coordData['id']]);
 }
 
+public function changePassword($currentPassword, $newPassword, $confirmPassword) {
+    if (!isset($_SESSION['coordinator_id'])) {
+        return "User not logged in.";
+    }
+
+    $userId = $_SESSION['coordinator_id'];
+
+    $query = "SELECT password FROM coordinator WHERE id = :id";
+    $result = $this->query($query, ['id' => $userId]);
+
+    if (!$result || !isset($result[0])) {
+        return "User not found.";
+    }
+
+    $user = $result[0];
+
+    if($currentPassword !== $user->password) {
+        return "Current password is incorrect.";
+    }
+    if ($newPassword !== $confirmPassword) {
+        return "New password and confirmation do not match.";
+    }
+    if (strlen($newPassword) < 8) {
+        return "New password must be at least 8 characters long.";
+    }
+//$newPasswordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+    $query = "UPDATE coordinator SET password = :password WHERE id = :id";
+    $updateResult = $this->query($query, [
+        'password' => $newPassword, 
+        'id' => $userId
+    ]);
+
+    if($updateResult) {
+        return "Password updated successfully.";
+    }else{
+        return "Failed to update password.";
+    }
+
+}
+
 }
 
