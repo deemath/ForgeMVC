@@ -405,10 +405,10 @@ class Coordinator{
             $model = new CoordinatorModel();
             $data = $model->getCoordInfo($coordinatorId);
 
-            $data['flash'] = $_SESSION['flash'];
+            //$data['flash'] = $_SESSION['flash'];
             $this->view('coordinator/coordSettings', $data);
-            //$this->view('coordinator/coordSettings', ['data'=>$data, 'flash'=>$_SESSION['flash']]);
-            unset($_SESSION['flash']);
+           // $this->view('coordinator/coordSettings', ['data'=>$data, 'flash'=>$_SESSION['flash']]);
+            //unset($_SESSION['flash']);
         }
     }
         

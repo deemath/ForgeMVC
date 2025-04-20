@@ -275,11 +275,8 @@ public function changePassword($currentPassword, $newPassword, $confirmPassword)
         'id' => $userId
     ]);
 
-    if($updateResult) {
-        return "Password updated successfully.";
-    }else{
-        return "Failed to update password.";
-    }
+    return "Password updated successfully.";
+
 
 }
 

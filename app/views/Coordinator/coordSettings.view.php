@@ -1,15 +1,6 @@
 <?php require_once 'navbar.php'; ?>
 
-<?php if (!empty($flash)): ?>
-    <div class="flash-message <?= htmlspecialchars($flash['type']) ?>">
-        <?= htmlspecialchars($flash['message']) ?>
-    </div>
-<?php elseif (!empty($_SESSION['flash'])): ?>
-    <div class="flash-message <?= htmlspecialchars($_SESSION['flash']['type']) ?>">
-        <?= htmlspecialchars($_SESSION['flash']['message']) ?>
-    </div>
-    <?php unset($_SESSION['flash']); ?>
-<?php endif; ?>
+
 
 <div class="settings-container">
     <h2 class="settings-title">Settings</h2>
@@ -27,6 +18,17 @@
                 <button class="save-btn">Save Changes</button>
             </form>
         </div>
+
+        <?php if (!empty($flash)): ?>
+    <div class="flash-message <?= htmlspecialchars($flash['type']) ?>">
+        <?= htmlspecialchars($flash['message']) ?>
+    </div>
+<?php elseif (!empty($_SESSION['flash'])): ?>
+    <div class="flash-message <?= htmlspecialchars($_SESSION['flash']['type']) ?>">
+        <?= htmlspecialchars($_SESSION['flash']['message']) ?>
+    </div>
+    <?php unset($_SESSION['flash']); ?>
+<?php endif; ?>
 
         <div class="settings-section">
             <h3>Change Password</h3>
@@ -47,6 +49,17 @@
         </div>  
     </div>
 </div>
+
+<script>
+    setTimeout(() => {
+        const flash = document.querySelector('.flash-message');
+        if (flash) {
+            flash.classList.add('fade-out');
+            setTimeout(() => flash.remove(), 1000);
+        }
+    }, 2000);
+</script>
+
 </body>
 </html>
 
