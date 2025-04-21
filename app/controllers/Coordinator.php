@@ -412,7 +412,15 @@ class Coordinator{
         }
     }
         
-    
+
+    public function logout() {
+        session_start();
+        session_unset();
+        session_destroy();
+
+        header("Location: " . ROOT . "/home");
+        exit();
+    }
 
 }
 

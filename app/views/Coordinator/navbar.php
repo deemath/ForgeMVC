@@ -51,14 +51,26 @@
             font-size: 18px;
         }
         .sidebar a {
-            color: #333;
+            color: #1e3a8a;
             text-decoration: none;
             margin: 10px 0;
             font-size: 16px;
             display: flex;
             align-items: center;
             width: 100%;
-            padding-left: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 8px 10px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .sidebar a:hover {
+            background-color: #e0e7ff;
+            color: #1a237e;
+            transform: translateX(5px);
+        }
+        .sidebar a.active {
+            background-color: #1e3a8a;
+            color: #ffffff;
         }
         .sidebar a i {
             margin-right: 10px;
@@ -209,96 +221,86 @@
             color: #1e3a8a;
             margin-top: 10px;
         }
-
-        .settings-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .settings-section:hover {
-            transform: scale(1.01);
-        }
-        .settings-title {
-            font-size: 24px;
-            margin-bottom: 30px;
-            margin-top: 80px;
+        .forge-logo-text {
+            font-size: 20px;
+            font-weight: bold;
             color: #1e3a8a;
-            text-align: center;
+            margin-left: 8px;
         }
-        .settings-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-        }
-        .settings-section {
-            transition: transform 0.3s ease;
-            background-color: #e6f0ff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-        }
-        .settings-section h3 {
-            margin-bottom: 15px;
-            color: #1e3a8a;
-        }
-
-        .settings-section label {
-            display: block;
-            margin: 10px 0 5px;
-            font-weight: 500;
-        }
-
-        .settings-section input {
+        /* Modal Background */
+        .logout-modal {
+            display: none; /* Initially hidden */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
             width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
         }
 
-        .save-btn {
-            margin-top: 15px;
+        /* Modal Content */
+        .logout-modal .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Close button */
+        .logout-modal .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+
+        /* Confirm Button */
+        .confirm-logout-btn {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .confirm-logout-btn:hover {
+            background-color: #c9302c;
+        }
+
+        /* Cancel Button */
+        .cancel-logout-btn {
             background-color: #1e3a8a;
             color: white;
-            padding: 10px 16px;
             border: none;
-            border-radius: 8px;
+            padding: 10px 18px;
+            margin: 10px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            font-size: 16px;
         }
 
-        .save-btn:hover {
-            background-color: #3356c1;
+        .cancel-logout-btn:hover {
+            background-color: #31b0d5;
         }
 
-        .flash-message {
-            padding: 12px 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            animation: fadein 0.5s ease-in-out;
-            position: relative;
-            z-index: 999;
-        }
-        .flash-message.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
         }
 
-        .flash-message.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        @keyframes fadeout {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-
-        .fade-out {
-            animation: fadeout 1s forwards;
-        }
 
   </style>
  </head>
@@ -306,7 +308,7 @@
   <div class="sidebar">
    <div class="logo">
     <img alt="Forge logo" height="40" src="https://storage.googleapis.com/a1aa/image/oPXahoEIfrXbMakgkCnnEQeQO8f0fsx8xOnKAyTVmnfOecf6JA.jpg" width="40"/>
-    <span class="ml-2 text-xl font-bold text-blue-900">
+    <span class="forge-logo-text">
      FORGE
     </span>
    </div>
@@ -335,7 +337,7 @@
     </i>
     Settings
    </a>
-   <a href="#">
+   <a href="javascript:void(0)" onclick="openLogoutModal()">
     <i class="fas fa-sign-out-alt">
     </i>
     Logout
@@ -353,3 +355,26 @@
      </span>
     </div>
    </div>
+
+    <div class="logout-modal" id="logoutModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLogoutModal()">&times;</span>
+            <h2>Are you sure you want to logout?</h2>
+            <button class="confirm-logout-btn" onclick="confirmLogout()">Yes</button>
+            <button class="cancel-logout-btn" onclick="closeLogoutModal()">No</button>
+        </div>
+    </div>
+
+    <script>
+    function openLogoutModal() {
+        document.getElementById("logoutModal").style.display = "block";
+    }
+
+    function closeLogoutModal() {
+        document.getElementById("logoutModal").style.display = "none";
+    }
+
+    function confirmLogout() {
+        window.location.href = "<?=ROOT?>/coordinator/logout";
+    }
+</script>
