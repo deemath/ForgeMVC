@@ -349,7 +349,7 @@
      Coordinator Dashboard
     </h1>
     <div class="user-info">
-     <img alt="Profile picture of the user" height="40" src="https://storage.googleapis.com/a1aa/image/3atmTVEpQP7bERKmtzfVwkURkFdLuWHzfy9ifAfp28O7O3XPB.jpg" width="40"/>
+     <img alt="Profile Picture" height="40" src="<?= isset($_SESSION['coordinator_image']) ? ROOT . '/' . $_SESSION['coordinator_image'] : ROOT . '/public/assets/images/prof.jpg' ?>" width="40"/>
      <span>
       <?=$_SESSION['coordinator_id']?>
      </span>

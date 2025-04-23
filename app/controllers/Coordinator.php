@@ -369,11 +369,30 @@ class Coordinator{
         $id = $_POST['id'];
         $name = $_POST['name'] ?? null;
         $email = $_POST['email'] ?? null;
+        $imagePath = null;
+
+        if(!empty($_FILES['image']['name'])) {
+            $imageName = uniqid() . '_' . basename($_FILES['image']['name']);
+            $targetDir = "upload/profile_images/";
+            $targetFile = $targetDir . $imageName;
+
+            if(!is_dir($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+
+            if(move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+                $imagePath = $targetFile;
+                $_SESSION['coordinator_image'] = $imagePath;
+            } else {
+                $errors['image'] = "Failed to upload image.";
+            }
+        }
 
         $coordData = [
             'id' => $id,
             'name' => $name,
-            'email' => $email
+            'email' => $email,
+            'image' => $imagePath
         ];
 
         $model = new CoordinatorModel;
@@ -421,6 +440,7 @@ class Coordinator{
         header("Location: " . ROOT . "/home");
         exit();
     }
+    
 
 }
 
