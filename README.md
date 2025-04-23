@@ -20,3 +20,9 @@ status of progress tasks
     4 - terminated
     5 - overdue
 
+status of flags
+
+    1 -  important
+    2 -  revise
+    3 -  good
+    4 -  urgent
