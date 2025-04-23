@@ -71,7 +71,7 @@
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a class="flex items-center text-gray-700" href="#">
+                        <a class="flex items-center text-gray-700" href="<?=ROOT?>/Supervisor/showcalender">
                             <i class="fas fa-calendar-alt mr-3"></i>
                             <span>Calendar</span>
                         </a>

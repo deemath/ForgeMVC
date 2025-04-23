@@ -117,8 +117,68 @@ class task{
             $this->view('_404');
         }
     }
-    public function edit(){
+    public function edit($tempid=""){
+        
+        if(!empty($_POST["id"])){
+            $id = $_POST["id"];
+        }else{
+            $id = $tempid;
+        }
+        
+        
+        // echo $id;
+        $prj = new taskModel;
+        $data = $prj->fetchAssign($id);
+        if ($data) {
+            $this->view('supervisor/edittask', $data); // Pass data as an array
+        }
+       
         return $this->view('supervisor/edittask');
+    }
+
+
+
+    public function editDescription(){
+        if(!empty($_SESSION["project_id"])){
+            $data["projectid"] = $_SESSION["project_id"];
+            $data["taskid"] = $_POST['taskid'];
+            $data["newDescription"] =  $_POST['description'];
+            $prj = new taskModel;
+            
+            $status = $prj->updateDes($data);
+    
+            if($status){
+                
+               $this->edit($_POST['taskid']);
+              
+            }
+
+            
+
+        }
+        else{
+            $this->view("_404");
+        }
+    }
+
+    public function editTitle(){
+        if(!empty($_SESSION["project_id"])){
+            $data["projectid"] = $_SESSION["project_id"];
+            $data["taskid"] = $_POST['taskid'];
+            $data["newtitle"] =  $_POST['title'];
+            $prj = new taskModel;
+            $status = $prj->updateTitle($data);
+            if($status){
+                
+               $this->edit($_POST['taskid']);
+            }
+
+            echo "set na";
+
+        }
+        else{
+            $this->view("_404");
+        }
     }
 
 

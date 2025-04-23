@@ -47,6 +47,7 @@ body {
 .message {
     display: flex;
     align-items: center;
+    
     margin-bottom: 20px;
     position: relative;
     width: auto;
@@ -66,7 +67,10 @@ body {
     font-size: 14px;
     color: #555;
     text-align: center;
-    margin-top: 5px;
+    margin-top: 0px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+
     position: absolute;
     top: 60px;
     width: 100%;
@@ -126,7 +130,9 @@ body {
     max-width: 100%;
 }
 
-
+.content {
+    margin: 10px;
+}
 .members .member {
     display: flex;
     align-items: center;
