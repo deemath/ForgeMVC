@@ -3,21 +3,21 @@
 
    <div class="dashboard-content">
       <div class="stats-grid">
-         <div class="stats-box">
+         <div class="stats-box total-projects-box">
             <h4>Total Projects</h4>
             <p><?= isset($totalProjects) ? $totalProjects : '0' ?></p>
          </div>
-         <div class="stats-box">
+         <div class="stats-box recent-project-box">
             <h4>Recent Project</h4>
             <p><?= $recentProject ?? 'No Projects'; ?></p>
          </div>
-         <div class="stats-box">
+         <div class="stats-box completed-projects-box">
             <h4>Completed Projects</h4>
-            <p>5</p>
+            <p><?= isset($completedProjects) ? $completedProjects : '0' ?></p>
          </div>
-         <div class="stats-box">
+         <div class="stats-box ongoing-projects-box">
             <h4>Ongoing Projects</h4>
-            <p>5</p>
+            <p><?= isset($ongoingProjects) ? $ongoingProjects : '0' ?></p>
          </div>
          <div class="add-project-box">
             <a href="<?=ROOT?>/coordinator/createprojectForm" >

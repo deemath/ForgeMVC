@@ -51,14 +51,26 @@
             font-size: 18px;
         }
         .sidebar a {
-            color: #333;
+            color: #1e3a8a;
             text-decoration: none;
             margin: 10px 0;
             font-size: 16px;
             display: flex;
             align-items: center;
             width: 100%;
-            padding-left: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 8px 10px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .sidebar a:hover {
+            background-color: #e0e7ff;
+            color: #1a237e;
+            transform: translateX(5px);
+        }
+        .sidebar a.active {
+            background-color: #1e3a8a;
+            color: #ffffff;
         }
         .sidebar a i {
             margin-right: 10px;
@@ -108,19 +120,41 @@
         }
         .stats-box {
             background-color: #fff;
-            padding: 15px;
+            padding: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             border-radius: 8px;
             text-align: center;
+            letter-spacing: 0.3px;
         }
         .stats-box h4 {
             margin: 0;
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #555;
         }
         .stats-box p {
-            font-size: 12px;
-            margin: 5px 0;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 8px 0 0 0;
+            color: #111827;
         }
+        .total-projects-box {
+            background-color: #7fb3d5;
+            color: #000000;
+        }
+        .recent-project-box {
+            background-color: #85c1e9;
+            color: #000000;
+        }
+        .completed-projects-box {
+            background-color: #76d7c4;
+            color: #000000;
+        }   
+        .ongoing-projects-box {
+            background-color: #f7dc6f;
+            color: #000000;
+        }
+
         .add-project-box {
             transition: transform 0.3s ease;
             background-color: #1e3a8a;
@@ -145,47 +179,136 @@
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 20px;
+            margin-top: 80px;
         }
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
         }
         .project-box {
             transition: transform 0.3s ease;
-            background-color:rgb(130, 180, 255);
+            background-color: #dbeafe;
             padding: 15px;
             box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
             border-radius: 8px;
             text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .project-box:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
-        .project-box h4 {
-            margin: 0;
-            font-size: 14px;
+        .project-box h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+            color: #0c4a6e;
         }
         .project-box p {
-            font-size: 12px;
+            font-size: 14px;
             margin: 5px 0;
         }
         .project-box .date {
-            font-size: 10px;
-            color: #555;
+            font-size: 12px;
+            color: #666;
         }
         .project-box .supervisor {
-            font-size: 12px;
-            color:rgb(0, 0, 0);
-            margin-top: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1e3a8a;
+            margin-top: 10px;
         }
+        .forge-logo-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-left: 8px;
+        }
+        /* Modal Background */
+        .logout-modal {
+            display: none; /* Initially hidden */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        /* Modal Content */
+        .logout-modal .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Close button */
+        .logout-modal .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+
+        /* Confirm Button */
+        .confirm-logout-btn {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .confirm-logout-btn:hover {
+            background-color: #c9302c;
+        }
+
+        /* Cancel Button */
+        .cancel-logout-btn {
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .cancel-logout-btn:hover {
+            background-color: #31b0d5;
+        }
+
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+
   </style>
  </head>
  <body>
   <div class="sidebar">
    <div class="logo">
     <img alt="Forge logo" height="40" src="https://storage.googleapis.com/a1aa/image/oPXahoEIfrXbMakgkCnnEQeQO8f0fsx8xOnKAyTVmnfOecf6JA.jpg" width="40"/>
-    <span class="ml-2 text-xl font-bold text-blue-900">
+    <span class="forge-logo-text">
      FORGE
     </span>
    </div>
@@ -214,7 +337,7 @@
     </i>
     Settings
    </a>
-   <a href="#">
+   <a href="javascript:void(0)" onclick="openLogoutModal()">
     <i class="fas fa-sign-out-alt">
     </i>
     Logout
@@ -232,3 +355,26 @@
      </span>
     </div>
    </div>
+
+    <div class="logout-modal" id="logoutModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLogoutModal()">&times;</span>
+            <h2>Are you sure you want to logout?</h2>
+            <button class="confirm-logout-btn" onclick="confirmLogout()">Yes</button>
+            <button class="cancel-logout-btn" onclick="closeLogoutModal()">No</button>
+        </div>
+    </div>
+
+    <script>
+    function openLogoutModal() {
+        document.getElementById("logoutModal").style.display = "block";
+    }
+
+    function closeLogoutModal() {
+        document.getElementById("logoutModal").style.display = "none";
+    }
+
+    function confirmLogout() {
+        window.location.href = "<?=ROOT?>/coordinator/logout";
+    }
+</script>

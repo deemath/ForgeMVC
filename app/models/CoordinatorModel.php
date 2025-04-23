@@ -215,10 +215,17 @@ public function getRecentProject($coordinatorId){
 }
 
 public function getCompletedProjects($coordinatorId){
+    $sql = 'SELECT COUNT(*) as completed FROM project WHERE coordinatorid = :coordinatorid AND enddate < CURDATE()';
+    $result = $this->query($sql, ['coordinatorid' => $coordinatorId]);
 
+    return isset($result[0]->completed) ? (int)$result[0]->completed : 0;
 }
 
 public function getOngoingProjects($coordinatorId){
+    $sql = 'SELECT COUNT(*) as ongoing FROM project WHERE coordinatorid = :coordinatorid AND enddate > CURDATE() AND startdate < CURDATE()';
+    $result = $this->query($sql, ['coordinatorid' => $coordinatorId]);
+
+    return isset($result[0]->ongoing) ? (int)$result[0]->ongoing : 0;
 }
 
 public function getAllProjects($coordinatorId){
@@ -226,7 +233,52 @@ public function getAllProjects($coordinatorId){
     return $this->query($sql, ['coordinatorid' => $coordinatorId]);
 }
 
+public function getCoordInfo($coordinatorId) {
+    $sql = 'SELECT * FROM coordinator WHERE id = :id';
+    return $this->query($sql, ['id' => $coordinatorId]);
+}
 
+public function updateCoord($coordData) {
+    $sql = "UPDATE coordinator SET name = :name, email = :email WHERE id = :id";
+    return $this->query($sql, ['name' => $coordData['name'], 'email' => $coordData['email'], 'id' => $coordData['id']]);
+}
+
+public function changePassword($currentPassword, $newPassword, $confirmPassword) {
+    if (!isset($_SESSION['coordinator_id'])) {
+        return "User not logged in.";
+    }
+
+    $userId = $_SESSION['coordinator_id'];
+
+    $query = "SELECT password FROM coordinator WHERE id = :id";
+    $result = $this->query($query, ['id' => $userId]);
+
+    if (!$result || !isset($result[0])) {
+        return "User not found.";
+    }
+
+    $user = $result[0];
+
+    if($currentPassword !== $user->password) {
+        return "Current password is incorrect.";
+    }
+    if ($newPassword !== $confirmPassword) {
+        return "New password and confirmation do not match.";
+    }
+    if (strlen($newPassword) < 8) {
+        return "New password must be at least 8 characters long.";
+    }
+//$newPasswordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+    $query = "UPDATE coordinator SET password = :password WHERE id = :id";
+    $updateResult = $this->query($query, [
+        'password' => $newPassword, 
+        'id' => $userId
+    ]);
+
+    return "Password updated successfully.";
+
+
+}
 
 }
 

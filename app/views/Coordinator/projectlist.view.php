@@ -43,7 +43,11 @@
         }
         .prj-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: seperate;
+            border-spacing: 0;
+            border-radius: 12px;
+            oveerflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             background-color: #fff;
         }
         .prj-th, .prj-td {
@@ -55,6 +59,9 @@
             background-color: #f2f2f2;
             font-weight: 500;
         }
+        .prj-tr:hover {
+            background-color: #eaf3ff;
+        }
         .prj-tr:nth-child(even) {
             background-color: #f9f9f9;
         }
@@ -63,19 +70,28 @@
             gap: 10px;
         }
         .prj-action-buttons button {
-            padding: 8px 12px;
+            padding: 8px 14px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
+            font-weight: 500;
             cursor: pointer;
             font-size: 14px;
+            transition: background 0.2s ease;
         }
         .prj-edit-btn {
-            background-color: #007BFF;
+            background-color: #17a2b8;
             color: white;
         }
         .prj-remove-btn {
-            background-color: #f44336;
+            background-color: #dc3545;
             color: white;
+        }
+        .prj-edit-btn:hover {
+            background-color: #138496;
+        }
+
+        .prj-remove-btn:hover {
+            background-color: #c82333;
         }
         .prj-modal {
             display: none;
@@ -95,7 +111,8 @@
             border: 1px solid #888;
             width: 80%;
             max-width: 500px;
-            border-radius: 4px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border-radius: 8px;
             text-align: left;
         }
         .prj-modal-content p {
@@ -140,6 +157,15 @@
             background-color: #4CAF50;
             color: white;
         }
+        input[type="text"],
+        input[type="date"],
+        input[type="number"] {
+            border-radius: 6px;
+            background-color: #fafafa;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
     </style>
 </head>
 <body>
