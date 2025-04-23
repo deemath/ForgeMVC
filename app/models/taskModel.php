@@ -133,5 +133,32 @@ class taskModel{
         $this->table='task';
         return $this->delete($id);
     }
+
+
+
+    // task updating models
+
+    public function updateDes($data){
+        $this->table = "task";
+        // $dataset['description'] = "set nna";
+        $dataset['description'] = $data["newDescription"];
+        if(!$this->update($data['taskid'],$dataset)){
+            
+            return true;
+        }
+        return false;
+
+    }
+
+    public function updateTitle($data){
+        $this->table = "task";
+        $dataset['title'] = $data["newtitle"];
+        if(!$this->update($data['taskid'],$dataset)){
+            
+            return true;
+        }
+        return false;
+
+    }
     
 }

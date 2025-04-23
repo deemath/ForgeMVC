@@ -73,4 +73,7 @@ class Supervisor{
         }
     }
     
+    public function showCalender(){
+        $this->view('supervisor/calender');
+    }
 }
