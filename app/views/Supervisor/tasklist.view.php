@@ -131,10 +131,14 @@ require_once 'navigationbar.php'
                         </tr>
                         </thead>
                         <tbody>
+                        <!-- <pre>
+                            <php print_r($data) ?>
+                        </pre> -->
 
                         <?php if($data['tasks']) : ?>
-                            
+                            <?php $maincount =0;?>
                             <?php foreach($data['tasks'] as $task) : ?>
+                                    <?php $maincount++;?>
 
                                     <?php foreach($data['creators'] as $creator) : ?>
                                     <?php if($creator->id == $task->id) : ?>
@@ -145,7 +149,7 @@ require_once 'navigationbar.php'
                                     <form action="<?=ROOT?>/task/showdetail" method="post">
                                     <input type="hidden" name="id" value="<?=$task->id?>">
 
-                                    <td class="py-2 px-4 border-b"><?=$task->no?> </td>
+                                    <td class="py-2 px-4 border-b"><?=$maincount?> </td>
                                     <td class="py-2 px-4 border-b font-bold"><?=$task->title?></td>
                                     <td class="py-2 px-4 border-b"><?= htmlspecialchars(substr($task->description, 0, 30)) . (strlen($task->description) > 200 ? ' ...' : '') ?></td>
                                     <td class="py-2 px-4 border-b flex justify-center items-center">
@@ -178,14 +182,15 @@ require_once 'navigationbar.php'
                                 </tr>
                                 
                                 <?php if($data['subtasks']) : ?>
+                                <?php $count= 0;?>
                                 <?php foreach($data['subtasks'] as $subtask) : ?>
-                                    <?php if($subtask->projectid == $task->id) : ?>
-                                    
+                                    <?php if($subtask->taskid == $task->id) : ?>
+                                    <?php $count++;?>
                                      <tr class="task-row" 
                     
                                             data-task-subtasks='<?= json_encode($task->subtasks)?:'' ?>'
                                         >
-                                            <td class="py-2 px-8 border-b"><?=$task->no?>.<?=$subtask->id?></td>
+                                            <td class="py-2 px-8 border-b"><?=$task->no?>.<?=$count?></td>
                                             <td class="py-2 px-8 border-b "><?=$subtask->title?></td>
                                             <td class="py-2 px-8 border-b"><?= htmlspecialchars(substr($subtask->description, 0, 30)) . (strlen($subtask->description) > 200 ? ' ...' : '') ?></td>
                                             <td class="py-2 px-8 border-b">
@@ -363,12 +368,12 @@ require_once 'navigationbar.php'
 
                     <!-- add sub task pop up window -->
                     <div id="taskModal" class="modal">
-                        <form method="POST" action="your_submit_url.php" class="modal-content">
+                        <form method="post" action="addSubtask" class="modal-content">
                             
                             <h2 class="modal-title">Add Sub Task</h2>
 
                             <!-- Hidden Task ID -->
-                            <input type="hidden" name="task_id" id="task_id" value="">
+                            <input type="hidden" name="taskid" id="task_id" value="">
 
                             <label for="taskTitle">Title</label>
                             <input type="text" name="title" id="taskTitle" required>
@@ -376,13 +381,13 @@ require_once 'navigationbar.php'
                             <label for="taskDesc">Description</label>
                             <textarea name="description" id="taskDesc" rows="3" required></textarea>
 
-                            <label for="taskStatus">Status</label>
+                            <!-- <label for="taskStatus">Status</label>
                             <select name="status" id="taskStatus" required>
                             <option value="To Do">To Do</option>
                             <option value="On Going">On Going</option>
                             <option value="Terminated">Terminated</option>
                             <option value="Overdue">Overdue</option>
-                            </select>
+                            </select> -->
 
                             <div class="modal-actions">
                             <button type="submit" class="btn-primary">Add</button>
@@ -419,4 +424,5 @@ require_once 'navigationbar.php'
             deleteForm.submit(); // Submit the form if confirmed
         });
     </script>
+
 </html>
