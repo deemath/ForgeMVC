@@ -76,4 +76,30 @@ class Supervisor{
     public function showCalender(){
         $this->view('supervisor/calender');
     }
+
+    public function addSubtask(){
+        $data["title"] = $_POST['title'];
+        $data['projectid']=$_SESSION["project_id"];
+        $data['taskid'] = $_POST['taskid'];
+        $data["description"] = $_POST['description'];
+        $data['startdate'] = date('Y-m-d');
+        $data['enddate'] = date('Y-m-d');
+        // echo "pass";
+
+        // $data["title"] = "dsfsdf";
+        // $data['projectid']= 1;
+        // $data['taskid'] = 45;
+        // $data["description"] = 'fggdfgdf';
+ 
+        $prj = new taskModel;
+        $status = $prj->addsubtask($data);
+        if($status){
+                
+               $this->tasklist();
+        }
+        else{
+            $this->view("_404");
+        }
+
+    }
 }
