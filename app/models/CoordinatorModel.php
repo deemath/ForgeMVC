@@ -239,8 +239,23 @@ public function getCoordInfo($coordinatorId) {
 }
 
 public function updateCoord($coordData) {
-    $sql = "UPDATE coordinator SET name = :name, email = :email WHERE id = :id";
-    return $this->query($sql, ['name' => $coordData['name'], 'email' => $coordData['email'], 'id' => $coordData['id']]);
+    $sql = "UPDATE coordinator SET name = :name, email = :email";
+    //$sql = "UPDATE coordinator SET name = :name, email = :email WHERE id = :id";
+    $params = [
+        'name' => $coordData['name'],
+        'email' => $coordData['email'],
+        //'id' => $coordData['id']
+    ];
+
+    if(!empty($coordData['image'])) {
+        $sql .= ", image = :image";
+        $params['image'] = $coordData['image'];
+    }
+
+    $sql .= " WHERE id = :id";
+    $params['id'] = $coordData['id'];
+    return $this->query($sql, $params);
+    //return $this->query($sql, ['name' => $coordData['name'], 'email' => $coordData['email'], 'id' => $coordData['id']], $params);
 }
 
 public function changePassword($currentPassword, $newPassword, $confirmPassword) {
