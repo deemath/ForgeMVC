@@ -26,3 +26,7 @@ status of flags
     2 -  revise
     3 -  good
     4 -  urgent
+
+status of cordinators
+    0 or null - active
+    1 - deactive
