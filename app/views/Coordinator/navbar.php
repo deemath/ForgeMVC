@@ -1,3 +1,10 @@
+<?php 
+$coordinatorId = $_SESSION['coordinator_id'];
+$model = new CoordinatorModel();
+$coordinatorInfo = $model->getCoordInfo($coordinatorId);  // Fetch coordinator info including image
+$imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to placeholder if no image is set
+?>
+
 <html lang="en">
  <head>
   <meta charset="utf-8"/>
@@ -215,10 +222,10 @@
             font-size: 12px;
             color: #666;
         }
-        .project-box .supervisor {
+        .project-box .deadline {
             font-size: 14px;
             font-weight: 500;
-            color: #1e3a8a;
+            color:rgb(255, 50, 50);
             margin-top: 10px;
         }
         .forge-logo-text {
@@ -349,7 +356,9 @@
      Coordinator Dashboard
     </h1>
     <div class="user-info">
-     <img alt="Profile Picture" height="40" src="<?= isset($_SESSION['coordinator_image']) ? ROOT . '/' . $_SESSION['coordinator_image'] : ROOT . '/public/assets/images/prof.jpg' ?>" width="40"/>
+        
+     <img alt="Profile Picture" height="40" src="<?= isset($_SESSION['coordinator_image']) ? ROOT . '/' . $_SESSION['coordinator_image'] : ROOT . '/assets/images/prof.jpg' ?>" width="40"/>
+
      <span>
       <?=$_SESSION['coordinator_id']?>
      </span>

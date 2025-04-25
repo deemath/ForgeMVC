@@ -31,7 +31,7 @@
             font-size: 16px;
         }
         .invite-page .card{
-            background-color:rgb(126, 183, 234);
+            background-color: #dbeafe;
             border-radius: 12px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 24px;

@@ -1,6 +1,8 @@
 <?php require_once 'navbar.php';
 ?>
 
+
+
    <div class="dashboard-content">
       <div class="stats-grid">
          <div class="stats-box total-projects-box">
@@ -34,7 +36,7 @@
             <h3><?= htmlspecialchars($project->title) ?></h3>
             <p><?= htmlspecialchars($project->description) ?></p>
             <p class="date">Created on: <?= htmlspecialchars($project->createdat) ?></p>
-            <p class="supervisor">Supervisor: Jane Smith</p>
+            <p class="deadline">Project Deadline: <?= htmlspecialchars($project->enddate) ?></p>
          </div>
          <?php endforeach; ?>
       <?php else: ?>

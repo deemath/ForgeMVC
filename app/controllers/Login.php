@@ -1,66 +1,75 @@
 <?php 
 
 /**
- * login class
+ * Login class
  */
 class Login
 {
-	use Controller;
+    use Controller;
 
-	public function index()
-	{	
-		$this->view('login');
-	}
+    public function index()
+    {   
+        $this->view('login');
+    }
 
-	public function Login(){
-        $data=[];
-        $datanot =[];
-        
-        session_unset();
-        session_destroy();
-        if($_SERVER['REQUEST_METHOD']=="POST"){
-            $arr['email'] = $_POST['username'];
-            $arr['password'] = $_POST['password'];
-            $arr1['email']= $_POST['username'];
-            ///print_r($arr1);
+    public function Login()
+    {
+        $data = [];
+
+
+        //session_unset();
+        //session_destroy();
+
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+            $email = $_POST['username'] ?? '';
+            $password = $_POST['password'] ?? '';
+            $role = $_POST['role'] ?? '';
+
             $loginauth = new AuthModel;
 
-            if($loginauth->Loginvalidation($arr)){
-                // echo 'invalid';
-                $data['errors'] = $loginauth->errors;
-                $this->view('login',$data);
-            }else{
-                
-                
-                $result=$loginauth->PasswordValidation($arr1,$arr);
-                if($result){
-                    //echo "credentials are correct";
-                    session_start();
-                   /// print_r($result);
-                    if(!empty($result['user'])&& isset($result['user'])){
-                        $_SESSION['user_id'] = $result['user'];
-                        
-                       
-                    }
-
-                    if(!empty($result['coordinator']) && isset($result['coordinator'])){
-                        $_SESSION['coordinator_id'] = $result['coordinator'];
-                    }
-                    ///print_r($_SESSION);
-                    $this->view('loginAs');
-                }else{
-                    $data['errors'] = $loginauth->errors;
-                    $this->view('login',$data);
-                    
-                }
+            if (empty($role) || !in_array($role, ['user', 'coordinator'])) {
+                $data['errors'][] = "Invalid role selected.";
+                return $this->view('login', $data);
             }
 
-        }else{
-            $this->view('_404');
+            $arr = ['email' => $email, 'password' => $password];
+
+            // Validate login input (generic validation)
+            if ($loginauth->Loginvalidation($arr)) {
+                $data['errors'] = $loginauth->errors;
+                return $this->view('login', $data);
+            }
+
+            // Check login against the selected role's table
+            $result = $loginauth->PasswordValidationByRole($arr, $role);
+
+            if ($result) {
+                session_start();
+                
+                if ($role === 'user') {
+                    $_SESSION['user_id'] = $result;
+                    header("Location: " . ROOT . "/reguser/commonInterface");
+                    exit();
+                } elseif ($role === 'coordinator') {
+                    //$_SESSION['coordinator_image'] = $getCoordInfo->image;
+                    $_SESSION['coordinator_id'] = $result;
+                    header("Location: " . ROOT . "/coordinator/dashboard");
+                    exit();
+                }
+
+            } else {
+                $data['errors'] = $loginauth->errors;
+                //echo "dfdfg";
+                return $this->view('login', $data);
+            }
+        } else {
+            return $this->view('_404');
         }
     }
 
-	public function losinAs(){
-		return $this->view('loginAs');
-	}
+    public function loginAs()
+    {
+        return $this->view('loginAs');
+    }
 }
