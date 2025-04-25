@@ -57,6 +57,8 @@ class Admin{
             $data = $admin1->Dashboard();
             $data['project_count'] = $admin1->getProjectCount();
             $data['total_users'] = $admin1->getTotalRegisteredUsers();
+            $data['active_accounts'] = $admin1->countActiveCoors();
+            $data['inactive_accounts'] = $admin1->countDeactiveCoors();
             $this->view('Admin/dashboard',$data);
         }else{
             $this->view('_404');
@@ -170,8 +172,18 @@ class Admin{
         $this->projectlist();
     }
 
-    public function profilecard(){
-        return $this->view(name:'Admin/profilecard');
+    public function profilecard($id){
+        
+        $admin = new AdminModel;
+        $profileData['coordata'] = $admin->getcoordiById($id);
+
+        $projectCount =$admin->getCoordinatorProjectCount($id);
+
+        $profileData['coordinatorprojectCount'] = $projectCount;
+        $profileData['assignedProjects'] = $admin->getProjectsByCoordinatorId($id);
+
+        return $this->view('Admin/profilecard', $profileData);
+        // return $this->view(name:'Admin/profilecard');
     }
 
 
@@ -223,8 +235,135 @@ class Admin{
         }
     }
 
+    public function coordinatorProjectCount($id){
+        if(!empty($_SESSION['admin_id'])){
+            $admin = new AdminModel;
+            $projectCount = $admin->getCoordinatorProjectCount($id);
+
+
+        }
+    }
+
+    public function deleteProjectfromDashboard($id) {
+        if(!empty($_SESSION['admin_id'])) {
+            $admin = new AdminModel;
+            $result = $admin->deleteProjectById($id);
+            if($result) {
+                header('Location:' . ROOT . '/Admin/dashboard?success=2');
+                exit;
+                } 
+                else {
+                    header('Location:' . ROOT . '/Admin/dashboard?error=2');
+                    exit;
+                } 
+        }
+    }
+
+    public function disableCoordinator(){
+        if (!empty($_SESSION['admin_id'])) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+                $id = $_POST['id'];
+
+                $adminModel = new AdminModel();
+
+                if ($adminModel->disableCoordinatorById($id)) {
+                    header('Location:' . ROOT . '/Admin/profilecard/' . $id);
+                    exit;
+                } else {
+                    echo "Failed to disable coordinator.";
+                }
+            }
+        } else {
+            $this->view('_404');
+        }
+    }
+
+    public function activeCoordinator(){
+        if (!empty($_SESSION['admin_id'])) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+                $id = $_POST['id'];
+
+                $adminModel = new AdminModel();
+
+                if ($adminModel->activeCoordinatorById($id)) {
+                    header('Location:' . ROOT . '/Admin/profilecard/' . $id);
+                    exit;
+                } else {
+                    echo "Failed to activate coordinator.";
+                }
+            }
+        } else {
+            $this->view('_404');
+        }
+    }
+
+    public function projectlistview(){
+        if(!empty($_SESSION['admin_id'])){
+            $model = new AdminModel;
+            $data['projects'] =$model->getAllProjects();
+            $this->view('Admin/totalprojects',$data);
+        }
+        else{
+            $this->view('_404');
+        }
+    }
+
+    public function activeCoordinatorsList() {
+        if (!empty($_SESSION['admin_id'])) {
+            $model = new AdminModel;
+            $data['cordinators'] = $model->getActiveCoordinators();
+            $this->view('Admin/activeaccountlist',$data);
+        } else {
+            $this->view('_404');
+        }
+    }
+
+    public function dectiveCoordinatorsList(){
+        if(!empty($_SESSION['admin_id'])){
+            $model = new Adminmodel;
+            $data['coordinators'] = $model->getDeactiveCoordinators();
+            $this->view('Admin/deactiveaccountlist',$data);
+        }else{
+            $this->view('_404');
+        }
+    }
+
+    public function AllUsers(){
+        if(!empty($_SESSION['admin_id'])){
+            $model = new Adminmodel;
+            $data['users'] = $model->getAllUsers();
+            $data['coordinators'] = $model->getAllCoordinators();
+            $this->view('Admin/totaluserlist',$data);
+        }
+        else{
+            $this->view('_404');
+        }
+    }
+
+    public function toggleCoordinatorStatus($id)
+{
+    if (!empty($_SESSION['admin_id'])) {
+        $model = new Adminmodel();
+
+        // Fetch the current status of the coordinator
+        $coordinator = $model->getCoordinatorById($id);
+
+        if ($coordinator) {
+            // Toggle the status
+            $newStatus = $coordinator->status == 1 ? 0 : 1;
+
+            // Update the status in the database
+            $model->updateCoordinatorStatus($id, $newStatus);
+        }
+
+        // Redirect back to the page
+        redirect('Admin/dashboard'); // or wherever your table is
+    } else {
+        // Not logged in as admin
+        $this->view('_404');
+    }
 }
 
-
-
+    
+    }
 

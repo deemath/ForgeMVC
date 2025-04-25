@@ -1,127 +1,215 @@
-<html lang="en">
+<?php require_once "navigationBar.php"; ?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
+    <title>Coordinator Profile</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f3f4f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
             margin: 0;
-            font-family: Arial, sans-serif;
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .container {
+
+        .main-wrapper {
+            /* width: 2000px; */
+            margin: 50px auto;
+            padding: 40px;
             background-color: #ffffff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            width: 100%;
-            max-width: 64rem;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
         }
-        .header {
+
+        .top-section {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 30px;
         }
-        .profile {
+
+        .top-left {
             display: flex;
             align-items: center;
         }
-        .profile img {
+
+        .top-left img {
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            margin-right: 1rem;
+            object-fit: cover;
+            margin-right: 25px;
+            border: 3px solid #d1d5db;
         }
-        .profile h2 {
-            font-size: 1.5rem;
+
+        .top-left .info h2 {
+            font-size: 1.8rem;
+            margin: 0;
+            color: #111827;
+        }
+
+        .top-left .info p {
+            font-size: 1.05rem;
+            color: #374151;
+            margin-top: 8px;
+        }
+
+        .status-badge {
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: bold;
-            margin: 0;
+            color: white;
         }
-        .profile p {
-            color: #4b5563;
-            margin: 0;
+
+        .status-active {
+            background-color: #10b981;
         }
-        .profile p i {
-            margin-right: 0.5rem;
-        }
-        .disable-btn {
+
+        .status-disabled {
             background-color: #ef4444;
-            color: #ffffff;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 0.25rem;
-            cursor: pointer;
         }
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
+
+        .divider {
+            border-top: 2px solid #e5e7eb;
+            margin: 30px 0;
         }
-        @media (min-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr 1fr;
-            }
+
+        .bottom-section {
+            display: flex;
+            gap: 40px;
         }
-        .card {
-            background-color: #f3f4f6;
-            padding: 1rem;
-            border-radius: 0.5rem;
+
+        .info-box {
+            flex: 1;
+            background-color: #f9fafb;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
         }
-        .card h3 {
-            font-size: 1.125rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
+
+        .info-box h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            color: #111827;
         }
-        .card p {
-            margin: 0.5rem 0;
+
+        .info-box p {
+            font-size: 1.05rem;
+            margin: 10px 0;
+            color: #374151;
         }
+
+        .info-box p strong {
+            color: #111827;
+        }
+
+        .project-title {
+            background-color: #e5e7eb;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin: 8px 0;
+            font-size: 0.95rem;
+            color: #111827;
+        }
+
+    .active-btn, .disable-btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .active-btn {
+        background-color: #10b981; /* Tailwind emerald-500 */
+        color: white;
+    }
+
+    .active-btn:hover {
+        background-color: #059669; /* emerald-600 */
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .disable-btn {
+        background-color: #ef4444; /* Tailwind red-500 */
+        color: white;
+    }
+
+    .disable-btn:hover {
+        background-color: #dc2626; /* red-600 */
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
     </style>
 </head>
-<body>
-    <div class="container">
-   
-        <div class="header">
-            <div class="profile">
-                <img src="https://placehold.co/100x100" alt="Profile picture placeholder" width="100" height="100">
-                <div>
-                    <h2>John Doe</h2>
-                    <p><i class="fas fa-envelope"></i> john.doe@example.com</p>
+
+<div class="main-wrapper">
+    <?php if (isset($data['coordata'])) : ?>
+        <?php $coordinator = $data['coordata']; ?>
+
+        <!-- Top Section -->
+        <div class="top-section">
+            <div class="top-left">
+                <?php if (!empty($coordinator->image)) : ?>
+                    <img src="data:image/jpeg;base64,<?= base64_encode($coordinator->image) ?>" alt="<?= htmlspecialchars($coordinator->name) ?>">
+                <?php else : ?>
+                    <img src="<?= ROOT ?>/assets/img/default-avatar.png" alt="Default Avatar">
+                <?php endif; ?>
+
+                <div class="info">
+                    <h2><?= htmlspecialchars($coordinator->name) ?></h2>
+                    <p><i class="fas fa-envelope"></i> <?= htmlspecialchars($coordinator->email) ?></p>
                 </div>
             </div>
-            <button class="disable-btn">Disable</button>
+
+            <div>
+         
+                    
+
+            <form method="POST" action="<?= ROOT ?>/Admin/<?= $data['coordata']->status == 1 ? 'disableCoordinator' : 'activeCoordinator' ?>">
+                <!-- <input type="hidden" name="id" value="<?= $data['coordata']->id ?>"> -->
+                <?php if ($data['coordata']->status == 1): ?>
+                    <button type="submit" class="active-btn">Disable</button>
+                <?php else: ?>
+                    <button type="submit" class="disable-btn">Activate</button>
+                <?php endif; ?>
+            </form>
+
+
+            </div>
         </div>
-        <div class="grid">
-            <div class="card">
+
+        <!-- Divider -->
+        <div class="divider"></div>
+
+        <!-- Bottom Section -->
+        <div class="bottom-section">
+            <div class="info-box">
                 <h3>Coordinator Details</h3>
-                <p><strong>Name:</strong> John Doe</p>
-                <p><strong>Email:</strong> john.doe@example.com</p>
-                <p><strong>Phone:</strong> (123) 456-7890</p>
+                <p><strong>Name:</strong> <?= htmlspecialchars($coordinator->name) ?></p>
+                <p><strong>Email:</strong> <?= htmlspecialchars($coordinator->email) ?></p>
+                <p><strong>Phone:</strong> <?= htmlspecialchars($coordinator->phone) ?></p>
+                <p><strong>Institute:</strong> <?= htmlspecialchars($coordinator->institute) ?></p>
+                <p><strong>Address:</strong> <?= htmlspecialchars($coordinator->address) ?></p>
             </div>
-            <div class="card">
-                <h3>Number of Projects Assigned</h3>
-                <p>5</p>
-                <p>Project Alpha: Website Redesign</p>
-                <p>Project Beta: Mobile App Development</p>
-                <p>Project Gamma: Marketing Campaign</p>
-                <p>Project Delta: Data Migration</p>
-                <p>Project Epsilon: Cloud Integration</p>
-            </div>
-            <div class="card">
-                <h3>Upcoming Meetings</h3>
-                <p>Meeting with Team A on 10/12/2023</p>
-                <p>Meeting with Client X on 10/15/2023</p>
-            </div>
-            <div class="card">
-                <h3>Scheduled Meetings</h3>
-                <p>Weekly Sync on 10/05/2023</p>
-                <p>Monthly Review on 10/25/2023</p>
-                <p>Strategy Meeting on 10/30/2023</p>
+
+            <div class="info-box">
+                <h3>Assigned Projects</h3>
+                <p><strong>Total:</strong> <?= $data['coordinatorprojectCount'][0]->count ?? 0 ?></p>
+                <?php if (!empty($data['assignedProjects'])) : ?>
+                    <?php foreach ($data['assignedProjects'] as $project) : ?>
+                        <div class="project-title"><?= htmlspecialchars($project->title) ?></div>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <p>No assigned projects.</p>
+                <?php endif; ?>
             </div>
         </div>
-    </div>
-</body>
-</html>
+
+    <?php endif; ?>
+</div>
