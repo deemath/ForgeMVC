@@ -132,6 +132,21 @@ require_once "navigationbar.php";
   </style>
 </head>
 
+    <!-- create suitable dialog window for show errors is any in $data["errors"] -->
+     <div>
+    <?php if (!empty($data['errors'])): ?>
+      <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+        <strong>Error:</strong>
+        <ul>
+          <?php foreach ($data['errors'] as $error): ?>
+            <li><?= htmlspecialchars($error) ?></li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    <?php endif; ?>
+     </div>
+
+
   <div class="container">
     <?php if (!empty($selected)): ?>
     <?php foreach($data['selected'] as $selected) : ?>
@@ -139,7 +154,7 @@ require_once "navigationbar.php";
         <div style="display: flex; justify-content: space-between; align-items: center;">
         <h2 id="task-title"><?=$selected->title?></h2>
         <?php if($_SESSION['user_role']==2 ||$_SESSION['user_role']==3 ) :?>
-          <button class="edit-btn" onclick="editTitle(<?=$selected->id ?>, `<?=htmlspecialchars($selected->title, ENT_QUOTES)?>`)">✏️</button>
+          <button class="edit-btn" onclick="editTitle(<?=$selected->id ?>, `<?=htmlspecialchars($selected->title, ENT_QUOTES)?>`)">edit 🖋️</button>
         <?php endif; ?>
         </div>
 
@@ -152,7 +167,7 @@ require_once "navigationbar.php";
         </div>
         <div>
         <?php if($_SESSION['user_role']==2 ||$_SESSION['user_role']==3 ) :?>
-          <button class="edit-btn" onclick="editDescription(<?=$selected->id ?>, `<?=htmlspecialchars($selected->description, ENT_QUOTES)?>`)">✏️</button>
+          <button class="edit-btn" onclick="editDescription(<?=$selected->id ?>, `<?=htmlspecialchars($selected->description, ENT_QUOTES)?>`)">edit 🖋️</button>
         <?php endif; ?>
         </div>
       </div>
@@ -265,7 +280,14 @@ require_once "navigationbar.php";
       </div>
       <div>
         <label>Start Date</label>
-        <input type="date" value="<?=$selected->startdate ?>">
+
+        <input type="date" value="<?=$selected->startdate ?>" onclick="changeStart(
+        <?=$selected->id?>, 
+        `<?=htmlspecialchars($selected->startdate, ENT_QUOTES)?>`,
+        `<?=htmlspecialchars($selected->enddate, ENT_QUOTES)?>`,
+        `<?=htmlspecialchars($data['project']->startdate, ENT_QUOTES)?>`,
+        `<?=htmlspecialchars($data['project']->enddate, ENT_QUOTES)?>`)"
+         style="background-color:rgb(255, 255, 255); color: #333; border: 1px solid #ccc; border-radius: 5px; padding: 8px;">
       </div>
       <div>
         <label>End Date</label>
@@ -341,7 +363,7 @@ require_once "navigationbar.php";
     <div class="section comments">
       <label>Comments</label>
 
-        <?php if(isset($data['comments'])): ?>
+        <?php if(!empty($data['comments'])): ?>
         <?php foreach($data['comments'] as $comment):?>
         <?php if($comment->taskid == $selected->id): ?>
 
@@ -553,6 +575,36 @@ require_once "navigationbar.php";
             </div>
 
 
+            <!-- change start date model -->
+            <div id="edit-startdate" class="modal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+                <form method="post" action="editStartDate" class="modal-content" style="background-color:#fff; margin:10% auto; padding:20px; border-radius:10px; width:400px; max-width:90%; box-shadow:0 5px 15px rgba(0,0,0,0.3);">
+                    
+                    <h2 class="modal-title" style="margin-bottom:20px; font-size:24px; text-align:center;">Edit Start Date</h2>
+
+                    <!-- Hidden Task ID -->
+                    <input type="hidden" name="id" id="task_id_startdate"  >
+                    Current date : <input type="hidden date" name="currentdate" id="currentdate" >
+                    <br>Task end date :
+                    <input type="hidden date" name="taskenddate" id="taskenddate" >
+                    <br>Project Start date : 
+                    <input type="hidden date" name="projectStartDate" id="projectStartDate" >
+                    <br>Project end date : 
+                    <input type="hidden date" name="projectEndDate" id="projectEndDate" >
+                    <br>
+                    
+                    <!-- calender input -->
+                     <input type="date" name="startdate" id="startdate"  required style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px; " >
+
+                    
+                    <div class="modal-actions" style="display:flex; justify-content:space-between;">
+                        <button type="submit" class="btn-primary" style="background-color:#007bff; color:#fff; border:none; padding:10px 20px; border-radius:5px; cursor:pointer;">Edit</button>
+                        <button type="button" class="btn-secondary" onclick="closetartdate()" style="background-color:#6c757d; color:#fff; border:none; padding:10px 20px; border-radius:5px; cursor:pointer;">Cancel</button>
+                    </div>
+
+                </form>
+            </div>
+
+
 
             <script>
                 function editTitle(taskId, currenttitle){
@@ -634,6 +686,20 @@ require_once "navigationbar.php";
                 function closedelsubtask() {
                     document.getElementById('deletesubtask').style.display = 'none';
                 }
+
+                function changeStart(taskId,currentStartDate,taskenddate,projectStartDate,projectEndDate){ 
+                    document.getElementById('task_id_startdate').value = taskId;
+                    document.getElementById('edit-startdate').style.display = 'block';
+                    document.getElementById('startdate').value = currentStartDate;
+                    document.getElementById('currentdate').value = currentStartDate;
+                    document.getElementById('projectStartDate').value = projectStartDate;
+                    document.getElementById('taskenddate').value = taskenddate;
+                    document.getElementById('projectEndDate').value = projectEndDate;
+
+                }
+                function closetartdate() {
+                    document.getElementById('edit-startdate').style.display = 'none';
+                }
             </script>
 
 
@@ -644,7 +710,7 @@ require_once "navigationbar.php";
                     const fdtaskId = <= json_encode($selected->id) ?>;
 
                     // Update the URL with the task ID
-                    window.history.pushState({}, '', `/testmvc/public/task/edit/${fdtaskId}`);
+                    window.history.pushState({}, '', `http://localhost/testmvc/public/task/edit/${fdtaskId}`);
                 </script> -->
 
 

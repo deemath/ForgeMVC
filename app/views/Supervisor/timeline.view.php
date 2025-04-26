@@ -126,7 +126,7 @@ require_once "navigationbar.php";
      
         <div class="content">
             <div class="gantt-chart">
-                <div class="chart-header">Project Agile Timeline</div>
+                <div class="chart-header"><?=$_SESSION['project_title'] ?> Time Line </div>
                 <?php
                     // Find the earliest and latest dates from the tasks
                     $startDate = strtotime(min(array_column($tasks, 'startdate')));
@@ -146,12 +146,51 @@ require_once "navigationbar.php";
                 <div class="chart-row">
                     <div class="task-name"><?= htmlspecialchars($task->title) ?></div>
                     <div class="task-bar">
+                        <?php if($task->status==1):?>
+                        <div class="bar" style="left: <?= $left ?>%; width: <?= $width ?>%;"></div>
+                        <?php endif;?>
+                        <?php if($task->status==2):?>
                         <div class="bar ongoing" style="left: <?= $left ?>%; width: <?= $width ?>%;"></div>
+                        <?php endif;?>
+                        <?php if($task->status==3):?>
+                        <div class="bar completed" style="left: <?= $left ?>%; width: <?= $width ?>%;"></div>
+                        <?php endif;?>
+                        <?php if($task->status==4):?>
+                        <div class="bar terminated" style="left: <?= $left ?>%; width: <?= $width ?>%;"></div>
+                        <?php endif;?>
+                        <?php if($task->status==5):?>
+                        <div class="bar overdue" style="left: <?= $left ?>%; width: <?= $width ?>%;"></div>
+                        <?php endif;?>
                     </div>
                     <div class="task-dates"><?= date('Y-m-d', $taskStart) ?> to <?= date('Y-m-d', $taskEnd) ?></div>
                 </div>
                 <?php endforeach; ?>
             </div>
+
+            <!-- Legend for task status colors -->
+            <div style="margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <div style="width: 20px; height: 20px; background-color: #2196f3; border-radius: 3px;"></div>
+                    <span>To Do</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <div style="width: 20px; height: 20px; background-color: #4caf50; border-radius: 3px;"></div>
+                    <span>Ongoing</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <div style="width: 20px; height: 20px; background-color: #9c27b0; border-radius: 3px;"></div>
+                    <span>Completed</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <div style="width: 20px; height: 20px; background-color: #f44336; border-radius: 3px;"></div>
+                    <span>Terminated</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <div style="width: 20px; height: 20px; background-color: #ff9800; border-radius: 3px;"></div>
+                    <span>Overdue</span>
+                </div>
+            </div>
+
         </div>
     </div>
 </body>

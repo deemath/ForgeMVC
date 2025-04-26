@@ -65,6 +65,7 @@ require_once 'navigationbar.php'
       padding: 10px;
       cursor: pointer;
       height: auto;
+      margin: 10px;
       transition: background 0.2s;
     }
 
@@ -75,7 +76,37 @@ require_once 'navigationbar.php'
     .calendar .today {
       background: #007BFF;
       color: white;
-      border-radius: 50%;
+      /* border-radius: 50%; */
+    }
+
+    .calendar .task-start {
+      width: 100px;
+      height: 80px;
+      background-color:rgba(7, 151, 55, 0.3);
+      color: black;
+      font-size: 20px;
+      margin: 10px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      /* border-radius: 20px; */
+      border-color:rgb(7, 151, 55);
+      border-width: 2px;
+      border-style: solid;
+      /* font-weight: bold; */
+    }
+
+    .calendar .task-end {
+      width: 100px;
+      height: 80px;
+      background-color:rgba(255, 127, 80, 0.27);
+      color: black;
+      font-size: 20px;
+      margin: 10px;
+      /* border-radius: 20px; */
+      border-color:#ff7f50;
+      border-width: 2px;
+      border-style: solid;
+      /* padding: 10px; */
+      /* font-weight: bold; */
     }
 
   </style>
@@ -101,11 +132,18 @@ require_once 'navigationbar.php'
     </table>
   </div>
 
+<!-- script for update corresponding date with $data array -->
+
+
+
   <script>
     const calendarBody = document.getElementById('calendarBody');
     const monthYear = document.getElementById('monthYear');
     const prevBtn = document.getElementById('prev');
     const nextBtn = document.getElementById('next');
+
+    // Pass PHP tasks array to JS
+    const tasks = <?php echo json_encode($data['tasks']); ?>;
 
     let currentDate = new Date();
     let currentMonth = currentDate.getMonth();
@@ -136,6 +174,34 @@ require_once 'navigationbar.php'
             break;
           } else {
             cell.textContent = date;
+
+            // Format date string YYYY-MM-DD
+            let dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+
+            // Check if dateStr matches any task startdate or enddate
+            let taskForStartDate = tasks.find(task => task.startdate === dateStr);
+            let taskForEndDate = tasks.find(task => task.enddate === dateStr);
+
+            if (taskForStartDate) {
+              cell.classList.add("task-start");
+              cell.title = "Start: " + taskForStartDate.title; // Tooltip with task title
+              // Add task title below date in smaller font
+              let titleDiv = document.createElement('div');
+              titleDiv.style.fontSize = '0.6em';
+              titleDiv.style.marginTop = '2px';
+              titleDiv.textContent = "Start: " + taskForStartDate.title;
+              cell.appendChild(titleDiv);
+            } else if (taskForEndDate) {
+              cell.classList.add("task-end");
+              cell.title = "End: " + taskForEndDate.title; // Tooltip with task title
+              // Add task title below date in smaller font
+              let titleDiv = document.createElement('div');
+              titleDiv.style.fontSize = '0.6em';
+              titleDiv.style.marginTop = '2px';
+              titleDiv.textContent = "End: " + taskForEndDate.title;
+              cell.appendChild(titleDiv);
+            }
+
             if (
               date === currentDate.getDate() &&
               month === currentDate.getMonth() &&
@@ -174,5 +240,11 @@ require_once 'navigationbar.php'
     renderCalendar(currentMonth, currentYear);
   </script>
 
+
+
+<!-- data passing through $data[] -->
+ <!-- <pre>
+    <php print_r($data); ?>
+ </pre> -->
 </body>
 </html>
