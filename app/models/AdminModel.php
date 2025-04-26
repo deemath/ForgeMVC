@@ -133,4 +133,78 @@ class AdminModel{
 
     }
 
+    public function getProjectCount() {
+        $this->table = 'project';
+        // return $this->count();
+        $query = "SELECT COUNT(*) as count FROM project";
+        $result = $this->query($query);
+        return $result[0]->count;
+    }
+
+    public function getTotalRegisteredUsers() {
+        // Count users from 'users' table
+        $query1 = "SELECT COUNT(*) as count FROM user";
+        $result1 = $this->query($query1);
+        $usersCount = !empty($result1) ? $result1[0]->count : 0;
+        
+        // Count coordinators from 'coordinators' table
+        $query2 = "SELECT COUNT(*) as count FROM coordinator";
+        $result2 = $this->query($query2);
+        $coordinatorsCount = !empty($result2) ? $result2[0]->count : 0;
+        
+        // Return the sum
+        return $usersCount + $coordinatorsCount;
+    }
+
+    public function getProjectById($id) {
+        $this->table = 'project';
+        $query = "SELECT * FROM $this->table WHERE id = :id LIMIT 1";
+        $result = $this->query($query, array(':id' => $id));
+        // $result = $this->project->query($query, ['id' => $id]);
+        
+        if(!empty($result)) {
+            return $result[0];
+        }
+        
+        return false;
+    }
+
+    public function updateProject($id, $data) {
+        $this->table = 'project';
+        
+        // Create SET part of SQL query
+        $setValues = [];
+        foreach($data as $key => $value) {
+            $setValues[] = "$key = :$key";
+        }
+        
+        $setClause = implode(', ', $setValues);
+        
+        // Create SQL query
+        $query = "UPDATE $this->table SET $setClause WHERE id = :id";
+        
+        // Add ID to data array
+        $data['id'] = $id;
+        
+        // Execute query
+        return $this->query($query, $data);
+    }
+    
+    
+
+    public function getCoordinatorById($id) {
+        $this->table = 'coordinator';
+        $query = "SELECT * FROM $this->table WHERE id = :id LIMIT 1";
+        $result = $this->query($query, array(':id' => $id));
+        // $result = $this->project->query($query, ['id' => $id]);
+        // $result = $this->project->query($query, ['id' => $id]);
+        
+        if(!empty($result)) {
+            return $result[0];
+        }
+        
+        return false;
+    }
+
+
 }

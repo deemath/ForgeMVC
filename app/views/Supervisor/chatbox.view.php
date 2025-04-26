@@ -26,11 +26,12 @@ require_once "navigationbar.php";
                         
                         <?php if($message->userid == $_SESSION['user_id']): ?>
                             <div class="message blue sender">
+                            <div class="sender name">You</div>
                                 <div class="sender content">
                                     <?= htmlspecialchars($message->message, ENT_QUOTES, 'UTF-8') ?> 
                                 </div>
                                 <div class="avatar"></div>
-                                <div class="sender name">You</div>
+                               
                             </div>
                         <?php endif; ?>
                         <?php if($message->userid != $_SESSION['user_id']): ?>

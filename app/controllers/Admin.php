@@ -55,6 +55,8 @@ class Admin{
             //fecting moast recent 10 projects
             $admin1 = new AdminModel;
             $data = $admin1->Dashboard();
+            $data['project_count'] = $admin1->getProjectCount();
+            $data['total_users'] = $admin1->getTotalRegisteredUsers();
             $this->view('Admin/dashboard',$data);
         }else{
             $this->view('_404');
@@ -166,6 +168,59 @@ class Admin{
         $this->view('_404');
     }
         $this->projectlist();
+    }
+
+    public function profilecard(){
+        return $this->view(name:'Admin/profilecard');
+    }
+
+
+
+    // Method to get project data for editing
+    public function getProjectData($id) {
+        if(!empty($_SESSION['admin_id'])) {
+            $admin = new AdminModel;
+            $project = $admin->getProjectById($id);
+        
+        if($project) {
+            header('Content-Type: application/json');
+            echo json_encode($project);
+            exit;
+        }
+        
+        echo json_encode(['error' => 'Project not found']);
+        exit;
+    }
+    
+    $this->view('_404');
+}
+
+// Method to update project
+    public function updateProject() {
+        if(!empty($_SESSION['admin_id'])) {
+            if($_SERVER['REQUEST_METHOD'] == "POST") {
+                $id = $_POST['id'];
+                $input = [
+                    'title' => $_POST['title'],
+                    'description' => $_POST['description']
+                // Add other fields as needed
+                ];
+            
+                $admin = new AdminModel;
+
+                $admin->updateProject($id, $input);
+                $result = $admin->updateProject($id, $input);
+            
+            if($result) {
+                header('Location:' . ROOT . '/Admin/dashboard?success=1');
+            } else {
+                header('Location:' . ROOT . '/Admin/dashboard?error=1');
+            }
+            exit;
+        }
+        } else {
+            $this->view('_404');
+        }
     }
 
 }

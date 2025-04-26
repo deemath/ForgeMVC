@@ -2,6 +2,118 @@
 <?php 
 require_once 'navigationbar.php'
 ?>
+<style>
+  /* Modal Overlay */
+  .modal {
+    display: none;
+    position: fixed;
+   
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Modal Content */
+  .modal-content {
+    background: #fff;
+    margin: 50px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 25px 30px;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    font-family: 'Segoe UI', sans-serif;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .modal-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+
+  .modal-content label {
+    display: block;
+    margin: 10px 0 6px;
+    font-weight: 500;
+  }
+
+  .modal-content input,
+  .modal-content textarea,
+  .modal-content select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: border-color 0.3s;
+  }
+
+  .modal-content input:focus,
+  .modal-content textarea:focus,
+  .modal-content select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 10px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .btn-secondary {
+    background-color: #ddd;
+    color: #333;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover {
+    background-color: #bbb;
+  }
+
+  .open-btn {
+    padding: 8px 14px;
+    font-size: 14px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .open-btn:hover {
+    background-color: #218838;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
 <main class="flex-1 p-6">
             <div class="flex">
                 <!-- Task List -->
@@ -14,14 +126,20 @@ require_once 'navigationbar.php'
                             <th class="py-2 px-4 border-b">Topic</th>
                             <th class="py-2 px-4 border-b">Description</th>
                             <th class="py-2 px-4 border-b">Status</th>
-                            <th class="py-2 px-4 border-b">Actions</th>
+
+                            <th class="py-2 px-4 border-b" colspan="2">Actions</th>
+                            
                         </tr>
                         </thead>
                         <tbody>
+                        <!-- <pre>
+                            <php print_r($data) ?>
+                        </pre> -->
 
                         <?php if($data['tasks']) : ?>
-                            
+                            <?php $maincount =0;?>
                             <?php foreach($data['tasks'] as $task) : ?>
+                                    <?php $maincount++;?>
 
                                     <?php foreach($data['creators'] as $creator) : ?>
                                     <?php if($creator->id == $task->id) : ?>
@@ -32,7 +150,7 @@ require_once 'navigationbar.php'
                                     <form action="<?=ROOT?>/task/showdetail" method="post">
                                     <input type="hidden" name="id" value="<?=$task->id?>">
 
-                                    <td class="py-2 px-4 border-b"><?=$task->no?> </td>
+                                    <td class="py-2 px-4 border-b"><?=$maincount?> </td>
                                     <td class="py-2 px-4 border-b font-bold"><?=$task->title?></td>
                                     <td class="py-2 px-4 border-b"><?= htmlspecialchars(substr($task->description, 0, 30)) . (strlen($task->description) > 200 ? ' ...' : '') ?></td>
                                     <td class="py-2 px-4 border-b flex justify-center items-center">
@@ -57,19 +175,25 @@ require_once 'navigationbar.php'
                                         echo $status;
                             ?>  
                                 </td>
+                                
                                 <td><button class="flex-1 bg-blue-500 text-white py-2 px-4 rounded mr-2" name="submit" type="submit">View </button></td>
                                 </form>
+                                <td style="font-size: 14px; color: #007bff;">
+                                    <button onclick="openModal(<?= $task->id ?>)">+ subtask</button>
+                                </td>
+                              
                                 </tr>
                                 
                                 <?php if($data['subtasks']) : ?>
+                                <?php $count= 0;?>
                                 <?php foreach($data['subtasks'] as $subtask) : ?>
-                                    <?php if($subtask->projectid == $task->id) : ?>
-                                    
-                                     <tr class="task-row" 
+                                    <?php if($subtask->taskid == $task->id) : ?>
+                                    <?php $count++;?>
+                                     <tr class="task-row" style="color:rgba(44, 43, 43, 0.6);"
                     
                                             data-task-subtasks='<?= json_encode($task->subtasks)?:'' ?>'
                                         >
-                                            <td class="py-2 px-8 border-b"><?=$task->no?>.<?=$subtask->id?></td>
+                                            <td class="py-2 px-8 border-b"><?=$task->no?>.<?=$count?></td>
                                             <td class="py-2 px-8 border-b "><?=$subtask->title?></td>
                                             <td class="py-2 px-8 border-b"><?= htmlspecialchars(substr($subtask->description, 0, 30)) . (strlen($subtask->description) > 200 ? ' ...' : '') ?></td>
                                             <td class="py-2 px-8 border-b">
@@ -131,6 +255,89 @@ require_once 'navigationbar.php'
                             </a>
                     <?php endif; ?>
                 </div>
+
+                
+                <?php if (empty($selected)): ?>
+                       
+                        
+                        <div class="w-1/3 bg-white p-6 shadow-md">
+                            
+                          <!-- -->
+                            <p class="text-gray-800 mb-4"><?=$_SESSION['institute_name']?></p>
+                            <div class="text-2xl font-bold mb-4"><?=$data['project']->title?></div>
+                            
+                            <p class="text-gray-700 mb-4"><?=$data['project']->description?></p>
+                            
+
+                            <div class="mb-4 flex">
+                                <div class="font-bold mb-2">Duration</div>
+                                <div class="text-gray-700"><b>from </b> <?=$data['project']->startdate?><b>  to  </b><?=$data['project']->enddate?></div>
+                            </div>
+                            <!-- <pre>
+                                <php print_r($data); ?>
+                                <php print_r($_SESSION); ?>
+                            </pre> -->
+
+                            <div class="mb-4 ">
+                                <div class="font-bold mb-2">Created At : </div>
+                                <div class="text-gray-700"><?=$data['project']->createdat?></div>
+                            </div>
+
+                            <div class="font-bold mb-2"> Assigned users : </div>
+                            <?php if(!empty($data['members'])):?>
+                                <?php foreach($data['members']['members'] as $member):?>
+                                   <?php if($member->userrole==2):?>
+                                        <div class="flex items-center mb-2">
+                                            <div>
+                                                <div class="font-bold"><?=$member->username?></div>
+                                                <div class="text-sm text-gray-500"><?=$member->useremail?></div>
+                                            </div>
+                                            <span class="ml-auto bg-yellow-200 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">Supervisor</span>
+                                        </div>
+                                    <?php endif;?>
+                                <?php endforeach;?>
+                                <?php foreach($data['members']['members'] as $member):?>
+                                   <?php if($member->userrole==3):?>
+                                        <div class="flex items-center mb-2">
+                                            <div>
+                                                <div class="font-bold"><?=$member->username?></div>
+                                                <div class="text-sm text-gray-500"><?=$member->useremail?></div>
+                                            </div>
+                                            <span class="ml-auto bg-green-200 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Co-Supervisor</span>
+                                        </div>
+                                    <?php endif;?>
+                                <?php endforeach;?>
+                                <?php foreach($data['members']['members'] as $member):?>
+                                   <?php if($member->userrole==4):?>
+                                        <div class="flex items-center mb-2">
+                                            <div>
+                                                <div class="font-bold"><?=$member->username?></div>
+                                                <div class="text-sm text-gray-500"><?=$member->useremail?></div>
+                                            </div>
+                                            <span class="ml-auto bg-purple-200 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">Member</span>
+                                        </div>
+                                    <?php endif;?>
+                                <?php endforeach;?>
+                            <?php endif; ?>
+                            
+
+                         
+                              
+                                  
+                                   
+                                
+                              
+                          
+                        </div> 
+                        
+                    <?php endif; ?>
+
+
+
+
+
+
+
                     <?php if (!empty($selected)): ?>
                         <?php foreach($data['selected'] as $selected) : ?>
                         
@@ -215,7 +422,8 @@ require_once 'navigationbar.php'
                             </div>
                             <div class="flex">
                                 <form action="<?=ROOT?>/task/edit" method="post">
-                                <button class="flex-1 bg-blue-500 text-white py-2 px-4 rounded mr-2" onclick="window.location.href='./taskedit.php'">Edit</button>
+                                        <input type="hidden" name="id" value="<?=$selected->id?>">
+                                        <button class="flex-1 bg-blue-500 text-white py-2 px-4 rounded mr-2" onclick="window.location.href='./taskedit.php'">Edit</button>
                                 </form>
                                 <form action="<?=ROOT?>/task/delete" method="post" id="deleteForm">
                                     <input type="hidden" name="id" value="<?=$selected->id?>">
@@ -242,6 +450,49 @@ require_once 'navigationbar.php'
             
         </div>
     </div>
+   
+
+                    <!-- add sub task pop up window -->
+                    <div id="taskModal" class="modal">
+                        <form method="post" action="addSubtask" class="modal-content">
+                            
+                            <h2 class="modal-title">Add Sub Task</h2>
+
+                            <!-- Hidden Task ID -->
+                            <input type="hidden" name="taskid" id="task_id" value="">
+
+                            <label for="taskTitle">Title</label>
+                            <input type="text" name="title" id="taskTitle" required>
+
+                            <label for="taskDesc">Description</label>
+                            <textarea name="description" id="taskDesc" rows="3" required></textarea>
+
+                            <!-- <label for="taskStatus">Status</label>
+                            <select name="status" id="taskStatus" required>
+                            <option value="To Do">To Do</option>
+                            <option value="On Going">On Going</option>
+                            <option value="Terminated">Terminated</option>
+                            <option value="Overdue">Overdue</option>
+                            </select> -->
+
+                            <div class="modal-actions">
+                            <button type="submit" class="btn-primary">Add</button>
+                            <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <script>
+                    function openModal(taskId) {
+                        document.getElementById('task_id').value = taskId;
+                        document.getElementById('taskModal').style.display = 'block';
+                    }
+
+                    function closeModal() {
+                        document.getElementById('taskModal').style.display = 'none';
+                    }
+                    </script>
+
 </body>
     <script>
         let deleteForm = document.getElementById('deleteForm');
@@ -259,4 +510,5 @@ require_once 'navigationbar.php'
             deleteForm.submit(); // Submit the form if confirmed
         });
     </script>
+
 </html>

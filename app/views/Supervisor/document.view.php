@@ -192,6 +192,7 @@ require_once 'navigationbar.php'
                                 <i class="fas fa-ellipsis-v" onclick="toggleDropdown(this)"></i>
                                 <div class="dropdown">
                                     <a href="#">Delete</a>
+                                    <a href="<?=ROOT?>/public/document/<?= urlencode($document->filepath) ?>">Download</a>
                                 </div>
                             </div>
 
@@ -266,5 +267,6 @@ require_once 'navigationbar.php'
             }
         }
     </script>
+    
 </body>
 </html>
