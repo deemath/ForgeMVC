@@ -32,7 +32,7 @@
             background-color: white;
             border: 1px solid #cbd5e1;
             margin-bottom: 24px;
-            border-radius: 12px;
+            border-radius: 4px;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(0,0,0,0.05);
         }
@@ -50,17 +50,17 @@
         }
 
         .btn-remove {
-            background-color: #ef4444;
+            background-color:rgb(0, 0, 0);
             color: white;
             padding: 8px 12px;
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.2s;
         }
 
         .btn-remove:hover {
-            background-color: #dc2626;
+            background-color: rgb(84, 84, 84);
         }
 
         .modal-overlay {
@@ -79,7 +79,7 @@
         .modal-content {
             background-color: white;
             padding: 24px;
-            border-radius: 12px;
+            border-radius: 4px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
             max-width: 400px;
             width: 100%;

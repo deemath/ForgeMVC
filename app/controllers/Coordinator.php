@@ -3,6 +3,8 @@ class Coordinator{
      use Controller;
 
      public function Dashboard(){
+        //session_start();
+
         $coordinatorId = $_SESSION['coordinator_id'];
 
         $dashboardModel = new CoordinatorModel();
@@ -399,7 +401,11 @@ class Coordinator{
         $status = $model->updateCoord($coordData);
 
         if($status) {
-            $this->Settings();
+            $updateCoord = $model->getCoordInfo($id);
+            $data = [
+                'profile_image_path' => $updateCoord->image ?? null
+            ];
+            $this->Settings($data);
         }else {
             $errors['errors'] = "Failed to update details.";
             $this->Settings();
