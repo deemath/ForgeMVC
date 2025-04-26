@@ -246,4 +246,27 @@ class taskModel{
         }
         return false;
     }
+
+
+    ///function for fetch all the task related to project_id
+    public function fetchAllTask($id){
+        $this->table = 'task';
+        $this->order_type 	= "asc";
+        $temp['projectid']=$_SESSION['project_id'];
+        $data['tasks'] = $this->where($temp);
+        return $data;
+    }
+
+
+    ///updateStartDate
+    public function updateStartDate($data){
+        $this->table = "task";
+        $dataset['startdate'] = $data["startdate"];
+        if(!$this->update($data['id'],$dataset)){
+            
+            return true;
+        }
+        return false;
+
+    }
 }

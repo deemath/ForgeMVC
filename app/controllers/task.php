@@ -117,7 +117,7 @@ class task{
             $this->view('_404');
         }
     }
-    public function edit($tempid=null){
+    public function edit($tempid=null, $errors=[]){
         
         if($tempid!=null){
             $id = $tempid;
@@ -130,6 +130,7 @@ class task{
         // echo $id;
         $prj = new taskModel;
         $data = $prj->fetchAssign($id);
+        $data['errors'] = $errors;
         if ($data) {
             $this->view('supervisor/edittask', $data); // Pass data as an array
         }
@@ -220,6 +221,9 @@ class task{
     }
 
     public function Updateflags(){
+
+        
+
         if(!empty($_SESSION["project_id"])){
             $data["projectid"] = $_SESSION["project_id"];
             $data["id"] = $_POST['id'];
@@ -330,6 +334,59 @@ class task{
         if($status){
                 
             $this->edit($_POST['taskid']);
+        }
+        else{
+            $this->view("_404");
+        }
+    }
+
+    public function editStartDate(){
+        if(!empty($_SESSION["project_id"])){
+            $data["projectid"] = $_SESSION["project_id"];
+            $data["id"] = $_POST['id'];
+          
+            $projectEndDate = $_POST['projectEndDate'];
+            $currentdate = date('Y-m-d');
+            $projectStartDate = $_POST['projectStartDate'];
+            $taskenddate = $_POST['taskenddate'];
+
+
+            if($_POST['startdate'] > $taskenddate){
+                $errors['errors'] = "Starting date is invalid . please make sure that date you entered before task ending date. (Project Starts on ".$taskenddate.")";
+                $this->edit($data["id"],$errors);
+                exit;
+            }
+            if($_POST['startdate'] > $projectEndDate){
+                $errors['errors'] = "Starting date is invalid . please make sure that date you entered before project Starting date. (Project Starts on ".$projectEndDate.")";
+                $this->edit($data["id"],$errors);
+                exit;
+            }
+
+            if($_POST['startdate'] < $projectStartDate){
+                $errors['errors'] = "Starting date is invalid . please make sure that date you entered after project Starting date. (Project Starts on ".$projectStartDate.")";
+                $this->edit($data["id"],$errors);
+                exit;
+            }
+
+            ///if function for redirrect with error["starting date is pastaway]
+            if($currentdate > $_POST['startdate']){
+                $errors['errors'] = "Starting date is passed away";
+                $this->edit($data["id"],$errors);
+                exit;
+            }
+
+
+
+
+            $data["startdate"] =  $_POST['startdate'];
+            $prj = new taskModel;
+            $status = $prj->updateStartDate($data);
+            if($status){
+                
+               $this->edit($_POST['id']);
+            }
+
+          
         }
         else{
             $this->view("_404");

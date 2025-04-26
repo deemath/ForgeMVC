@@ -22,6 +22,7 @@ class Supervisor{
         
         $prj = new ProjectModel;
         $data = $prj->ShowDashboard4($_SESSION['project_id']);
+        $data["members"] = $prj->loadmembers();
         if ($data) {
             $this->view('supervisor/tasklist', $data); // Pass data as an array
         } else {
@@ -74,7 +75,11 @@ class Supervisor{
     }
     
     public function showCalender(){
-        $this->view('supervisor/calender');
+
+        ///fetch task using fetchAllTask in task model
+        $prj = new taskModel;
+        $data = $prj->fetchAllTask($_SESSION['project_id']);
+        $this->view('supervisor/calender', $data); // Pass data as an array
     }
 
     public function addSubtask(){

@@ -126,8 +126,9 @@ require_once 'navigationbar.php'
                             <th class="py-2 px-4 border-b">Topic</th>
                             <th class="py-2 px-4 border-b">Description</th>
                             <th class="py-2 px-4 border-b">Status</th>
-                            <th class="py-2 px-4 border-b">Actions</th>
-                            <th></th>
+
+                            <th class="py-2 px-4 border-b" colspan="2">Actions</th>
+                            
                         </tr>
                         </thead>
                         <tbody>
@@ -174,11 +175,13 @@ require_once 'navigationbar.php'
                                         echo $status;
                             ?>  
                                 </td>
+                                
                                 <td><button class="flex-1 bg-blue-500 text-white py-2 px-4 rounded mr-2" name="submit" type="submit">View </button></td>
                                 </form>
-                                <td>
-                                    <button onclick="openModal(<?= $task->id ?>)">+ Sub Task</button>
+                                <td style="font-size: 14px; color: #007bff;">
+                                    <button onclick="openModal(<?= $task->id ?>)">+ subtask</button>
                                 </td>
+                              
                                 </tr>
                                 
                                 <?php if($data['subtasks']) : ?>
@@ -186,7 +189,7 @@ require_once 'navigationbar.php'
                                 <?php foreach($data['subtasks'] as $subtask) : ?>
                                     <?php if($subtask->taskid == $task->id) : ?>
                                     <?php $count++;?>
-                                     <tr class="task-row" 
+                                     <tr class="task-row" style="color:rgba(44, 43, 43, 0.6);"
                     
                                             data-task-subtasks='<?= json_encode($task->subtasks)?:'' ?>'
                                         >
@@ -252,6 +255,89 @@ require_once 'navigationbar.php'
                             </a>
                     <?php endif; ?>
                 </div>
+
+                
+                <?php if (empty($selected)): ?>
+                       
+                        
+                        <div class="w-1/3 bg-white p-6 shadow-md">
+                            
+                          <!-- -->
+                            <p class="text-gray-800 mb-4"><?=$_SESSION['institute_name']?></p>
+                            <div class="text-2xl font-bold mb-4"><?=$data['project']->title?></div>
+                            
+                            <p class="text-gray-700 mb-4"><?=$data['project']->description?></p>
+                            
+
+                            <div class="mb-4 flex">
+                                <div class="font-bold mb-2">Duration</div>
+                                <div class="text-gray-700"><b>from </b> <?=$data['project']->startdate?><b>  to  </b><?=$data['project']->enddate?></div>
+                            </div>
+                            <!-- <pre>
+                                <php print_r($data); ?>
+                                <php print_r($_SESSION); ?>
+                            </pre> -->
+
+                            <div class="mb-4 ">
+                                <div class="font-bold mb-2">Created At : </div>
+                                <div class="text-gray-700"><?=$data['project']->createdat?></div>
+                            </div>
+
+                            <div class="font-bold mb-2"> Assigned users : </div>
+                            <?php if(!empty($data['members'])):?>
+                                <?php foreach($data['members']['members'] as $member):?>
+                                   <?php if($member->userrole==2):?>
+                                        <div class="flex items-center mb-2">
+                                            <div>
+                                                <div class="font-bold"><?=$member->username?></div>
+                                                <div class="text-sm text-gray-500"><?=$member->useremail?></div>
+                                            </div>
+                                            <span class="ml-auto bg-yellow-200 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">Supervisor</span>
+                                        </div>
+                                    <?php endif;?>
+                                <?php endforeach;?>
+                                <?php foreach($data['members']['members'] as $member):?>
+                                   <?php if($member->userrole==3):?>
+                                        <div class="flex items-center mb-2">
+                                            <div>
+                                                <div class="font-bold"><?=$member->username?></div>
+                                                <div class="text-sm text-gray-500"><?=$member->useremail?></div>
+                                            </div>
+                                            <span class="ml-auto bg-green-200 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Co-Supervisor</span>
+                                        </div>
+                                    <?php endif;?>
+                                <?php endforeach;?>
+                                <?php foreach($data['members']['members'] as $member):?>
+                                   <?php if($member->userrole==4):?>
+                                        <div class="flex items-center mb-2">
+                                            <div>
+                                                <div class="font-bold"><?=$member->username?></div>
+                                                <div class="text-sm text-gray-500"><?=$member->useremail?></div>
+                                            </div>
+                                            <span class="ml-auto bg-purple-200 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">Member</span>
+                                        </div>
+                                    <?php endif;?>
+                                <?php endforeach;?>
+                            <?php endif; ?>
+                            
+
+                         
+                              
+                                  
+                                   
+                                
+                              
+                          
+                        </div> 
+                        
+                    <?php endif; ?>
+
+
+
+
+
+
+
                     <?php if (!empty($selected)): ?>
                         <?php foreach($data['selected'] as $selected) : ?>
                         

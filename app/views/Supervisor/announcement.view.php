@@ -56,8 +56,23 @@ require_once 'navigationbar.php'
                     </div>
                     <div class="mb-4">
                         <label for="content" class="block text-gray-700 font-medium mb-2">Content</label>
-                        <textarea id="content" class="w-full p-2 border border-gray-300 rounded" rows="4" placeholder="Announcement Content" name="content"></textarea>
+                        <!-- Replace textarea with a rich text editor -->
+                        <textarea id="content" class="w-full p-2 border border-gray-300 rounded" rows="6" placeholder="Announcement Content" name="content"></textarea>
                     </div>
+                    <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+                    <script>
+                        CKEDITOR.replace('content', {
+                            toolbar: [
+                                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
+                                { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] },
+                                { name: 'links', items: ['Link', 'Unlink'] },
+                                { name: 'insert', items: ['Image', 'Table'] },
+                                { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
+                                { name: 'colors', items: ['TextColor', 'BGColor'] },
+                                { name: 'tools', items: ['Maximize'] }
+                            ]
+                        });
+                    </script>
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Post Announcement</button>
                 </form>
             </section>

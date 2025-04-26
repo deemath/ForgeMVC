@@ -65,7 +65,7 @@ require_once 'navigationbar.php'
             <?php foreach($data['announcement'] as $announcement): ?>
                 <div class="announcement-card">
                     <h2><?= htmlspecialchars($announcement->title) ?></h2>
-                    <p><?= htmlspecialchars($announcement->description) ?></p>
+                    <p><?= ($announcement->description) ?></p>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
