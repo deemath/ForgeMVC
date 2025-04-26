@@ -32,7 +32,7 @@
         }
         .invite-page .card{
             background-color: #dbeafe;
-            border-radius: 12px;
+            border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 24px;
             margin-bottom: 24px;
@@ -77,7 +77,7 @@
             background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s ease;
             width: auto;
@@ -90,7 +90,7 @@
             padding: 15px;
             margin-bottom: 20px;
             border: 1px solid transparent;
-            border-radius: 5px;
+            border-radius: 4px;
             font-size: 14px;
             text-align: left;
         }
@@ -111,7 +111,7 @@
             border-collapse: collapse;
             margin-bottom: 24px;
             background: white;
-            border-radius: 8px;
+            border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .invite-page th, .invite-page td {

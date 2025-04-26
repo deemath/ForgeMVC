@@ -52,7 +52,7 @@ class Login
                     header("Location: " . ROOT . "/reguser/commonInterface");
                     exit();
                 } elseif ($role === 'coordinator') {
-                    //$_SESSION['coordinator_image'] = $getCoordInfo->image;
+                    $_SESSION['coordinator_image'] = $getCoordInfo->image;
                     $_SESSION['coordinator_id'] = $result;
                     header("Location: " . ROOT . "/coordinator/dashboard");
                     exit();

@@ -74,7 +74,7 @@ class AuthModel{
         
 
         // if(isset($row) && password_verify($arr['password'], $row[0]->password)) {
-        if (isset($row) && $arr['password'] == $row[0]->password) {
+        if (!empty($row) && isset($row[0]) && $arr['password'] == $row[0]->password) {
             if($role === 'coordinator' && isset($row[0]->status) && $row[0]->status == 1) {
                 $this->errors[] = "Your account is deactivated. Please contact the admin.";
                 return false;

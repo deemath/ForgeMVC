@@ -129,7 +129,7 @@ $imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to
             background-color: #fff;
             padding: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-radius: 8px;
+            border-radius: 4px;
             text-align: center;
             letter-spacing: 0.3px;
         }
@@ -168,7 +168,7 @@ $imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to
             color: #fff;
             padding: 15px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-radius: 8px;
+            border-radius: 4px;
             text-align: center;
             display: flex;
             align-items: center;
@@ -199,7 +199,7 @@ $imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to
             background-color: #dbeafe;
             padding: 15px;
             box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
-            border-radius: 8px;
+            border-radius: 4px;
             text-align: center;
             min-height: 200px;
             display: flex;
@@ -277,7 +277,7 @@ $imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to
             border: none;
             padding: 10px 18px;
             margin: 10px;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
         }
@@ -293,7 +293,7 @@ $imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to
             border: none;
             padding: 10px 18px;
             margin: 10px;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
         }
