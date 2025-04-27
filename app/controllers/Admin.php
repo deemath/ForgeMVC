@@ -260,13 +260,17 @@ class Admin{
     }
 
     public function disableCoordinator(){
+        echo $_POST['id'];
         if (!empty($_SESSION['admin_id'])) {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+            
+            if (isset($_POST['id'])) {
+                
                 $id = $_POST['id'];
 
                 $adminModel = new AdminModel();
-
-                if ($adminModel->disableCoordinatorById($id)) {
+                
+                if (!$adminModel->disableCoordinatorById($id)) {
+                    
                     header('Location:' . ROOT . '/Admin/profilecard/' . $id);
                     exit;
                 } else {
@@ -285,7 +289,7 @@ class Admin{
 
                 $adminModel = new AdminModel();
 
-                if ($adminModel->activeCoordinatorById($id)) {
+                if (!$adminModel->activeCoordinatorById($id)) {
                     header('Location:' . ROOT . '/Admin/profilecard/' . $id);
                     exit;
                 } else {
@@ -340,29 +344,53 @@ class Admin{
         }
     }
 
-    public function toggleCoordinatorStatus($id)
-{
-    if (!empty($_SESSION['admin_id'])) {
-        $model = new Adminmodel();
+    public function toggleCoordinatorStatus($id){
+        if (!empty($_SESSION['admin_id'])) {
+            $model = new Adminmodel();
 
-        // Fetch the current status of the coordinator
-        $coordinator = $model->getCoordinatorById($id);
+            // Fetch the current status of the coordinator
+            $coordinator = $model->getCoordinatorById($id);
 
-        if ($coordinator) {
-            // Toggle the status
-            $newStatus = $coordinator->status == 1 ? 0 : 1;
+            if ($coordinator) {
+                // Toggle the status
+                $newStatus = $coordinator->status == 1 ? 0 : 1;
 
-            // Update the status in the database
-            $model->updateCoordinatorStatus($id, $newStatus);
+                // Update the status in the database
+                $model->updateCoordinatorStatus($id, $newStatus);
+            }
+
+            // Redirect back to the page
+            redirect('Admin/dashboard'); // or wherever your table is
+        } else {
+            // Not logged in as admin
+            $this->view('_404');
         }
-
-        // Redirect back to the page
-        redirect('Admin/dashboard'); // or wherever your table is
-    } else {
-        // Not logged in as admin
-        $this->view('_404');
     }
-}
+
+    public function projectprofview($id){
+        if(!empty($_SESSION['admin_id'])){
+            $model = new AdminModel;
+
+            $data["project"] = $model->getProjectById($id);
+            $data["tasks"] = $model->getTasks($id);
+            
+            // echo "<pre>";
+            // print_r ($data);
+            // echo "</pre>";
+
+
+
+            if(!$data){
+                echo 'Project not found!';
+                return ;
+            }
+
+            $this->view('Admin/projectprof',$data);
+        }
+        else{
+            $this->view('_404');
+        }
+    }
 
     
     }

@@ -52,18 +52,16 @@
                   
 
                     <?php foreach ($data['projects'] as $project): ?>
-                        <a href="<?ROOT?>/Admin/projectprofview"></a>
                             <div class="project">
                                 <div class="title"><?= htmlspecialchars($project->title) ?></div>
                                 <div class="description">
                                     <?= htmlspecialchars(substr($project->description, 0, 200)) . (strlen($project->description) > 200 ? ' ...' : '') ?>
                                 </div>
                                 <div class="actions">
-                                    <button class="edit-btn" data-id="<?= $project->id ?>">Edit</button>
+                                    <button class="edit-btn" onclick="location.href='<?= ROOT ?>/Admin/projectProfView/<?= $project->id ?>'">View</button>
                                     <button class="delete-button" data-id="<?= $project->id ?>">Delete</button>
                                 </div>
                             </div>
-                        </a>
                     <?php endforeach; ?>
 
                     <?php endif; ?>
@@ -185,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <!-- Delete Confirmation Modal -->
-<!-- <div id="delete-project-modal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index: 999;">
+<!-- <!-- <div id="delete-project-modal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index: 999;">
     <div class="modal-content" style="background: white; width: 400px; margin: 150px auto; padding: 20px; border-radius: 10px; position: relative;">
         <h3 style="margin-bottom: 20px;">Confirm Deletion</h3>
         <p>Are you sure you want to delete this project?</p>
@@ -239,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script> -->
-
+ -->
 <style>
     .coordinator {
         background-color: white;

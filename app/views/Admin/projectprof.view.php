@@ -8,6 +8,7 @@
         background-color: #f4f6f9;
         margin: 0;
         padding: 2rem;
+        width:75%;
     }
 
     .project-container {
@@ -31,11 +32,12 @@
         font-size: 2rem;
         color: #333;
         margin: 0;
+        font-weight: 500;
     }
 
     .project-status {
         font-size: 1rem;
-        font-weight: 600;
+        font-weight: 500;
         color: #28a745;
     }
 
@@ -49,12 +51,14 @@
     .project-description h3 {
         font-size: 1.5rem;
         margin-bottom: 1rem;
+        font-weight: 500;
     }
 
     .project-description p {
         font-size: 1rem;
         line-height: 1.6;
         color: #555;
+        font-weight: 400;
     }
 
     .project-details, .timeline {
@@ -71,11 +75,13 @@
         padding: 12px 15px;
         text-align: left;
         border-bottom: 1px solid #e0e0e0;
+        font-weight: 400;
     }
 
     thead {
         background-color: #007bff;
         color: #fff;
+        font-weight: 500;
     }
 
     tr:nth-child(even) {
@@ -92,9 +98,12 @@
         background-color: #28a745;
         color: white;
         border-radius: 5px;
+        font-weight: 400;
     }
 
     .back-btn {
+        display: inline-block;
+        margin-top: 2rem;
         padding: 10px 20px;
         background-color: #007bff;
         color: #fff;
@@ -110,16 +119,15 @@
 </style>
 
 <div class="bb">
-
+<?php if (!empty($data)): ?>
 <div class="project-container">
     <div class="project-header">
-        <h2>Project Title: <?= htmlspecialchars($project->title) ?></h2>
-        <span class="project-status"><?= $project->status == 'completed' ? 'Completed' : 'Ongoing' ?></span>
+        <h2>Project Title: <?= htmlspecialchars($data['project']->title) ?></h2>
     </div>
 
     <div class="project-description">
         <h3>Project Overview</h3>
-        <p><?= htmlspecialchars($project->overview) ?></p>
+        <p><?= htmlspecialchars($data['project']->description) ?></p>
     </div>
 
     <div class="project-details">
@@ -128,49 +136,59 @@
             <thead>
                 <tr>
                     <th>Project ID</th>
-                    <th>Manager</th>
+                    <th>Assigned Coordinator</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    <th>Budget</th>
+                    <th>Date Created</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><?= $project->id ?></td>
-                    <td><?= htmlspecialchars($project->manager_name) ?></td>
-                    <td><?= $project->start_date ?></td>
-                    <td><?= $project->end_date ?></td>
-                    <td>$<?= number_format($project->budget, 2) ?></td>
+                    <td><?= $data['project']->id ?></td>
+                    <td><?= htmlspecialchars($data['project']->coordinatorid) ?></td>
+                    <td><?= $data['project']->startdate ?></td>
+                    <td><?= $data['project']->enddate ?></td>
+                    <td><?= $data['project']->createdat ?></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <div class="timeline">
-        <h3>Project Timeline</h3>
+        <h3>Task</h3>
         <table>
             <thead>
                 <tr>
-                    <th>Phase</th>
-                    <th>Start Date</th>
+                    <th>Task ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Created By</th>
                     <th>End Date</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($project->timeline as $phase): ?>
+                <?php if(!empty($data['tasks'])):?>
+                    <?php foreach ($data["tasks"] as $task): ?>
+                        <tr>
+                            <td><?= $task->id ?></td>
+                            <td><?= htmlspecialchars($task->title) ?></td>
+                            <td><?= htmlspecialchars($task->description) ?></td>
+                            <td><?= htmlspecialchars($task->createdby) ?></td>
+                            <td><?= $task->enddate ?></td>
+                            <td><span class="status"><?= htmlspecialchars($task->status) ?></span></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
                     <tr>
-                        <td><?= htmlspecialchars($phase->name) ?></td>
-                        <td><?= $phase->start_date ?></td>
-                        <td><?= $phase->end_date ?></td>
-                        <td><span class="status"><?= $phase->status ?></span></td>
+                        <td colspan="6" style="text-align:center; padding: 20px;">No tasks available.</td>
                     </tr>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
 
-    <a href="<?= ROOT ?>/projects" class="back-btn">← Back to Projects</a>
+    <a href="<?= ROOT ?>/Admin/dashboard" class="back-btn">← Back to Projects</a>
 </div>
-
+<?php endif; ?>
 </div>

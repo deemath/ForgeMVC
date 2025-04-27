@@ -331,12 +331,19 @@ class AdminModel{
        }
 
        public function updateCoordinatorStatus($id, $status)
-{
-    $query = "UPDATE coordinator SET status = :status WHERE id = :id";
-    $this->query($query, [
-        'status' => $status,
-        'id' => $id
-    ]);
-}
+            {
+                $query = "UPDATE coordinator SET status = :status WHERE id = :id";
+                $this->query($query, [
+                    'status' => $status,
+                    'id' => $id
+                ]);
+            }
+
+
+        public function getTasks($id){
+            $this->table= "task";
+            return $this->where(["projectid"=>$id]);
+
+        }
 
 }

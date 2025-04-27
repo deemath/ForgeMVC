@@ -4,148 +4,212 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coordinator Profile</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            background-color: #f9fafb;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    <<style>
+    body {
+        margin: 0;
+        background-color: #f4f6f8;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #1f2937;
+    }
 
-        .main-wrapper {
-            /* width: 2000px; */
-            margin: 50px auto;
-            padding: 40px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.05);
-        }
+    .main-wrapper {
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 40px;
+        background-color: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
 
-        .top-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
+    .top-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+    }
 
-        .top-left {
-            display: flex;
-            align-items: center;
-        }
+    .top-left {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
 
-        .top-left img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 25px;
-            border: 3px solid #d1d5db;
-        }
+    .top-left img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 25px;
+        border: 4px solid #e2e8f0;
+    }
 
-        .top-left .info h2 {
-            font-size: 1.8rem;
-            margin: 0;
-            color: #111827;
-        }
+    .info h2 {
+        font-size: 1.9rem;
+        margin: 0;
+        color: #1e293b;
+    }
 
-        .top-left .info p {
-            font-size: 1.05rem;
-            color: #374151;
-            margin-top: 8px;
-        }
+    .info p {
+        font-size: 1.1rem;
+        color: #4b5563;
+        margin-top: 8px;
+    }
 
-        .status-badge {
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            color: white;
-        }
+    .divider {
+        border-top: 2px solid #e2e8f0;
+        margin: 30px 0;
+    }
 
-        .status-active {
-            background-color: #10b981;
-        }
+    .bottom-section {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+    }
 
-        .status-disabled {
-            background-color: #ef4444;
-        }
+    .info-box {
+        flex: 1;
+        background-color: #f9fafb;
+        padding: 30px;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+        min-width: 280px;
+    }
 
-        .divider {
-            border-top: 2px solid #e5e7eb;
-            margin: 30px 0;
-        }
+    .info-box h3 {
+        font-size: 1.5rem;
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #e5e7eb;
+        color: #1e293b;
+    }
 
-        .bottom-section {
-            display: flex;
-            gap: 40px;
-        }
+    .info-box p {
+        font-size: 1.05rem;
+        margin: 12px 0;
+        color: #374151;
+    }
 
-        .info-box {
-            flex: 1;
-            background-color: #f9fafb;
-            padding: 25px;
-            border-radius: 10px;
-            border: 1px solid #e5e7eb;
-        }
+    .info-box p strong {
+        font-weight: 600;
+        color: #111827;
+    }
 
-        .info-box h3 {
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
-            color: #111827;
-        }
-
-        .info-box p {
-            font-size: 1.05rem;
-            margin: 10px 0;
-            color: #374151;
-        }
-
-        .info-box p strong {
-            color: #111827;
-        }
-
-        .project-title {
-            background-color: #e5e7eb;
-            padding: 10px 14px;
-            border-radius: 6px;
-            margin: 8px 0;
-            font-size: 0.95rem;
-            color: #111827;
-        }
+    .project-title {
+        background-color: #e2e8f0;
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin: 10px 0;
+        font-size: 1rem;
+        color: #1e293b;
+        font-weight: 500;
+    }
 
     .active-btn, .disable-btn {
-        padding: 0.6rem 1.5rem;
+        padding: 0.3rem 1.0rem;
         font-size: 1rem;
+        font-size: 12px;
         font-weight: 600;
         border: none;
-        border-radius: 6px;
+        border-radius: 8px;
         cursor: pointer;
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        margin-top: 10px;
     }
 
     .active-btn {
-        background-color: #10b981; /* Tailwind emerald-500 */
-        color: white;
+        background-color:rgb(255, 255, 255);
+        color:rgb(4, 131, 61);
+        font-weight:100;
+        border: 1px rgb(11, 77, 42) solid;
     }
 
     .active-btn:hover {
-        background-color: #059669; /* emerald-600 */
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        background-color: #059669;
+        color:rgb(255, 255, 255);
     }
 
     .disable-btn {
-        background-color: #ef4444; /* Tailwind red-500 */
-        color: white;
+        background-color:rgb(255, 255, 255);
+        color:rgb(131, 4, 4);
+        font-weight:100;
+        border: 1px rgb(68, 17, 17) solid;
     }
 
     .disable-btn:hover {
-        background-color: #dc2626; /* red-600 */
-        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        background-color: #dc2626;
+        color:rgb(255, 255, 255);
     }
 
-    </style>
+    label[for="disable"] {
+        display: block;
+        font-size: 0.95rem;
+        font-weight: 500;
+        margin-bottom: 6px;
+        color: #6b7280;
+    }
+    .dis-lable {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: rgb(237, 21, 21);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        cursor: pointer;
+        text-align: center;
+        
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+    }
+    .dis-lable p{
+        color:white;
+        padding:0;
+        margin:0;
+    }
+
+    .act-lable {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: rgb(34, 154, 98);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        cursor: pointer;
+        text-align: center;
+        
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+    }
+    .act-lable p{
+        color:white;
+        padding:0;
+        margin:0;
+    }
+
+    @media (max-width: 768px) {
+        .top-section {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .top-left {
+            margin-bottom: 20px;
+        }
+
+        .bottom-section {
+            flex-direction: column;
+        }
+    }
+</style>
+
 </head>
 
 <div class="main-wrapper">
@@ -171,12 +235,14 @@
          
                     
 
-            <form method="POST" action="<?= ROOT ?>/Admin/<?= $data['coordata']->status == 1 ? 'disableCoordinator' : 'activeCoordinator' ?>">
-                <!-- <input type="hidden" name="id" value="<?= $data['coordata']->id ?>"> -->
+            <form method="POST" action="<?= ROOT ?>/Admin/<?= $data['coordata']->status == 1 ? 'activeCoordinator' : 'disableCoordinator' ?>">
+                <input type="hidden" name="id" value="<?= $data['coordata']->id ?>">
                 <?php if ($data['coordata']->status == 1): ?>
-                    <button type="submit" class="active-btn">Disable</button>
+                    <label for="disable" class="dis-lable"><p>Deactive</p></label>
+                    <button type="submit" class="disable-btn">To active click here</button>
                 <?php else: ?>
-                    <button type="submit" class="disable-btn">Activate</button>
+                    <label for="disable" class="act-lable"><p>Active</p></label>
+                    <button type="submit" class="active-btn">To deactive click here</button>
                 <?php endif; ?>
             </form>
 

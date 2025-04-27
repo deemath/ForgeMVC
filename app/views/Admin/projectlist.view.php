@@ -277,7 +277,7 @@
                         <td class="prj-td"><?= htmlspecialchars($project->enddate) ?></td>
                         <td class="prj-td"><?= htmlspecialchars($project->id) ?>%</td>
                         <td class="prj-td prj-action-buttons">
-                            <button class="prj-edit-btn" onclick="editProject('<?= htmlspecialchars($project->id) ?>')">Edit</button>
+                            <button class="prj-edit-btn" onclick="location.href='<?=ROOT ?>/Admin/projectProfView/<?= $project->id ?>'">View</button>
                             <button class="prj-remove-btn" onclick="confirmDelete('<?= htmlspecialchars($project->id) ?>')">Remove</button>
                         </td>
                     </tr>
@@ -310,31 +310,6 @@
         </div>
     </div>
 
-    <div id="edit-modal" class="prj-modal">
-        <form action="<?=ROOT?>/Admin/updateProject" method="post">
-        <div class="prj-modal-content prj-edit-modal-content">
-            <input type="hidden" id="edit-id" name="id">
-
-            <label for="edit-title">Project Title:</label>
-            <input type="text" id="edit-title" name="title">
-            <label for="edit-description">Project Description:</label>
-            <input type="text" id="edit-description" name="description">
-            <label for="edit-coordinator">Project Coordinator:</label>
-            <input type="text" id="edit-coordinator" name="coordinator">
-            <label for="edit-start-date">Start Date:</label>
-            <input type="date" id="edit-start-date" name="start_date">
-            <label for="edit-end-date">End Date:</label>
-            <input type="date" id="edit-end-date" name="end_date">
-            <label for="edit-percentage">Percentage:</label>
-            <input type="number" id="edit-percentage" name="percentage" min="0" max="100 " step="1">
-            <div class="prj-modal-buttons">
-                <button type="submit" class="prj-save-btn">Save</button>
-                <button class="prj-no-btn" type="button" onclick="closeModal()">Cancel</button>
-            </div>
-        </div>
-        </form>
-    </div>
-
     <script>
     let selectedProjectId;
 
@@ -353,31 +328,6 @@
 
         // Display the delete modal
         document.getElementById('delete-modal').style.display = 'block';
-    }
-
-    // Show the edit modal with the current project details
-    function editProject(id) {
-        selectedProjectId = id;
-
-        // Get the project details dynamically
-        let id1 = document.getElementById('project-id-' + id).textContent;
-        let title = document.getElementById('project-title-' + id).textContent;
-        let description = document.getElementById('project-description-' + id).textContent;
-        let coordinator = document.getElementById('project-coordinator-' + id).textContent;
-        let startDate = document.getElementById('project-start-date-' + id).textContent;
-        let endDate = document.getElementById('project-end-date-' + id).textContent;
-        let percentage = document.getElementById('project-percentage-' + id).textContent;
-
-        // Populate the modal with existing data
-        document.getElementById('edit-id').value = id1;
-        document.getElementById('edit-title').value = title;
-        document.getElementById('edit-description').value = description;
-        document.getElementById('edit-coordinator').value = coordinator;
-        document.getElementById('edit-start-date').value = startDate;
-        document.getElementById('edit-end-date').value = endDate;
-        document.getElementById('edit-percentage').value = percentage;
-
-        document.getElementById('edit-modal').style.display = 'block';
     }
 
     // Close any open modal
