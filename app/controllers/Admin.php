@@ -344,29 +344,32 @@ class Admin{
         }
     }
 
-    public function toggleCoordinatorStatus($id){
+    public function toggleCoordinatorStatus() {
         if (!empty($_SESSION['admin_id'])) {
             $model = new Adminmodel();
-
+    
+            // Fetch the coordinator ID from the POST request
+            $id = $_POST['id'];
+    
             // Fetch the current status of the coordinator
             $coordinator = $model->getCoordinatorById($id);
-
+    
             if ($coordinator) {
                 // Toggle the status
                 $newStatus = $coordinator->status == 1 ? 0 : 1;
-
+    
                 // Update the status in the database
                 $model->updateCoordinatorStatus($id, $newStatus);
             }
-
+    
             // Redirect back to the page
-            redirect('Admin/dashboard'); // or wherever your table is
+            redirect('Admin/dashboard');
         } else {
             // Not logged in as admin
             $this->view('_404');
         }
     }
-
+    
     public function projectprofview($id){
         if(!empty($_SESSION['admin_id'])){
             $model = new AdminModel;

@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coordinator Profile</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <<style>
+    <style>
     body {
         margin: 0;
         background-color: #f4f6f8;
@@ -127,7 +127,7 @@
     }
 
     .active-btn:hover {
-        background-color: #059669;
+        background-color: #dc2626;
         color:rgb(255, 255, 255);
     }
 
@@ -139,7 +139,7 @@
     }
 
     .disable-btn:hover {
-        background-color: #dc2626;
+        background-color: #059669 ;
         color:rgb(255, 255, 255);
     }
 
@@ -193,6 +193,27 @@
         padding:0;
         margin:0;
     }
+    .back-btn {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 10px 20px;
+        background-color:rgb(247, 247, 248);
+        border-color:rgb(5, 5, 5) ;
+        color: #007bff;
+        border:2px solid;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+z
+    .back-btn:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        border-color: #0056b3; 
+        color: #111827; 
+    }
 
     @media (max-width: 768px) {
         .top-section {
@@ -207,6 +228,7 @@
         .bottom-section {
             flex-direction: column;
         }
+        
     }
 </style>
 
@@ -235,14 +257,14 @@
          
                     
 
-            <form method="POST" action="<?= ROOT ?>/Admin/<?= $data['coordata']->status == 1 ? 'activeCoordinator' : 'disableCoordinator' ?>">
+            <form id="statusForm" method="POST" action="<?= ROOT ?>/Admin/<?= $data['coordata']->status == 1 ? 'activeCoordinator' : 'disableCoordinator' ?>">
                 <input type="hidden" name="id" value="<?= $data['coordata']->id ?>">
                 <?php if ($data['coordata']->status == 1): ?>
                     <label for="disable" class="dis-lable"><p>Deactive</p></label>
-                    <button type="submit" class="disable-btn">To active click here</button>
+                    <button type="button" class="disable-btn" id="confirmButton">Click here to Active</button>  <!-- type="button" -->
                 <?php else: ?>
                     <label for="disable" class="act-lable"><p>Active</p></label>
-                    <button type="submit" class="active-btn">To deactive click here</button>
+                    <button type="button" class="active-btn" id="confirmButton">Click here to Deactive</button> <!-- type="button" -->
                 <?php endif; ?>
             </form>
 
@@ -277,5 +299,39 @@
             </div>
         </div>
 
+        <a href="<?= ROOT ?>/Admin/dashboard" class="back-btn">← Back to Projects</a>
+
     <?php endif; ?>
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+   document.getElementById('confirmButton').addEventListener('click', function(event) {
+    Swal.fire({
+        title: 'Confirm Action',
+        text: "You are about to " + (<?= $data['coordata']->status == 1 ? "'deactivate'" : "'activate'" ?>) + " this coordinator. This action cannot be undone.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#007bff',  // Professional blue color
+        cancelButtonColor: '#d33',      // Red color for cancellation
+        confirmButtonText: 'Yes, proceed',
+        cancelButtonText: 'Cancel',
+        reverseButtons: true,  // Make 'Yes' button appear first
+        customClass: {
+            popup: 'custom-popup',  // Custom class for the popup
+            confirmButton: 'swal-confirm-btn',  // Custom button styling
+            cancelButton: 'swal-cancel-btn'  // Custom button styling
+        },
+        backdrop: true,  // Add backdrop effect for focus
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('statusForm').submit();
+        }
+    });
+});
+
+
+</script>

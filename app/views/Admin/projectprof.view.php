@@ -79,7 +79,7 @@
     }
 
     thead {
-        background-color: #007bff;
+        background-color:rgb(0, 123, 255);
         color: #fff;
         font-weight: 500;
     }
