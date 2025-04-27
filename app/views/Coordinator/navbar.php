@@ -1,8 +1,18 @@
 <?php 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 $coordinatorId = $_SESSION['coordinator_id'];
-$model = new CoordinatorModel();
-$coordinatorInfo = $model->getCoordInfo($coordinatorId);  // Fetch coordinator info including image
-$imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to placeholder if no image is set
+if ($coordinatorId) {
+    $model = new CoordinatorModel();
+    $coordinatorInfo = $model->getCoordInfo($coordinatorId);
+    $imagePath = !empty($coordinatorInfo) ? $coordinatorInfo[0]->image : '';
+    if (empty($imagePath)) {
+        $imagePath = 'assets/images/prof.jpg'; // default image path relative to ROOT
+    }
+} else {
+    $imagePath = 'assets/images/prof.jpg'; // default image if no coordinator logged in
+}
 ?>
 
 <html lang="en">
@@ -234,9 +244,9 @@ $imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to
             color: #1e3a8a;
             margin-left: 8px;
         }
-        /* Modal Background */
+       
         .logout-modal {
-            display: none; /* Initially hidden */
+            display: none;
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -247,7 +257,6 @@ $imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to
             background-color: rgba(0,0,0,0.5);
         }
 
-        /* Modal Content */
         .logout-modal .modal-content {
             background-color: #fff;
             margin: 15% auto;
@@ -259,7 +268,6 @@ $imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to
             animation: fadeIn 0.3s ease-in-out;
         }
 
-        /* Close button */
         .logout-modal .close {
             position: absolute;
             top: 20px;
@@ -270,7 +278,6 @@ $imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to
             cursor: pointer;
         }
 
-        /* Confirm Button */
         .confirm-logout-btn {
             background-color: #d9534f;
             color: white;
@@ -286,7 +293,6 @@ $imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to
             background-color: #c9302c;
         }
 
-        /* Cancel Button */
         .cancel-logout-btn {
             background-color: #1e3a8a;
             color: white;
@@ -302,7 +308,6 @@ $imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to
             background-color: #31b0d5;
         }
 
-        /* Fade-in animation */
         @keyframes fadeIn {
             from {opacity: 0;}
             to {opacity: 1;}
@@ -357,7 +362,7 @@ $imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to
     </h1>
     <div class="user-info">
         
-     <img alt="Profile Picture" height="40" src="<?= isset($_SESSION['coordinator_image']) ? ROOT . '/' . $_SESSION['coordinator_image'] : ROOT . '/assets/images/prof.jpg' ?>" width="40"/>
+     <img alt="Profile Picture" height="40" src="<?= ROOT . '/' . $imagePath ?>" width="40"/>
 
      <span>
       <?=$_SESSION['coordinator_id']?>

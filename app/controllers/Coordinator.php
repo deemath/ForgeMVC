@@ -116,7 +116,7 @@ class Coordinator{
             // Handle missing data, e.g., return an error message
             $errors['errors']= "Please fill in all required fields.";
             $this->createProjectForm($errors);
-            
+            return;
         }
         $allIds = array_merge($supervisors, $cosupervisors, $selected_members);
             if (count($allIds) !== count(array_unique($allIds))) {
@@ -361,7 +361,9 @@ class Coordinator{
         $coordinatorId = $_SESSION['coordinator_id'];
 
         $model = new CoordinatorModel();
-        $data = $model->getCoordInfo($coordinatorId);
+        if($data === null){
+            $data = $model->getCoordInfo($coordinatorId);
+        }
 
         $this->view('coordinator/coordSettings', $data);
     }
@@ -402,10 +404,7 @@ class Coordinator{
 
         if($status) {
             $updateCoord = $model->getCoordInfo($id);
-            $data = [
-                'profile_image_path' => $updateCoord->image ?? null
-            ];
-            $this->Settings($data);
+            $this->Settings($updateCoord);
         }else {
             $errors['errors'] = "Failed to update details.";
             $this->Settings();
