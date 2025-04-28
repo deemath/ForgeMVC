@@ -120,7 +120,7 @@ class taskModel{
         $sql = "SELECT t.*,u.name AS creator_name , u.email  AS creator_email FROM task t JOIN `user` u ON t.createdby=u.id WHERE t.projectid = :projectid";
         $data['creators']=$this->query($sql,$temp);
 
-        $sql1 ="SELECT t.taskid AS taskid,u.name AS user_name , u.email AS user_email
+        $sql1 ="SELECT t.taskid AS taskid,u.id AS user_id, u.name AS user_name , u.email AS user_email
                 FROM taskassign t JOIN user u ON
                 t.memberid=u.id WHERE t.taskid=:taskid;";
         
@@ -318,10 +318,14 @@ class taskModel{
 
     ////deleteAssignedMember
     public function deleteAssignedMember($data){
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
         $this->table = "taskassign";
         $dataset['taskid'] = $data["taskid"];
-        $dataset['memberid'] = $data["member"];
+        $dataset['memberid'] = $data["memberid"];
         $result = $this->where($dataset);
+        // print_r($result);
 
         if(!$this->delete($result[0]->id)){
             

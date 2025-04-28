@@ -479,7 +479,7 @@ class task{
     public function deleteAssignedMember(){
         $data['taskid'] =  $_POST['taskid'];
         $data['projectid'] = $_SESSION["project_id"];
-        $data['member'] = $_POST['member'];
+        $data['memberid'] = $_POST['userid'];
         $prj = new taskModel;
 
         $status = $prj->deleteAssignedMember($data);

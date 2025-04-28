@@ -347,7 +347,16 @@ require_once "navigationbar.php";
         <?php foreach($data['read'] as $read):?>
         <?php if($read->taskid == $selected->id): ?>
 
-        <div><?=$read->user_name ?> (<?=$read->user_email?>) <button class="btn-link">✕</button></div>
+        <div><?=$read->user_name ?> (<?=$read->user_email?>) 
+        <?php if($_SESSION['user_role']==2 ||$_SESSION['user_role']==3 ) :?>
+          <form action="deleteAssignedMember" method="post">
+              <input type="hidden" name="taskid" value="<?=$selected->id?>">
+              <input type="hidden" name="userid" value="<?=$read->user_id?>">
+              <button class="btn-link" type="submit">✕</button>
+              
+          </form>
+        <?php endif; ?>
+        </div>
         <!-- <div>Jane Smith (jane.smith@example.com) <button class="btn-link">✕</button></div> -->
 
         <?php endif;?>
