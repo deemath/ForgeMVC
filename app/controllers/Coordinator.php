@@ -426,7 +426,9 @@ class Coordinator{
 
         if($status) {
             $updateCoord = $model->getCoordInfo($id);
+
             $this->Settings($updateCoord);
+
         }else {
             $errors['errors'] = "Failed to update details.";
             $this->Settings();

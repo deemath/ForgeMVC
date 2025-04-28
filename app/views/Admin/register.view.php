@@ -31,6 +31,10 @@
             padding-left: 20px;
             list-style-type: disc;
         }
+        .body{
+            overflow-y: auto;
+        }
+        
     </style>
 </head>
 

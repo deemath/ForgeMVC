@@ -1,4 +1,5 @@
 <?php 
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -13,6 +14,7 @@ if ($coordinatorId) {
 } else {
     $imagePath = 'assets/images/prof.jpg'; // default image if no coordinator logged in
 }
+
 ?>
 
 <html lang="en">
@@ -366,7 +368,9 @@ if ($coordinatorId) {
     </h1>
     <div class="user-info">
         
+
      <img alt="Profile Picture" height="40" src="<?= ROOT . '/' . $imagePath ?>" width="40"/>
+
 
      <span>
       <?=$_SESSION['coordinator_id']?>
