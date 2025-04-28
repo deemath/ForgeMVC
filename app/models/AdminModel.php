@@ -82,6 +82,16 @@ class AdminModel{
         }
     }
 
+    public function deleteUser($id){
+        $this->table='user';
+        $result =$this->delete($id);
+        if(!$result){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public function ValidateCorReg($input){
         $this->errors=[];
         if(empty($input['name']) || empty($input['email']) || empty($input['password']) || empty($input['re-password'] ) || empty($input['institute']) )
@@ -132,6 +142,7 @@ class AdminModel{
         return $this->delete($id);
 
     }
+
 
     public function getProjectCount() {
         $this->table = 'project';
@@ -206,5 +217,159 @@ class AdminModel{
         return false;
     }
 
+    public function getcoordiById($id){
+        $this->table = 'coordinator';
+        $dump['id']= $id;
+        $data = $this->first($dump);
+
+        if($data){
+            return $data;
+        }
+        echo "error";
+
+        }
+
+    public function getUserById($id){
+       
+        $dump['id']= $id;
+        $this->table ='user';
+        $data = $this->first($dump);
+
+        if($data){
+            return $data;
+        }
+        else{
+            return false;
+        }
+        
+    }
+
+        public function getCoordinatorProjectCount($id){
+            $query = "SELECT COUNT(*) as count FROM project WHERE coordinatorid = :id";
+            $result = $this->query($query, array(':id' => $id));
+            // echo '<pre>';
+            //     print_r($result);
+            // echo '</pre>';
+
+            if(!empty($result)) {
+                return $result;
+            }
+            
+            return 0;
+        }
+
+        public function deleteProjectById($id) {
+            $query = "DELETE FROM project WHERE id = :id";
+            $result = $this->query($query, [':id' => $id]);
+
+            if(!empty($result)) {
+                return $result;
+            }
+            
+            return 0;
+        }
+
+        public function getProjectsByCoordinatorId($id){
+            $query = "SELECT * FROM project WHERE coordinatorid = :id"; 
+            $result = $this->query($query, ['id' => $id]);
+
+            if(!empty($result)) {
+                return $result;
+            }
+            
+            return 0;
+        }
+
+        // public function getCoordinatorStatus($status) {
+        //     if ($status === '1' || $status === 1) {
+        //         return 'active';
+        //     }
+        //     return 'inactive';
+        // }
+        
+
+        public function disableCoordinatorById($id){
+            // $sql = "UPDATE coordinator SET status = '1' WHERE id = :id";
+            // $result =  $this->query($sql, ['id' =>$id]);
+
+            $this->table="coordinator";
+            $this->update($id, ['status'=> 1]);
+
+            if(!empty($result)){
+                return $result;
+            }
+            return 0;
+        }
+        
+        public function activeCoordinatorById($id){
+            $sql = "UPDATE coordinator SET status = '0' WHERE id = :id";
+            $result =  $this->query($sql, ['id' =>$id]);
+
+            if(!empty($result)){
+                return $result;
+            }
+            return 0;
+        }
+
+        public function countActiveCoors(){
+            $sql = "SELECT COUNT(*) as total FROM coordinator WHERE status = 0 or status is  NULL";
+            $result = $this->query($sql);
+
+            if(!empty($result)){
+                return $result[0]->total;
+            }
+            return 0;
+        }
+
+        public function countDeactiveCoors(){
+            $sql = "SELECT COUNT(*) as total FROM coordinator WHERE status =1";
+            $result = $this->query($sql);
+
+            if(!empty($result)){
+                return $result[0]->total;
+            }
+            return 0;
+        }
+        
+       public function getAllProjects(){
+            $sql = "SELECT * FROM project";
+            return $this->query($sql);
+       } 
+
+       public function getActiveCoordinators() {
+        $sql = "SELECT * FROM coordinator WHERE status = 0 or status is NULL";
+        return $this->query($sql);
+       }
+
+       public function getDeactiveCoordinators(){
+        $sql = "SELECT * FROM coordinator WHERE status = 1";
+        return $this->query($sql);
+       }
+    
+       public function getAllCoordinators(){
+        $sql ="SELECT * FROM coordinator";
+        return $this->query($sql);
+       }
+
+       public function getAllUsers(){
+        $sql ="SELECT * FROM user";
+        return $this->query($sql);
+       }
+
+       public function updateCoordinatorStatus($id, $status)
+            {
+                $query = "UPDATE coordinator SET status = :status WHERE id = :id";
+                $this->query($query, [
+                    'status' => $status,
+                    'id' => $id
+                ]);
+            }
+
+
+        public function getTasks($id){
+            $this->table= "task";
+            return $this->where(["projectid"=>$id]);
+
+        }
 
 }
