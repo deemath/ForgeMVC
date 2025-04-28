@@ -172,10 +172,8 @@ require_once 'navigationbar.php'
         </a>
     </div>
     <div class="storage-info">
-        <div class="progress-bar">
-            <div class="progress"></div>
-        </div>
-        <div class="storage-text">0.35GB of 1GB</div>
+       
+       
     </div>
     <?php if (isset($data['success'])): ?>
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
@@ -192,7 +190,7 @@ require_once 'navigationbar.php'
                                 <i class="fas fa-ellipsis-v" onclick="toggleDropdown(this)"></i>
                                 <div class="dropdown">
                                     <a href="<?=ROOT?>/Document/delete/<?=$document->id?>">Delete</a>
-                                    <a href="<?=ROOT?>/public/document/<?= urlencode($document->filepath) ?>">Download</a>
+                                    <a href="http://localhost/testmvc/public/document/<?=$document->filename?>">View & Download</a>
                                 </div>
                             </div>
 

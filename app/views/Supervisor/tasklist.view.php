@@ -151,8 +151,9 @@ require_once 'navigationbar.php'
                                     <input type="hidden" name="id" value="<?=$task->id?>">
 
                                     <td class="py-2 px-4 border-b"><?=$maincount?> </td>
-                                    <td class="py-2 px-4 border-b font-bold"><?=$task->title?></td>
-                                    <td class="py-2 px-4 border-b"><?= htmlspecialchars(substr($task->description, 0, 30)) . (strlen($task->description) > 200 ? ' ...' : '') ?></td>
+                                    <td class="py-2 px-4 border-b font-bold"><?= strlen($task->title) > 15 ? substr($task->title, 0, 15) . '...' : $task->title ?>
+                                    </td>
+                                    <td class="py-2 px-4 border-b"><?= strlen($task->description) > 15 ? substr($task->description, 0, 15) . '...' : $task->description ?></td>
                                     <td class="py-2 px-4 border-b flex justify-center items-center">
                                     <?php
                                         if ($task->status == 1) {
@@ -355,7 +356,7 @@ require_once 'navigationbar.php'
                                         <!-- <=$task->id?>
                                         <=$read->taskid?> -->
                                         <div class="flex items-center mb-2">
-                                        <img alt="Dewmini Paboda" class="h-8 w-8 rounded-full mr-2" height="40" src="https://storage.googleapis.com/a1aa/image/pJdqPaSTfY3yUiKHZ6maANZSwLNsmHkhLMN584QoRKxEJG4JA.jpg" width="40"/>
+                                        <img alt="Dewmini Paboda" class="h-8 w-8 rounded-full mr-2" height="40" src="<?=IMAGES?>profile.jpg" width="40"/>
                                         <div>
                                             <div class="font-bold"><?=$read->user_name?></div>
                                             <div class="text-sm text-gray-500"><?=$read->user_email?></div>
@@ -381,7 +382,7 @@ require_once 'navigationbar.php'
                             <div class="mb-4">
                                 <div class="font-bold mb-2">Created By</div>
                                 <div class="flex items-center">
-                                    <img alt="Sunil Perera" class="h-8 w-8 rounded-full mr-2" height="40" src="https://storage.googleapis.com/a1aa/image/H3nZD5kB38odA5CAswIYzS9r2CoTsoig3f9SzapW9eNLSMwTA.jpg" width="40"/>
+                                    <img alt="Sunil Perera" class="h-8 w-8 rounded-full mr-2" height="40" src="<?=IMAGES?>profile.jpg" width="40"/>
                                     <div>
                                         <div class="font-bold"> <?=$selected->create_user?></div>
                                         <div class="text-sm text-gray-500"><?=$selected->create_email?></div>
@@ -392,23 +393,33 @@ require_once 'navigationbar.php'
                             <div class="mb-4">
                                 <div class="font-bold mb-2">Status</div>
                                 <div class="flex items-center">
-                                    <span class="bg-green-200 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                    <!-- <span class="bg-green-200 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded"> -->
                                         
                                   
                                     <?php
                                         if ($selected->status == 1) {
-                                            $status = 'To Do';
+                                           echo '<span class="bg-blue-200 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">To Do
+                                            </span> ';
+                                            // $status = 'To Do';
                                         }else
                                         if ($selected->status == 2) {
-                                            $status = 'In Progress';
+                                            echo '<span class="bg-green-200 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">In Progress
+                                            </span> ';
+                                            // $status = 'In Progress';
                                         } elseif ($selected->status == 3) {
-                                            $status = 'Complete';
+                                            echo '<span class="bg-orange-200 text-orange-800 text-xs font-semibold px-2.5 py-0.5 rounded">Complete
+                                            </span> ';
+                                            // $status = 'Complete';
                                         } elseif ($selected->status == 4) {
-                                            $status = 'Terminate';
+                                            echo '<span class="bg-red-200 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded">Terminate
+                                            </span> ';
+                                            // $status = 'Terminate';
                                         } else {
-                                            $status = 'Overdue';
+                                            echo '<span class="bg-gray-200 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded">Overdue
+                                            </span> ';
+                                            // $status = 'Overdue';
                                         }
-                                        echo $status;
+                                        // echo $status;
                                         ?>
                                 
                                 </span>
@@ -416,9 +427,20 @@ require_once 'navigationbar.php'
                                 </div>
                             </div>
                             <div class="mb-4">
-                                <div class="font-bold mb-2">Sub-Tasks</div>
-                                <div class="text-gray-700">2.1 sub task of task 2</div>
-                                <div class="text-gray-700">2.2 sub task of task 2</div>
+
+                                <?php if(!empty($data['subtasks'])):?>
+                                    <div class="font-bold mb-2">Sub-Tasks</div>
+                                    <?php foreach($data['subtasks'] as $subtask):?>
+                                        <?php if($subtask->taskid == $selected->id):?>
+                                        
+
+
+                                               
+                                                <div class="text-gray-700"><?=$subtask->title?></div>
+                                                
+                                        <?php endif;?>
+                                    <?php endforeach;?>
+                                <?php endif;?>
                             </div>
                             <div class="flex">
                                 <form action="<?=ROOT?>/task/edit" method="post">
