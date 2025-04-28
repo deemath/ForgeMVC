@@ -191,7 +191,7 @@ require_once 'navigationbar.php'
                                 <h2><?=$document->name?></h2>
                                 <i class="fas fa-ellipsis-v" onclick="toggleDropdown(this)"></i>
                                 <div class="dropdown">
-                                    <a href="#">Delete</a>
+                                    <a href="<?=ROOT?>/Document/delete/<?=$document->id?>">Delete</a>
                                     <a href="<?=ROOT?>/public/document/<?= urlencode($document->filepath) ?>">Download</a>
                                 </div>
                             </div>

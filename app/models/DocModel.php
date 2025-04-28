@@ -29,4 +29,11 @@ class DocModel{
         $dmp['documents'] = $this->query($sql);
         return $dmp;
     }
+    public function deleteDocument($id){
+        echo $id;
+        $this->table='document';
+        $data['id'] = $id;
+        $this->delete($data['id']);
+        return true;
+    }
 }

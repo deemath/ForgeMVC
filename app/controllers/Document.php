@@ -38,6 +38,20 @@ class Document{
     }
     }
 
+    // delete document
+    public function delete($id){
+        $doc = new DocModel;
+        // echo $id;
+        // $id = $_POST['id'];
+        $status = $doc->deleteDocument($id);
+        if($status){
+            header('Location: '.ROOT.'/supervisor/showDocument');
+            exit;
+        }else{
+            $this->view('_404');
+        }
+    }
+
 
 
 }
