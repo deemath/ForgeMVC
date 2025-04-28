@@ -112,10 +112,15 @@ class taskModel{
         $this->table='subtask';
         $data['subtasks'] = $this->where($temp);
 
+        $x['taskid']= $id;
+        $this->table='flag';
+        $data['flags'] = $this->where($x);
+
+
         $sql = "SELECT t.*,u.name AS creator_name , u.email  AS creator_email FROM task t JOIN `user` u ON t.createdby=u.id WHERE t.projectid = :projectid";
         $data['creators']=$this->query($sql,$temp);
 
-        $sql1 ="SELECT t.id AS taskid,u.name AS user_name , u.email AS user_email
+        $sql1 ="SELECT t.taskid AS taskid,u.name AS user_name , u.email AS user_email
                 FROM taskassign t JOIN user u ON
                 t.memberid=u.id WHERE t.taskid=:taskid;";
         
@@ -124,6 +129,10 @@ class taskModel{
         $sql2 ="SELECT t.*,c.name AS create_user,c.email AS create_email FROM task t JOIN user c ON t.createdby=c.id WHERE t.id=:id";
         $data['selected']=$this->query($sql2, ['id' => $id]);
 
+        $sql3 ="SELECT c.*, u.name AS user_name, u.email AS user_email
+                FROM comment c JOIN user u ON c.createby=u.id WHERE c.taskid=:taskid;";
+        $data['comments']=$this->query($sql3, ['taskid' => $id]);
+        
         return $data ;
 
         
@@ -161,4 +170,103 @@ class taskModel{
 
     }
     
+
+    public function updateStatus($data){
+        $this->table = "task";
+        $dataset['status'] = $data["status"];
+        if(!$this->update($data['taskid'],$dataset)){
+            
+            return true;
+        }
+        return false;
+
+    }
+
+    public function addsubtask($data){
+        $this->table = "subtask";
+        
+        if(!$this->insert($data)){
+            
+            return true;
+        }
+        return false;
+
+    }
+    public function updateflag($data){
+        $this->table = "flag";
+        $dataset['flagid'] = $data["flagid"];
+        if(!$this->update($data['id'],$dataset)){
+            
+            return true;
+        }
+        return false;
+    }
+
+    public function createflag($data){
+        $this->table = "flag";
+        $dataset['taskid']=$data['taskid'];
+        $dataset['flagid']=$data['flagid'];
+        $dataset['projectid']=$data['projectid'];
+        if(!$this->insert($dataset)){
+            
+            return true;
+        }
+        return false;
+
+    }
+
+    public function updatesubtask($data){
+        $this->table= "subtask";
+        $dataset['title'] =  $data["title"];
+        $dataset['description'] =  $data["description"];
+
+        if(!$this->update(  $data['subtaskid'],$dataset)){
+            
+            return true;
+        }
+        return false;
+
+    }
+
+
+    public function deletesubtask($data){
+        $this->table= "subtask";
+        if(!$this->delete($data['id'])){
+            
+            return true;
+        }
+        return false;
+    }
+
+    public function addcomment($data){
+        $this->table= "comment";
+        if(!$this->insert($data)){
+            
+            return true;
+        }
+        return false;
+    }
+
+
+    ///function for fetch all the task related to project_id
+    public function fetchAllTask($id){
+        $this->table = 'task';
+        $this->order_type 	= "asc";
+        $temp['projectid']=$_SESSION['project_id'];
+        $data['tasks'] = $this->where($temp);
+        return $data;
+    }
+
+
+    ///updateStartDate
+    public function updateStartDate($data){
+        $this->table = "task";
+        $dataset['startdate'] = $data["startdate"];
+        if(!$this->update($data['id'],$dataset)){
+            
+            return true;
+        }
+        return false;
+
+    }
 }

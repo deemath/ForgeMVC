@@ -117,27 +117,48 @@ class task{
             $this->view('_404');
         }
     }
-    public function edit($tempid=""){
+    public function edit($tempid=null, $errors=[]){
         
-        if(!empty($_POST["id"])){
-            $id = $_POST["id"];
-        }else{
+        if($tempid!=null){
             $id = $tempid;
+        }else{
+            
+            $id = $_POST["id"];
         }
         
         
         // echo $id;
         $prj = new taskModel;
         $data = $prj->fetchAssign($id);
+        $data['errors'] = $errors;
         if ($data) {
             $this->view('supervisor/edittask', $data); // Pass data as an array
         }
        
-        return $this->view('supervisor/edittask');
+        return $this->view('_404');
     }
 
+    // public function edit($tempid = null) {
+    //     $id = $tempid ?? ($_POST['id'] ?? null); // Get from URL or POST
+    
+    //     if (!$id) {
+    //         return $this->view('_404');
+    //     }
+    
+    //     $prj = new taskModel;
+    //     echo $id;
+    //     $data = $prj->fetchAssign($id);
+    
+    //     if ($data) {
+    //         return $this->view('supervisor/edittask', $data);
+    //     }
+    
+    //     return $this->view('_404');
+    // }
+    
 
 
+    
     public function editDescription(){
         if(!empty($_SESSION["project_id"])){
             $data["projectid"] = $_SESSION["project_id"];
@@ -173,13 +194,220 @@ class task{
                $this->edit($_POST['taskid']);
             }
 
-            echo "set na";
-
+          
         }
         else{
             $this->view("_404");
         }
     }
 
+    public function editStatus(){
+        if(!empty($_SESSION["project_id"])){
+            $data["projectid"] = $_SESSION["project_id"];
+            $data["taskid"] = $_POST['taskid'];
+            $data["status"] =  $_POST['status'];
+            $prj = new taskModel;
+            $status = $prj->updateStatus($data);
+            if($status){
+                
+               $this->edit($_POST['taskid']);
+            }
+
+          
+        }
+        else{
+            $this->view("_404");
+        }
+    }
+
+    public function Updateflags(){
+
+        
+
+        if(!empty($_SESSION["project_id"])){
+            $data["projectid"] = $_SESSION["project_id"];
+            $data["id"] = $_POST['id'];
+            $data["flagid"] =  $_POST['flagid'];
+            $data["taskid"] = $_POST['taskid'];
+
+            if( $data["id"] == 0 ){
+                $prj = new taskModel;
+                $status = $prj->createflag($data);
+            }else{
+
+                    $prj = new taskModel;
+                    $status = $prj->updateflag($data);
+            }       
+            if($status){
+                
+                
+            $this->edit($_POST['taskid']);
+            }
+
+          
+        }
+        else{
+            $this->view("_404");
+        }
+
+
+
+       
+    }
+    public function addSubtask(){
+        $data["title"] = $_POST['title'];
+        $data['projectid']=$_SESSION["project_id"];
+        $data['taskid'] = $_POST['taskid'];
+        $data["description"] = $_POST['description'];
+        $data['startdate'] = date('Y-m-d');
+        $data['enddate'] = date('Y-m-d');
+       
+ 
+        $prj = new taskModel;
+        $status = $prj->addsubtask($data);
+        if($status){
+                
+            $this->edit($_POST['taskid']);
+        }
+        else{
+            $this->view("_404");
+        }
+    }
+
+
+    public function editSubtask(){
+        if(!empty($_SESSION["project_id"])){
+            $data["projectid"] = $_SESSION["project_id"];
+            $data["title"] = $_POST['title'];
+            $data['projectid']=$_SESSION["project_id"];
+            $data['subtaskid'] = $_POST['id'];
+            $data["description"] = $_POST['description'];
+
+            
+
+            $prj = new taskModel;
+            $status = $prj->updatesubtask($data);
+                  
+            if($status){
+                
+                
+            $this->edit($_POST['taskid']);
+            }
+
+          
+        }
+        else{
+            $this->view("_404");
+        }
+    }
+
+    public function deleteSubtask(){
+        $data['id']= $_POST['id'];
+        if(!empty($_SESSION["project_id"])){
+            $data['id']= $_POST['id'];
+
+            $prj = new taskModel;
+            $status = $prj->deletesubtask($data);
+                  
+            if($status){
+                
+                
+            $this->edit($_POST['taskid']);
+            }
+
+          
+        }
+        else{
+            $this->view("_404");
+        }
+    }
+    
+
+    public function addcomment(){
+        $data['include'] = $_POST['comment'];
+        $data['taskid'] = $_POST['taskid'];
+        $data['projectid'] = $_SESSION["project_id"];
+        $data['createby'] = $_SESSION["user_id"];
+        $data['role'] = $_SESSION["user_role"];
+        $prj = new taskModel;
+        $status = $prj->addcomment($data);
+        if($status){
+                
+            $this->edit($_POST['taskid']);
+        }
+        else{
+            $this->view("_404");
+        }
+    }
+
+    public function editStartDate(){
+        if(!empty($_SESSION["project_id"])){
+            $data["projectid"] = $_SESSION["project_id"];
+            $data["id"] = $_POST['id'];
+          
+            $projectEndDate = $_POST['projectEndDate'];
+            $currentdate = date('Y-m-d');
+            $projectStartDate = $_POST['projectStartDate'];
+            $taskenddate = $_POST['taskenddate'];
+
+
+            if($_POST['startdate'] > $taskenddate){
+                $errors['errors'] = "Starting date is invalid . please make sure that date you entered before task ending date. (Project Starts on ".$taskenddate.")";
+                $this->edit($data["id"],$errors);
+                exit;
+            }
+            if($_POST['startdate'] > $projectEndDate){
+                $errors['errors'] = "Starting date is invalid . please make sure that date you entered before project Starting date. (Project Starts on ".$projectEndDate.")";
+                $this->edit($data["id"],$errors);
+                exit;
+            }
+
+            if($_POST['startdate'] < $projectStartDate){
+                $errors['errors'] = "Starting date is invalid . please make sure that date you entered after project Starting date. (Project Starts on ".$projectStartDate.")";
+                $this->edit($data["id"],$errors);
+                exit;
+            }
+
+            ///if function for redirrect with error["starting date is pastaway]
+            if($currentdate > $_POST['startdate']){
+                $errors['errors'] = "Starting date is passed away";
+                $this->edit($data["id"],$errors);
+                exit;
+            }
+
+
+
+
+            $data["startdate"] =  $_POST['startdate'];
+            $prj = new taskModel;
+            $status = $prj->updateStartDate($data);
+            if($status){
+                
+               $this->edit($_POST['id']);
+            }
+
+          
+        }
+        else{
+            $this->view("_404");
+        }
+    }
+
+
+    public function assignMembers($taskid){
+        $data['taskid'] = $taskid;
+        $data['projectid'] = $_SESSION["project_id"];
+        $data['members'] = $_POST['members'];
+        $prj = new taskModel;
+        $status = $prj->assignMembers($data);
+        if($status){
+                
+            $this->edit($_POST['taskid']);
+        }
+        else{
+            $this->view("_404");
+        }
+    }
+   
 
 }

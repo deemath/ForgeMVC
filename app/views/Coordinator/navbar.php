@@ -1,3 +1,10 @@
+<?php 
+$coordinatorId = $_SESSION['coordinator_id'];
+$model = new CoordinatorModel();
+$coordinatorInfo = $model->getCoordInfo($coordinatorId);  // Fetch coordinator info including image
+$imagePath = $coordinatorInfo->image ?? 'profileplaceholder.jpg';  // Default to placeholder if no image is set
+?>
+
 <html lang="en">
  <head>
   <meta charset="utf-8"/>
@@ -122,7 +129,7 @@
             background-color: #fff;
             padding: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-radius: 8px;
+            border-radius: 4px;
             text-align: center;
             letter-spacing: 0.3px;
         }
@@ -161,7 +168,7 @@
             color: #fff;
             padding: 15px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-radius: 8px;
+            border-radius: 4px;
             text-align: center;
             display: flex;
             align-items: center;
@@ -192,7 +199,7 @@
             background-color: #dbeafe;
             padding: 15px;
             box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
-            border-radius: 8px;
+            border-radius: 4px;
             text-align: center;
             min-height: 200px;
             display: flex;
@@ -215,10 +222,10 @@
             font-size: 12px;
             color: #666;
         }
-        .project-box .supervisor {
+        .project-box .deadline {
             font-size: 14px;
             font-weight: 500;
-            color: #1e3a8a;
+            color:rgb(255, 50, 50);
             margin-top: 10px;
         }
         .forge-logo-text {
@@ -270,7 +277,7 @@
             border: none;
             padding: 10px 18px;
             margin: 10px;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
         }
@@ -286,7 +293,7 @@
             border: none;
             padding: 10px 18px;
             margin: 10px;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
         }
@@ -349,7 +356,9 @@
      Coordinator Dashboard
     </h1>
     <div class="user-info">
-     <img alt="Profile picture of the user" height="40" src="https://storage.googleapis.com/a1aa/image/3atmTVEpQP7bERKmtzfVwkURkFdLuWHzfy9ifAfp28O7O3XPB.jpg" width="40"/>
+        
+     <img alt="Profile Picture" height="40" src="<?= isset($_SESSION['coordinator_image']) ? ROOT . '/' . $_SESSION['coordinator_image'] : ROOT . '/assets/images/prof.jpg' ?>" width="40"/>
+
      <span>
       <?=$_SESSION['coordinator_id']?>
      </span>

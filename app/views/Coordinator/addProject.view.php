@@ -14,13 +14,13 @@
             font-size: 14px;
         }
         .custom-select::after {
-            content: '\25BC'; /* Unicode character for down arrow */
+            content: '\25BC';
             position: absolute;
             top: 50%;
             right: 10px;
             transform: translateY(-50%);
             pointer-events: none;
-            color: #4A5568; /* Tailwind's text-gray-700 */
+            color: #4A5568;
         }
         .input-field {
             border-radius: 0;

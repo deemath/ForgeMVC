@@ -126,15 +126,20 @@ require_once 'navigationbar.php'
                             <th class="py-2 px-4 border-b">Topic</th>
                             <th class="py-2 px-4 border-b">Description</th>
                             <th class="py-2 px-4 border-b">Status</th>
-                            <th class="py-2 px-4 border-b">Actions</th>
-                            <th></th>
+
+                            <th class="py-2 px-4 border-b" colspan="2">Actions</th>
+                            
                         </tr>
                         </thead>
                         <tbody>
+                        <!-- <pre>
+                            <php print_r($data) ?>
+                        </pre> -->
 
                         <?php if($data['tasks']) : ?>
-                            
+                            <?php $maincount =0;?>
                             <?php foreach($data['tasks'] as $task) : ?>
+                                    <?php $maincount++;?>
 
                                     <?php foreach($data['creators'] as $creator) : ?>
                                     <?php if($creator->id == $task->id) : ?>
@@ -145,7 +150,7 @@ require_once 'navigationbar.php'
                                     <form action="<?=ROOT?>/task/showdetail" method="post">
                                     <input type="hidden" name="id" value="<?=$task->id?>">
 
-                                    <td class="py-2 px-4 border-b"><?=$task->no?> </td>
+                                    <td class="py-2 px-4 border-b"><?=$maincount?> </td>
                                     <td class="py-2 px-4 border-b font-bold"><?=$task->title?></td>
                                     <td class="py-2 px-4 border-b"><?= htmlspecialchars(substr($task->description, 0, 30)) . (strlen($task->description) > 200 ? ' ...' : '') ?></td>
                                     <td class="py-2 px-4 border-b flex justify-center items-center">
@@ -170,22 +175,25 @@ require_once 'navigationbar.php'
                                         echo $status;
                             ?>  
                                 </td>
+                                
                                 <td><button class="flex-1 bg-blue-500 text-white py-2 px-4 rounded mr-2" name="submit" type="submit">View </button></td>
                                 </form>
-                                <td>
-                                    <button onclick="openModal(<?= $task->id ?>)">+ Sub Task</button>
+                                <td style="font-size: 14px; color: #007bff;">
+                                    <button onclick="openModal(<?= $task->id ?>)">+ subtask</button>
                                 </td>
+                              
                                 </tr>
                                 
                                 <?php if($data['subtasks']) : ?>
+                                <?php $count= 0;?>
                                 <?php foreach($data['subtasks'] as $subtask) : ?>
-                                    <?php if($subtask->projectid == $task->id) : ?>
-                                    
-                                     <tr class="task-row" 
+                                    <?php if($subtask->taskid == $task->id) : ?>
+                                    <?php $count++;?>
+                                     <tr class="task-row" style="color:rgba(44, 43, 43, 0.6);"
                     
                                             data-task-subtasks='<?= json_encode($task->subtasks)?:'' ?>'
                                         >
-                                            <td class="py-2 px-8 border-b"><?=$task->no?>.<?=$subtask->id?></td>
+                                            <td class="py-2 px-8 border-b"><?=$task->no?>.<?=$count?></td>
                                             <td class="py-2 px-8 border-b "><?=$subtask->title?></td>
                                             <td class="py-2 px-8 border-b"><?= htmlspecialchars(substr($subtask->description, 0, 30)) . (strlen($subtask->description) > 200 ? ' ...' : '') ?></td>
                                             <td class="py-2 px-8 border-b">
@@ -247,6 +255,89 @@ require_once 'navigationbar.php'
                             </a>
                     <?php endif; ?>
                 </div>
+
+                
+                <?php if (empty($selected)): ?>
+                       
+                        
+                        <div class="w-1/3 bg-white p-6 shadow-md">
+                            
+                          <!-- -->
+                            <p class="text-gray-800 mb-4"><?=$_SESSION['institute_name']?></p>
+                            <div class="text-2xl font-bold mb-4"><?=$data['project']->title?></div>
+                            
+                            <p class="text-gray-700 mb-4"><?=$data['project']->description?></p>
+                            
+
+                            <div class="mb-4 flex">
+                                <div class="font-bold mb-2">Duration</div>
+                                <div class="text-gray-700"><b>from </b> <?=$data['project']->startdate?><b>  to  </b><?=$data['project']->enddate?></div>
+                            </div>
+                            <!-- <pre>
+                                <php print_r($data); ?>
+                                <php print_r($_SESSION); ?>
+                            </pre> -->
+
+                            <div class="mb-4 ">
+                                <div class="font-bold mb-2">Created At : </div>
+                                <div class="text-gray-700"><?=$data['project']->createdat?></div>
+                            </div>
+
+                            <div class="font-bold mb-2"> Assigned users : </div>
+                            <?php if(!empty($data['members'])):?>
+                                <?php foreach($data['members']['members'] as $member):?>
+                                   <?php if($member->userrole==2):?>
+                                        <div class="flex items-center mb-2">
+                                            <div>
+                                                <div class="font-bold"><?=$member->username?></div>
+                                                <div class="text-sm text-gray-500"><?=$member->useremail?></div>
+                                            </div>
+                                            <span class="ml-auto bg-yellow-200 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">Supervisor</span>
+                                        </div>
+                                    <?php endif;?>
+                                <?php endforeach;?>
+                                <?php foreach($data['members']['members'] as $member):?>
+                                   <?php if($member->userrole==3):?>
+                                        <div class="flex items-center mb-2">
+                                            <div>
+                                                <div class="font-bold"><?=$member->username?></div>
+                                                <div class="text-sm text-gray-500"><?=$member->useremail?></div>
+                                            </div>
+                                            <span class="ml-auto bg-green-200 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Co-Supervisor</span>
+                                        </div>
+                                    <?php endif;?>
+                                <?php endforeach;?>
+                                <?php foreach($data['members']['members'] as $member):?>
+                                   <?php if($member->userrole==4):?>
+                                        <div class="flex items-center mb-2">
+                                            <div>
+                                                <div class="font-bold"><?=$member->username?></div>
+                                                <div class="text-sm text-gray-500"><?=$member->useremail?></div>
+                                            </div>
+                                            <span class="ml-auto bg-purple-200 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">Member</span>
+                                        </div>
+                                    <?php endif;?>
+                                <?php endforeach;?>
+                            <?php endif; ?>
+                            
+
+                         
+                              
+                                  
+                                   
+                                
+                              
+                          
+                        </div> 
+                        
+                    <?php endif; ?>
+
+
+
+
+
+
+
                     <?php if (!empty($selected)): ?>
                         <?php foreach($data['selected'] as $selected) : ?>
                         
@@ -363,12 +454,12 @@ require_once 'navigationbar.php'
 
                     <!-- add sub task pop up window -->
                     <div id="taskModal" class="modal">
-                        <form method="POST" action="your_submit_url.php" class="modal-content">
+                        <form method="post" action="addSubtask" class="modal-content">
                             
                             <h2 class="modal-title">Add Sub Task</h2>
 
                             <!-- Hidden Task ID -->
-                            <input type="hidden" name="task_id" id="task_id" value="">
+                            <input type="hidden" name="taskid" id="task_id" value="">
 
                             <label for="taskTitle">Title</label>
                             <input type="text" name="title" id="taskTitle" required>
@@ -376,13 +467,13 @@ require_once 'navigationbar.php'
                             <label for="taskDesc">Description</label>
                             <textarea name="description" id="taskDesc" rows="3" required></textarea>
 
-                            <label for="taskStatus">Status</label>
+                            <!-- <label for="taskStatus">Status</label>
                             <select name="status" id="taskStatus" required>
                             <option value="To Do">To Do</option>
                             <option value="On Going">On Going</option>
                             <option value="Terminated">Terminated</option>
                             <option value="Overdue">Overdue</option>
-                            </select>
+                            </select> -->
 
                             <div class="modal-actions">
                             <button type="submit" class="btn-primary">Add</button>
@@ -419,4 +510,5 @@ require_once 'navigationbar.php'
             deleteForm.submit(); // Submit the form if confirmed
         });
     </script>
+
 </html>

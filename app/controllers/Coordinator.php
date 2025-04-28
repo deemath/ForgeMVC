@@ -3,6 +3,8 @@ class Coordinator{
      use Controller;
 
      public function Dashboard(){
+        //session_start();
+
         $coordinatorId = $_SESSION['coordinator_id'];
 
         $dashboardModel = new CoordinatorModel();
@@ -369,18 +371,41 @@ class Coordinator{
         $id = $_POST['id'];
         $name = $_POST['name'] ?? null;
         $email = $_POST['email'] ?? null;
+        $imagePath = null;
+
+        if(!empty($_FILES['image']['name'])) {
+            $imageName = uniqid() . '_' . basename($_FILES['image']['name']);
+            $targetDir = "upload/profile_images/";
+            $targetFile = $targetDir . $imageName;
+
+            if(!is_dir($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+
+            if(move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+                $imagePath = $targetFile;
+                $_SESSION['coordinator_image'] = $imagePath;
+            } else {
+                $errors['image'] = "Failed to upload image.";
+            }
+        }
 
         $coordData = [
             'id' => $id,
             'name' => $name,
-            'email' => $email
+            'email' => $email,
+            'image' => $imagePath
         ];
 
         $model = new CoordinatorModel;
         $status = $model->updateCoord($coordData);
 
         if($status) {
-            $this->Settings();
+            $updateCoord = $model->getCoordInfo($id);
+            $data = [
+                'profile_image_path' => $updateCoord->image ?? null
+            ];
+            $this->Settings($data);
         }else {
             $errors['errors'] = "Failed to update details.";
             $this->Settings();
@@ -421,6 +446,7 @@ class Coordinator{
         header("Location: " . ROOT . "/home");
         exit();
     }
+    
 
 }
 
