@@ -12,6 +12,10 @@ class Supervisor{
     
         $data = $prj->ShowDashboard4($id);
         if ($data) {
+
+            
+
+
             $this->view('Supervisor/dashboard', $data); // Pass data as an array
         } else {
             $this->view('_404'); // Show a 404 view

@@ -165,125 +165,178 @@ require_once "navigationbar.php";
             <div class="task-board">
                 <div class="task-column">
                     <div class="column-title">On Progress</div>
-                    <div class="task-card">
-                        <div class="title">Task 1</div>
-                        <div class="description">Generate UI</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 2</div>
-                        <div class="description">Design Database</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
+                    <?php if(!empty($data['creators'])):?>
+                        <?php foreach($data['creators'] as $task):?> 
+                            <?php if($task->status==2): ?>       
+                                <div class="task-card">
+                                    <div class="title"><?=$task->title?></div>
+                                    <div class="description">
+                                        <?= strlen($task->description) > 30 ? substr($task->description, 0, 30) . '...' : $task->description ?>
+                                    </div>
+                                    <div class="assigned-users"><?=$task->creator_name?></div>
+                                    <div class="assigned-users"><?=$task->creator_email?></div>
+                                </div>
+                            <?php endif;?>
+                        <?php endforeach;?>
+                    <?php endif; ?>
+
+
                 </div>
                 <div class="task-column">
+                
                     <div class="column-title">To Do</div>
-                    <div class="task-card">
-                        <div class="title">Task 3</div>
-                        <div class="description">Create API</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 4</div>
-                        <div class="description">Write Documentation</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
+                        <?php if(!empty($data['creators'])):?>
+                            <?php foreach($data['creators'] as $task):?> 
+                                <?php if($task->status==1): ?>       
+                                    <div class="task-card">
+                                        <div class="title"><?=$task->title?></div>
+                                        <div class="description">
+                                            <?= strlen($task->description) > 30 ? substr($task->description, 0, 30) . '...' : $task->description ?>
+                                        </div>
+                                        <div class="assigned-users"><?=$task->creator_name?></div>
+                                        <div class="assigned-users"><?=$task->creator_email?></div>
+                                    </div>
+                                <?php endif;?>
+                            <?php endforeach;?>
+                        <?php endif; ?>
+                    
                 </div>
                 <div class="task-column">
                     <div class="column-title">Overdue</div>
-                    <div class="task-card">
-                        <div class="title">Task 5</div>
-                        <div class="description">Fix Bugs</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 6</div>
-                        <div class="description">Optimize Performance</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
+                    <?php if(!empty($data['creators'])):?>
+                        <?php foreach($data['creators'] as $task):?> 
+                            <?php if($task->status==5): ?>       
+                                <div class="task-card">
+                                    <div class="title"><?=$task->title?></div>
+                                    <div class="description">
+                                        <?= strlen($task->description) > 30 ? substr($task->description, 0, 30) . '...' : $task->description ?>
+                                    </div>
+                                    <div class="assigned-users"><?=$task->creator_name?></div>
+                                    <div class="assigned-users"><?=$task->creator_email?></div>
+                                </div>
+                            <?php endif;?>
+                        <?php endforeach;?>
+                    <?php endif; ?>
+
+
                 </div>
                 <div class="task-column">
                     <div class="column-title">Completed</div>
-                    <div class="task-card">
-                        <div class="title">Task 7</div>
-                        <div class="description">Deploy Application</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 8</div>
-                        <div class="description">User Training</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
+                    <?php if(!empty($data['creators'])):?>
+                        <?php foreach($data['creators'] as $task):?> 
+                            <?php if($task->status==3): ?>       
+                                <div class="task-card">
+                                    <div class="title"><?=$task->title?></div>
+                                    <div class="description">
+                                        <?= strlen($task->description) > 30 ? substr($task->description, 0, 30) . '...' : $task->description ?>
+                                    </div>
+                                    <div class="assigned-users"><?=$task->creator_name?></div>
+                                    <div class="assigned-users"><?=$task->creator_email?></div>
+                                </div>
+                            <?php endif;?>
+                        <?php endforeach;?>
+                    <?php endif; ?>
+
+
                 </div>
                 <div class="task-column">
                     <div class="column-title">Terminated</div>
-                    <div class="task-card">
-                        <div class="title">Task 9</div>
-                        <div class="description">Initial Setup</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 10</div>
-                        <div class="description">Requirement Analysis</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
+                    <?php if(!empty($data['creators'])):?>
+                        <?php foreach($data['creators'] as $task):?> 
+                            <?php if($task->status==4): ?>       
+                                <div class="task-card">
+                                    <div class="title"><?=$task->title?></div>
+                                    <div class="description">
+                                        <?= strlen($task->description) > 30 ? substr($task->description, 0, 30) . '...' : $task->description ?>
+                                    </div>
+                                    <div class="assigned-users"><?=$task->creator_name?></div>
+                                    <div class="assigned-users"><?=$task->creator_email?></div>
+                                </div>
+                            <?php endif;?>
+                        <?php endforeach;?>
+                    <?php endif; ?>
+
+
                 </div>
             </div>
+            <!-- <pre><php print_r($data) ?></pre> -->
             <div class="flags">
                 <div class="flag-column urgent">
                     <div class="column-title">Urgent</div>
-                    <div class="task-card">
-                        <div class="title">Task 11</div>
-                        <div class="description">Fix Critical Bug</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 12</div>
-                        <div class="description">Prepare Release</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
+                    <?php if(!empty($data['creators'])):?>
+                        <?php foreach($data['creators'] as $task):?> 
+                            <?php if($task->flag==4): ?> 
+                                <div class="task-card">
+                                    <div class="title"><?=$task->title?></div>
+                                    <div class="description">
+                                        <?= strlen($task->description) > 30 ? substr($task->description, 0, 30) . '...' : $task->description ?>
+                                    </div>
+                                    <div class="assigned-users"><?=$task->creator_name?></div>
+                                    <div class="assigned-users"><?=$task->creator_email?></div>
+                                </div>
+                            <?php endif;?>
+                        <?php endforeach;?>
+                    <?php endif; ?> 
+
                 </div>
+
                 <div class="flag-column important">
                     <div class="column-title">Important</div>
-                    <div class="task-card">
-                        <div class="title">Task 13</div>
-                        <div class="description">Update Documentation</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 14</div>
-                        <div class="description">Code Review</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
+                    <?php if(!empty($data['creators'])):?>
+                        <?php foreach($data['creators'] as $task):?> 
+                            <?php if($task->flag==1): ?> 
+                                <div class="task-card">
+                                    <div class="title"><?=$task->title?></div>
+                                    <div class="description">
+                                        <?= strlen($task->description) > 30 ? substr($task->description, 0, 30) . '...' : $task->description ?>
+                                    </div>
+                                    <div class="assigned-users"><?=$task->creator_name?></div>
+                                    <div class="assigned-users"><?=$task->creator_email?></div>
+                                </div>
+                                <?php endif;?>
+                            <?php endforeach;?>
+                         <?php endif; ?> 
+                    
                 </div>
                 <div class="flag-column revise">
                     <div class="column-title">Revise</div>
-                    <div class="task-card">
-                        <div class="title">Task 15</div>
-                        <div class="description">Revise UI Design</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 16</div>
-                        <div class="description">Revise Database Schema</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
+                    <?php if(!empty($data['creators'])):?>
+                        <?php foreach($data['creators'] as $task):?> 
+                            <?php if($task->flag==2): ?> 
+                                <div class="task-card">
+                                <div class="title"><?=$task->title?></div>
+                                    <div class="description">
+                                        <?= strlen($task->description) > 30 ? substr($task->description, 0, 30) . '...' : $task->description ?>
+                                    </div>
+                                    <div class="assigned-users"><?=$task->creator_name?></div>
+                                    <div class="assigned-users"><?=$task->creator_email?></div>
+                                </div>
+                            <?php endif;?>
+                        <?php endforeach;?>
+                    <?php endif; ?> 
+                    
                 </div>
                 <div class="flag-column good">
                     <div class="column-title">Good</div>
-                    <div class="task-card">
-                        <div class="title">Task 17</div>
-                        <div class="description">Optimize Code</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="title">Task 18</div>
-                        <div class="description">Improve Performance</div>
-                        <div class="assigned-users">dewmini@gmail.com</div>
-                    </div>
+                    <?php if(!empty($data['creators'])):?>
+                        <?php foreach($data['creators'] as $task):?> 
+                            <?php if($task->flag==3): ?> 
+                            <div class="task-card">
+                                    <div class="description">
+                                    <?= strlen($task->description) > 30 ? substr($task->description, 0, 30) . '...' : $task->description ?>
+                                    </div>
+                                    <div class="assigned-users"><?=$task->creator_name?></div>
+                                    <div class="assigned-users"><?=$task->creator_email?></div>
+                            </div>
+                            <?php endif;?>
+                        <?php endforeach;?>
+                    <?php endif; ?> 
+                    
                 </div>
             </div>
             <div class="comments">
+
+            
                 <div class="column-title">Recent Comments</div>
                 <div class="comment-card">
                     <div class="comment">This is a brief comment about the task.</div>
@@ -301,7 +354,9 @@ require_once "navigationbar.php";
                     <div class="user">User: dewmini@gmail.com</div>
                 </div>
             </div>
+            <pre><?php print_r($data)?></pre>
         </div>
     </div>
+
 </body>
 </html>

@@ -78,7 +78,10 @@ class ProjectModel{
         $data['tasks'] = $this->where($temp);
         $this->table='subtask';
         $data['subtasks'] = $this->where($temp);
-        $sql = "SELECT t.*,u.name AS creator_name , u.email  AS creator_email FROM task t JOIN `user` u ON t.createdby=u.id WHERE t.projectid = :projectid";
+        $sql = "SELECT t.*,f.flagid AS flag ,u.name AS creator_name , u.email  AS creator_email FROM task t 
+                JOIN `user` u ON t.createdby=u.id 
+                LEFT JOIN `flag` f ON t.id=f.taskid
+                WHERE t.projectid = :projectid";
         $data['creators']=$this->query($sql,$temp);
         return $data; 
     }
@@ -115,6 +118,21 @@ class ProjectModel{
         return $data;
     }
 
+
+
+    public function fetchDashboard($id){
+        $this->table='project';
+        $input['id']=$id;
+        $data['project']=$this->first($input);
+        $this->table='task';
+        $this->order_type 	= "asc";
+        $temp['projectid']=$id;
+        $data['tasks'] = $this->where($temp);
+        $this->table='subtask';
+        $data['subtasks'] = $this->where($temp);
+        return $data;
+
+    }
     
 }
 

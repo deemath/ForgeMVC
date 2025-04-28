@@ -31,4 +31,13 @@
             }
             
         }
+        public function deleteAnnouncement($id){
+            $this->table = 'announcement';
+            
+
+            $dmp['id'] = $id;
+            $this->delete($dmp['id']);
+
+            return true;
+        }
     }

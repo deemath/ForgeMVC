@@ -4,7 +4,7 @@ class Announcement{
 
     public function announcements(){
         ///fuction for fetch from data base all the announcements that related to session project_id
-        $project_id = 4;
+        $project_id = $_SESSION['project_id'];
         $model = new AnnounceModel;
         $data = $model->getAnnouncements($project_id);
 
@@ -59,6 +59,23 @@ class Announcement{
         $data = $model->readAnnouncement($id);
     
         return $this->view('Supervisor/announceFile', $data);
+    }
+
+
+    public function delete($id) {
+        // if (!isset($_GET['id'])) {
+        //     die("Error: No ID provided.");
+        // }
+    
+        // $id = intval($_GET['id']); // Sanitize input
+       echo $id;
+    
+        $model = new AnnounceModel;
+        $data = $model->deleteAnnouncement($id);
+    
+        header('Location: '.ROOT.'/Announcement/announcements');
+        exit;
+
     }
     
 
