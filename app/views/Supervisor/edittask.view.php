@@ -351,7 +351,7 @@ require_once "navigationbar.php";
         <?php endif;?>
 
       </div>
-      <button class="btn-link">+ Assign Members</button>
+      <button class="btn-link" onclick="AssignMembers(<?=$selected->id?>)">+ Assign Members</button>
     </div>
 
     <div class="section">
@@ -639,6 +639,26 @@ require_once "navigationbar.php";
                 </form>
             </div>
 
+            <!-- assign members -->
+            
+            <div id="assignmembers" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+              background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999;">
+              <div style="background: white; padding: 20px; border-radius: 10px; width: 300px; box-shadow: 0 0 10px rgba(0,0,0,0.3);">
+                  <h3>Assign Members</h3>
+                  <form action="assignMembers" method="post">
+                  <input type="hidden" id="task_id_assign" name="taskid">
+                  <select name="members[]" id="members" multiple style="width: 100%; padding: 8px; margin-top: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+                      <?php foreach($data['users'] as $user): ?>
+                          <option value="<?=$user->id?>"><?=$user->name?> (<?=$user->email?>)</option>
+                      <?php endforeach; ?>
+                  </select>
+                  <div style="text-align: right;">
+                  <button type="button" onclick="closetitle()" style="padding: 6px 12px; background: #ccc; color: white; border: none; border-radius: 5px; margin-right: 10px;">Cancel </button>
+                  <button type="submit" style="padding: 6px 12px; background: #007bff; color: white; border: none; border-radius: 5px;">Save </button>
+                  </form>
+              </div>
+            </div>
+
 
 
             <script>
@@ -747,6 +767,13 @@ require_once "navigationbar.php";
                 }
                 function closeenddate() {
                     document.getElementById('edit-enddate').style.display = 'none';
+                }
+
+
+
+                function AssignMembers(taskId){
+                  document.getElementById('task_id_assign').value = taskId;
+                  document.getElementById('assignmembers').style.display = 'flex';
                 }
             </script>
 
