@@ -318,188 +318,104 @@
         transform: translateX(26px);
     }
 
-</style>
-
-<style>
     /* Modal background */
-.prj-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-}
+    .prj-modal {
+        /* display: none; */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+    }
 
-/* Modal content */
-.prj-modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 400px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+    .prj-modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 4px;
+        width: 400px;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin: 15% auto; 
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;       
+    }
 
-/* Modal header */
-.prj-modal-header {
-    display: flex;
-    align-items: center;
-    font-size: 1.2rem;
-    color: #333;
-}
+    .prj-modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 15px;
+    }
 
-.warning-icon {
-    font-size: 1.8rem;
-    margin-right: 10px;
-    color: red;
-}
+    .warning-icon {
+        font-size: 24px;
+        color: #dc3545;
+        margin-right: 10px;
+    }
 
-/* Modal buttons */
-.prj-modal-buttons {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-}
+    .prj-modal-header h3 {
+        font-size: 18px;
+        color: #333;
+        margin: 0;
+    }
 
-/* Modal action buttons - Yes and No */
-.prj-modal-actions {
-    display: flex;
-    justify-content: space-between; /* Align buttons horizontally */
-    margin-top: 20px;
-}
+    .modal-description {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 20px;
+    }
 
-.prj-yes-btn, .prj-no-btn {
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    width: 45%; /* Set width to make both buttons evenly spaced */
-}
+    .bold {
+        font-weight: bold;
+    }
 
-.prj-yes-btn {
-    background-color: red;
-    color: white;
-}
+    .error-text {
+        color: #dc3545;
+        font-size: 10px;
+        margin-top: 10px;
+    }
 
-.prj-no-btn {
-    background-color: gray;
-    color: white;
-}
+    .note-text {
+        color: #ffc107;
+        font-size: 10px;
+        margin-top: 5px;
+    }
+    .prj-yes-btn, .prj-no-btn {
+        padding : 10px 20px;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 
-.prj-yes-btn:hover {
-    background-color: darkred;
-}
+    .prj-yes-btn {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+    }
 
-.prj-no-btn:hover {
-    background-color: darkgray;
-}
+    .prj-yes-btn:hover {
+        background-color: #c82333;
+    }
 
-/* Error and warning text */
-.error-text {
-    color: red;
-}
+    .prj-no-btn {
+        background-color: #6c757d;
+        color: #fff;
+        border: none;
+    }
 
-.note-text {
-    color: #FFA500;
-}
-
-</style>
-<style>
-    /* Modal background */
-.prj-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-}
-
-/* Modal content */
-.prj-modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 400px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Modal header */
-.prj-modal-header {
-    display: flex;
-    align-items: center;
-    font-size: 1.2rem;
-    color: #333;
-}
-
-.warning-icon {
-    font-size: 1.8rem;
-    margin-right: 10px;
-    color: red;
-}
-
-/* Modal buttons */
-.prj-modal-buttons {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-}
-
-/* Modal action buttons - Yes and No */
-.prj-modal-actions {
-    display: flex;
-    justify-content: space-between; /* Align buttons horizontally */
-    margin-top: 20px;
-}
-
-.prj-yes-btn, .prj-no-btn {
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    width: 45%; /* Set width to make both buttons evenly spaced */
-}
-
-.prj-yes-btn {
-    background-color: red;
-    color: white;
-}
-
-.prj-no-btn {
-    background-color: gray;
-    color: white;
-}
-
-.prj-yes-btn:hover {
-    background-color: darkred;
-}
-
-.prj-no-btn:hover {
-    background-color: darkgray;
-}
-
-/* Error and warning text */
-.error-text {
-    color: red;
-}
-
-.note-text {
-    color: #FFA500;
-}
+    .prj-no-btn:hover {
+        background-color: #5a6268;
+    }
 
 </style>
 

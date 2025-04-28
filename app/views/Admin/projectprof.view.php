@@ -1,194 +1,191 @@
-<?php
-    require_once "navigationBar.php";
-?>
+<?php require_once "navigationBar.php"; ?>
 
+<div class="page-container">
+    <div class="main-wrapper">
+        <?php if (!empty($data)): ?>
+            <!-- Project Overview -->
+            <div class="section">
+                <h3 class="section-title">Project Overview</h3>
+                <p><strong>Project Title:</strong> <?= htmlspecialchars($data['project']->title) ?></p>
+                <p><?= htmlspecialchars($data['project']->description) ?></p>
+            </div>
+
+            <!-- Project Details -->
+            <div class="section">
+                <h3 class="section-text">Project Details</h3>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Project ID</th>
+                            <th>Assigned Coordinator</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Date Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><?= $data['project']->id ?></td>
+                            <td><?= htmlspecialchars($data['project']->coordinatorid) ?></td>
+                            <td><?= $data['project']->startdate ?></td>
+                            <td><?= $data['project']->enddate ?></td>
+                            <td><?= $data['project']->createdat ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Project Tasks -->
+            <div class="section">
+                <h3 class="section-text">Project Tasks</h3>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Task ID</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Created By</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($data['tasks'])): ?>
+                            <?php foreach ($data["tasks"] as $task): ?>
+                                <tr>
+                                    <td><?= $task->id ?></td>
+                                    <td><?= htmlspecialchars($task->title) ?></td>
+                                    <td><?= htmlspecialchars($task->description) ?></td>
+                                    <td><?= htmlspecialchars($task->createdby) ?></td>
+                                    <td><?= $task->enddate ?></td>
+                                    <td><span class="status <?= strtolower($task->status) ?>"><?= htmlspecialchars($task->status) ?></span></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="6" style="text-align:center;">No tasks available.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Back Button -->
+            <div class="back-btn-wrapper">
+                <a href="<?= ROOT ?>/Admin/dashboard" class="back-btn">← Back to Dashboard</a>
+                <a href="<?= ROOT ?>/Admin/projectlist" class="back-btn">← Back to Projects</a>
+            </div>
+        <?php else: ?>
+            <p>No project data found.</p>
+        <?php endif; ?>
+    </div>
+</div>
+
+<!-- Styling for improved layout -->
 <style>
-    .bb {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f4f6f9;
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fa;
         margin: 0;
-        padding: 2rem;
-        width:75%;
+        padding: 0;
     }
 
-    .project-container {
-        max-width: 1100px;
-        margin: auto;
-        background: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-        padding: 2rem;
-        margin-top: 20px;
-    }
-
-    .project-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1.5rem;
-    }
-
-    .project-header h2 {
-        font-size: 2rem;
-        color: #333;
-        margin: 0;
-        font-weight: 500;
-    }
-
-    .project-status {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #28a745;
-    }
-
-    .project-description {
-        margin-top: 1.5rem;
+    .page-container {
         padding: 20px;
-        background-color: #eaf6f6;
-        border-radius: 8px;
+        width: 75%;
+        margin:  auto;
+        height: 75%;
     }
 
-    .project-description h3 {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-        font-weight: 500;
+    .main-wrapper {
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 
-    .project-description p {
-        font-size: 1rem;
-        line-height: 1.6;
-        color: #555;
+    .section {
+        margin-bottom: 30px;
+    }
+
+    .section-title {
+        color: #333;
+        font-size: 2em;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        font-style: normal;
+    }
+    .section-text{
+        font-size:1.5rem;
+        font-style: normal;
         font-weight: 400;
     }
 
-    .project-details, .timeline {
-        margin-top: 2rem;
-    }
 
-    .project-details table, .timeline table {
+    .styled-table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 1rem;
     }
 
     th, td {
-        padding: 12px 15px;
+        padding: 15px;
         text-align: left;
-        border-bottom: 1px solid #e0e0e0;
-        font-weight: 400;
+        border-bottom: 1px solid #ddd;
     }
 
-    thead {
-        background-color:rgb(0, 123, 255);
-        color: #fff;
-        font-weight: 500;
+    th {
+        background-color: #f5f5f5;
+        font-weight: bold;
+        color: #333;
     }
 
-    tr:nth-child(even) {
-        background-color: #fafafa;
+    td {
+        font-size: 0.95em;
     }
 
-    .timeline td {
-        text-align: center;
-        color: #007bff;
+    .status {
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        text-transform: capitalize;
     }
 
-    .timeline .status {
-        padding: 8px 16px;
+    .status.completed {
         background-color: #28a745;
         color: white;
-        border-radius: 5px;
-        font-weight: 400;
+    }
+
+    .status.pending {
+        background-color: #ffc107;
+        color: white;
+    }
+
+    .status.in-progress {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .back-btn-wrapper {
+        text-align: right;
+        margin-top: 30px;
     }
 
     .back-btn {
-        display: inline-block;
-        margin-top: 2rem;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
+    padding: 12px 25px;
+    background-color: rgb(250, 251, 251);
+    color: #007bff;
+    text-decoration: none;
+    border: 2px solid #007bff; /* Fix: set full border */
+    border-radius: 10px;
+    font-weight: 400;
+    transition: background-color 0.3s, color 0.3s;
+    margin-right: 10px;
+}
+
 
     .back-btn:hover {
         background-color: #0056b3;
     }
+
 </style>
-
-<div class="bb">
-<?php if (!empty($data)): ?>
-<div class="project-container">
-    <div class="project-header">
-        <h2>Project Title: <?= htmlspecialchars($data['project']->title) ?></h2>
-    </div>
-
-    <div class="project-description">
-        <h3>Project Overview</h3>
-        <p><?= htmlspecialchars($data['project']->description) ?></p>
-    </div>
-
-    <div class="project-details">
-        <h3>Project Details</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Project ID</th>
-                    <th>Assigned Coordinator</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Date Created</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><?= $data['project']->id ?></td>
-                    <td><?= htmlspecialchars($data['project']->coordinatorid) ?></td>
-                    <td><?= $data['project']->startdate ?></td>
-                    <td><?= $data['project']->enddate ?></td>
-                    <td><?= $data['project']->createdat ?></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="timeline">
-        <h3>Task</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Task ID</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Created By</th>
-                    <th>End Date</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if(!empty($data['tasks'])):?>
-                    <?php foreach ($data["tasks"] as $task): ?>
-                        <tr>
-                            <td><?= $task->id ?></td>
-                            <td><?= htmlspecialchars($task->title) ?></td>
-                            <td><?= htmlspecialchars($task->description) ?></td>
-                            <td><?= htmlspecialchars($task->createdby) ?></td>
-                            <td><?= $task->enddate ?></td>
-                            <td><span class="status"><?= htmlspecialchars($task->status) ?></span></td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="6" style="text-align:center; padding: 20px;">No tasks available.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
-
-    <a href="<?= ROOT ?>/Admin/dashboard" class="back-btn">← Back to Projects</a>
-</div>
-<?php endif; ?>
-</div>

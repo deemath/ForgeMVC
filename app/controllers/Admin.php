@@ -66,14 +66,33 @@ class Admin{
     }
 
     public function coordinatorlist(){
-        if(!empty($_SESSION['admin_id'])){
-            $admin2 = new AdminModel;
-            $data = $admin2->coordinatorlist();
-            $this->view('Admin/coordinatorlist',$data);
-        }else{
-            //echo 'no';
+        if (!empty($_SESSION['admin_id'])) {
+            $admin = new AdminModel;
+            $data = $admin->coordinatorlist();  // $data['coordinators']
+    
+            // Now add project count for each coordinator
+            if (!empty($data['coordinators'])) {
+                foreach ($data['coordinators'] as $coordinators) {
+                    $count = $admin->getCoordinatorProjectCount($coordinators->id);
+                    $coordinators->projectCount = $count[0]->count ?? 0;
+                }
+            }
+    
+            $this->view('Admin/coordinatorlist', $data);
+        } else {
             $this->view('_404');
-        }   
+        }
+    }
+    
+
+    public function otherUserList(){
+        if(!empty($_SESSION['admin_id'])){
+            $admin = new AdminModel;
+            $data['user']=$admin->getAllUsers();
+            $this->view('Admin/otheruserlist',$data);
+        }else{
+            $this->view('_404');
+        }
     }
     public function updateCoordinator(){
         if(!empty($_SESSION['admin_id'])){
@@ -104,6 +123,21 @@ class Admin{
                 header('Location:'.ROOT.'/Admin/coordinatorlist');
                 exit;
                
+            }
+        }else{
+            $this->view('_404');
+        }
+    }
+
+    public function deleteUser(){
+        if(!empty($_SESSION['admin_id'])){
+            $id = $_POST['id'];
+
+            $admin = new AdminModel;
+            $data = $admin->deleteUser($id);
+            if($data){
+                header('Location:'.ROOT.'/Admin/otheruserlist');
+                exit;
             }
         }else{
             $this->view('_404');
@@ -186,6 +220,21 @@ class Admin{
         // return $this->view(name:'Admin/profilecard');
     }
 
+    public function userprofile($id){
+        
+        if(!empty($_SESSION['admin_id'])){
+
+            $admin = new AdminModel;  
+            $userdata['user'] = $admin->getUserById($id);
+            
+           
+
+            return $this->view('Admin/userprof',$userdata);
+        }else{
+            return $this->view('_404');
+        }
+    }
+
 
 
     // Method to get project data for editing
@@ -240,7 +289,7 @@ class Admin{
             $admin = new AdminModel;
             $projectCount = $admin->getCoordinatorProjectCount($id);
 
-
+            return $projectCount;
         }
     }
 
@@ -394,6 +443,7 @@ class Admin{
             $this->view('_404');
         }
     }
+    
 
     
     }

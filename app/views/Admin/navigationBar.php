@@ -391,7 +391,8 @@
                 <a href="<?=ROOT?>/Admin/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                 <a href="<?=ROOT?>/Admin/projectlist"><i class="fas fa-project-diagram"></i> Projects</a>
                 <a href="<?=ROOT?>/Admin/coordinatorlist"><i class="fas fa-users"></i> Project Coordinators</a>
-                <a href="#"><i class="fas fa-cogs"></i> Settings</a>
+                <a href="<?=ROOT?>/Admin/otherUserlist"><i class="fas fa-cogs"></i>Other Users</a>
+                <a href="#"><i class="fas fa-cogs"></i> Logout</a>
             </div>
             <div class="footer">
                 &copy; 2024 Admin Dashboard

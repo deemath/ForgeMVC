@@ -206,13 +206,13 @@
         font-weight: 500;
         transition: all 0.3s ease;
     }
-z
+
     .back-btn:hover {
         background-color: #0056b3;
         transform: translateY(-2px);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         border-color: #0056b3; 
-        color: #111827; 
+        color:rgb(249, 249, 249); 
     }
 
     @media (max-width: 768px) {
@@ -299,7 +299,9 @@ z
             </div>
         </div>
 
-        <a href="<?= ROOT ?>/Admin/dashboard" class="back-btn">← Back to Projects</a>
+        <a href="<?= ROOT ?>/Admin/dashboard" class="back-btn">← Back to Dashboard</a>
+        <a href="<?= ROOT ?>/Admin/coordinatorlist" class="back-btn">← Back to Cordinators</a>
+
 
     <?php endif; ?>
 </div>

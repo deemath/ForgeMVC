@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coordinator List</title>
+    <title>coordinators List</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -163,20 +163,21 @@
                     <th class="prj-th">Actions</th>
                 </tr>
             </thead>
-            <tbody id="coordinator-list">
-
+            <tbody id="coordinators-list">
+<!-- <pre><php print_r($data)?></pre> -->
             <?php if (!empty($data)) : ?>
-                <?php foreach ($data['coordinators'] as $coordinator): ?>
+                <?php foreach ($data['coordinators'] as $coordinators): ?>
                     <tr class="prj-tr">
-                        <td class="prj-td" id="coordinator-id-<?= htmlspecialchars($coordinator->id) ?>"><?= htmlspecialchars($coordinator->id) ?></td>
-                        <td class="prj-td" id="coordinator-name-<?= htmlspecialchars($coordinator->id) ?>"><?= htmlspecialchars($coordinator->name) ?></td>
-                        <td class="prj-td" id="coordinator-institute-<?= htmlspecialchars($coordinator->id) ?>"><?= htmlspecialchars($coordinator->institute) ?></td>
-                        <td class="prj-td" id="coordinator-email-<?= htmlspecialchars($coordinator->id) ?>"><?= htmlspecialchars($coordinator->email) ?></td>
-                        <td class="prj-td"><?= htmlspecialchars($coordinator->createdat) ?></td>
-                        <td class="prj-td">5</td>
+                        <td class="prj-td" id="coordinators-id-<?= htmlspecialchars($coordinators->id) ?>"><?= htmlspecialchars($coordinators->id) ?></td>
+                        <td class="prj-td" id="coordinators-name-<?= htmlspecialchars($coordinators->id) ?>"><?= htmlspecialchars($coordinators->name) ?></td>
+                        <td class="prj-td" id="coordinators-institute-<?= htmlspecialchars($coordinators->id) ?>"><?= htmlspecialchars($coordinators->institute) ?></td>
+                        <td class="prj-td" id="coordinators-email-<?= htmlspecialchars($coordinators->id) ?>"><?= htmlspecialchars($coordinators->email) ?></td>
+                        <td class="prj-td"><?= htmlspecialchars($coordinators->createdat) ?></td>
+                        <td class="prj-td"><?= $coordinators->projectCount?></td>
                         <td class="prj-td prj-action-buttons">
-                            <button class="prj-edit-btn" onclick="editCoordinator('<?= htmlspecialchars($coordinator->id) ?>')">Visit</button>
-                            <button class="prj-remove-btn" onclick="confirmDelete('<?= htmlspecialchars($coordinator->id) ?>')">Remove</button>
+                        
+                            <button class="prj-edit-btn" onclick="window.location.href='<?=ROOT?>/Admin/profilecard/<?=$coordinators->id?>'">Visit</button>
+                            <button class="prj-remove-btn" onclick="confirmDelete('<?= htmlspecialchars($coordinators->id) ?>')">Remove</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -186,7 +187,7 @@
     </div>
 
     <div id="delete-modal" class="prj-modal">
-    <div class="prj-modal-content">
+        <div class="prj-modal-content">
             <div class="prj-modal-header">
                 <span class="warning-icon">&#9888;</span>
                 <h3>Delete Confirmation</h3>
@@ -198,10 +199,10 @@
                 <br>
                 <span class="error-text">This action cannot be undone. Deleting this will permanently remove it from the system.</span>
                 <br>
-                <span class="note-text">Warning: This may cause issues if the coordinator is actively involved in ongoing projects. Please proceed with caution.</span>
+                <span class="note-text">Warning: This may cause issues if the coordinators is actively involved in ongoing projects. Please proceed with caution.</span>
             </p>
             <div class="prj-modal-buttons">
-                <form action="<?=ROOT?>/Admin/deleteCoordinator" method="post">
+                <form action="<?=ROOT?>/Admin/deletecoordinators" method="post">
                     <!-- Hidden input field for ID -->
                     <input type="hidden" id="edit-id" name="id">
                     <button class="prj-yes-btn" type="submit">Yes, Delete</button>
@@ -309,7 +310,7 @@
 </style>
 
     <div id="edit-modal" class="prj-modal">
-        <form action="<?=ROOT?>/Admin/updateCoordinator" method="post">
+        <form action="<?=ROOT?>/Admin/updatecoordinators" method="post">
         <div class="prj-modal-content prj-edit-modal-content">
             <input type="hidden" id="edit-id" name="id">
 
@@ -331,15 +332,15 @@
     </div>
 
     <script>
-    let selectedCoordinatorId;
+    let selectedcoordinatorsId;
 
     // Show the delete confirmation modal
     // Show the delete confirmation modal
         function confirmDelete(id) {
-            selectedCoordinatorId = id;
+            selectedcoordinatorsId = id;
 
-            // Get the name of the coordinator for the confirmation message
-            let name = document.getElementById('coordinator-name-' + id).textContent;
+            // Get the name of the coordinators for the confirmation message
+            let name = document.getElementById('coordinators-name-' + id).textContent;
 
             // Set the name in the confirmation message
             document.getElementById('delete-name').textContent = name;
@@ -353,21 +354,21 @@
 
 
     // Perform the delete action
-    function deleteCoordinator() {
-        // Here, you can send an AJAX request to delete the coordinator from the database
-        alert('Coordinator ' + selectedCoordinatorId + ' deleted.');
+    function deletecoordinators() {
+        // Here, you can send an AJAX request to delete the coordinators from the database
+        alert('coordinators ' + selectedcoordinatorsId + ' deleted.');
         closeModal();
     }
 
-    // Show the edit modal with the current coordinator details
-    function editCoordinator(id) {
-        selectedCoordinatorId = id;
+    // Show the edit modal with the current coordinators details
+    function editcoordinators(id) {
+        selectedcoordinatorsId = id;
         
-        // Get the coordinator details dynamically
-        let id1 = document.getElementById('coordinator-id-' + id).textContent;
-        let name = document.getElementById('coordinator-name-' + id).textContent;
-        let institute = document.getElementById('coordinator-institute-' + id).textContent;
-        let email = document.getElementById('coordinator-email-' + id).textContent;
+        // Get the coordinators details dynamically
+        let id1 = document.getElementById('coordinators-id-' + id).textContent;
+        let name = document.getElementById('coordinators-name-' + id).textContent;
+        let institute = document.getElementById('coordinators-institute-' + id).textContent;
+        let email = document.getElementById('coordinators-email-' + id).textContent;
 
         // Populate the modal with existing data
         document.getElementById('edit-id').value = id1;
@@ -382,7 +383,7 @@
 
             document.getElementById("search-btn").addEventListener("click", function() {
             const searchTerm = document.getElementById("search-input").value.toLowerCase();
-            const rows = document.querySelectorAll("#coordinator-list tr");
+            const rows = document.querySelectorAll("#coordinators-list tr");
 
             rows.forEach(row => {
                 const columns = row.querySelectorAll("td");

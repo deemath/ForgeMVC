@@ -82,6 +82,16 @@ class AdminModel{
         }
     }
 
+    public function deleteUser($id){
+        $this->table='user';
+        $result =$this->delete($id);
+        if(!$result){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public function ValidateCorReg($input){
         $this->errors=[];
         if(empty($input['name']) || empty($input['email']) || empty($input['password']) || empty($input['re-password'] ) || empty($input['institute']) )
@@ -132,6 +142,7 @@ class AdminModel{
         return $this->delete($id);
 
     }
+
 
     public function getProjectCount() {
         $this->table = 'project';
@@ -217,6 +228,21 @@ class AdminModel{
         echo "error";
 
         }
+
+    public function getUserById($id){
+       
+        $dump['id']= $id;
+        $this->table ='user';
+        $data = $this->first($dump);
+
+        if($data){
+            return $data;
+        }
+        else{
+            return false;
+        }
+        
+    }
 
         public function getCoordinatorProjectCount($id){
             $query = "SELECT COUNT(*) as count FROM project WHERE coordinatorid = :id";
