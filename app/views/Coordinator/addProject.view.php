@@ -49,6 +49,8 @@
         }
     </style>
     <script>
+        const dropdownIds = ['supervisor-select', 'cosupervisor-select', 'member-select'];
+
         function addPerson(selectId, listId, inputName) {
             var selectElement = document.getElementById(selectId);
             var selectedOption = selectElement.options[selectElement.selectedIndex];
@@ -62,17 +64,48 @@
                 listItem.innerHTML = `
                     <span>${email}</span>
                     <input type="hidden" name="${inputName}[]" value="${userId}">
-                    <button type="button" class="text-red-500 hover:text-red-700" onclick="removePerson(this)">Remove</button>
+                    <button type="button" class="text-red-500 hover:text-red-700" onclick="removePerson(this, '${userId}', '${email}')">Remove</button>
                 `;
                 list.appendChild(listItem);
+
+                dropdownIds.forEach(function(id) {
+                    var dropdown = document.getElementById(id);
+                    for (var i = 0; i < dropdown.options.length; i++) {
+                        if (dropdown.options[i].value === userId) {
+                            dropdown.remove(i);
+                            break;
+                        }
+                    }
+                });
+
                 selectElement.value = '';
             }
         }
 
-        function removePerson(button) {
+        function removePerson(button, userId, email) {
             var listItem = button.parentElement;
             listItem.remove();
+
+            dropdownIds.forEach(function(id) {
+                var dropdown = document.getElementById(id);
+                var option = document.createElement('option');
+                option.value = userId;
+                option.textContent = email;
+                dropdown.appendChild(option);
+
+                var options = Array.from(dropdown.options);
+                options.sort(function(a, b) {
+                    if (a.text.toLowerCase() < b.text.toLowerCase()) return -1;
+                    if (a.text.toLowerCase() > b.text.toLowerCase()) return 1;
+                    return 0;
+                });
+                dropdown.innerHTML = '';
+                options.forEach(function(opt) {
+                    dropdown.appendChild(opt);
+                });
+            });
         }
+
 
         function createProject() {
             setTimeout(() => {
