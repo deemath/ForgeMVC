@@ -28,6 +28,8 @@
          </div>
     </div>
 
+  
+
     <h2 class="projects-title">Projects</h2>
     <div class="projects-grid">
       <?php if(!empty($Projects)): ?>

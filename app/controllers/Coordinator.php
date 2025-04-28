@@ -162,7 +162,29 @@ class Coordinator{
         $data =$fkd->loadupdateproject($id);
         
         $corModel = new CoordinatorModel();
+       
         $data['users'] = $corModel->fetchUsers();
+
+        $assignedUserIds = [];
+
+        $supervisors = $corModel->getSupervisorsByProjectId($id);
+        $cosupervisors = $corModel->getCosupervisorsByProjectId($id);
+        $members = $corModel->getMembersByProjectId($id);
+
+        if (!$supervisors) $supervisors = [];
+        if (!$cosupervisors) $cosupervisors = [];
+        if (!$members) $members = [];
+
+        foreach ($supervisors as $sup) {
+            $assignedUserIds[] = $sup->userid;
+        }
+        foreach ($cosupervisors as $cosup) {
+            $assignedUserIds[] = $cosup->userid;
+        }
+        foreach ($members as $mem) {
+            $assignedUserIds[] = $mem->userid;
+        }
+        $data['assignedUserIds'] = array_unique($assignedUserIds);
 
         return $this->view('coordinator/projectedit',$data);
      }
@@ -445,6 +467,9 @@ class Coordinator{
         header("Location: " . ROOT . "/home");
         exit();
     }
+    
+
+    
     
 
 }
