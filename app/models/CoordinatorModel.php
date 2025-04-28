@@ -310,5 +310,27 @@ public function changePassword($currentPassword, $newPassword, $confirmPassword)
 
 }
 
+public function getSupervisorsByProjectId($projectId) {
+    $sql = "SELECT userid FROM `supervisor-project` WHERE projectid = :projectid";
+    return $this->query($sql, ['projectid' => $projectId]);
+}
+
+public function getCosupervisorsByProjectId($projectId) {
+    $sql = "SELECT userid FROM `cosupervisor-project` WHERE projectid = :projectid";
+    return $this->query($sql, ['projectid' => $projectId]);
+}
+
+public function getMembersByProjectId($projectId) {
+    $sql = "SELECT userid FROM `member-project` WHERE projectid = :projectid";
+    return $this->query($sql, ['projectid' => $projectId]);
+}
+
+
+
+
+
+
+
+
 }
 

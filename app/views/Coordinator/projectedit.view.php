@@ -162,6 +162,12 @@
             <!-- Right Side: Project Supervisors  -->
 
             <div class="form-section">
+
+
+                <?php
+                $assignedUserIds = $data['assignedUserIds'] ?? [];
+                ?>
+
                 <h2 class="title">Project Supervisors</h2>
                 <div>
 <!--Remove supervisors -->
@@ -190,7 +196,9 @@
                     <div class="flex-row">
                         <select id="add-supervisor" name="add-supervisor" class="form-select gap-right">
                             <?php foreach ($data['users'] as $user): ?>
-                                <option value="<?= $user->user_id ?>"><?= htmlspecialchars($user->user_email) ?></option>
+                                <?php if (!in_array($user->user_id, $assignedUserIds)): ?>
+                                    <option value="<?= $user->user_id ?>"><?= htmlspecialchars($user->user_email) ?></option>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </select>
                         <button type="submit" class="btn btn-green">
@@ -228,7 +236,9 @@
                     <div class="flex-row">
                         <select id="add-cosupervisor" name="add-cosupervisor" class="form-select gap-right">
                             <?php foreach ($data['users'] as $user): ?>
-                                <option value="<?= $user->user_id ?>"><?= htmlspecialchars($user->user_email) ?></option>
+                                <?php if (!in_array($user->user_id, $assignedUserIds)): ?>
+                                    <option value="<?= $user->user_id ?>"><?= htmlspecialchars($user->user_email) ?></option>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </select>
                         <button type="submit" class="btn btn-green">
@@ -265,7 +275,9 @@
                     <div class="flex-row">
                         <select id="add-member" name="add-member" class="form-select gap-right">
                             <?php foreach ($data['users'] as $user): ?>
-                                <option value="<?= $user->user_id ?>"><?= htmlspecialchars($user->user_email) ?></option>
+                                <?php if(!in_array($user->user_id, $assignedUserIds)): ?>
+                                    <option value="<?= $user->user_id ?>"><?= htmlspecialchars($user->user_email) ?></option>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </select>
                         <button type="submit" class="btn btn-green">

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>coordinators List</title>
+    <title>user List</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -147,7 +147,7 @@
 <body>
     <div class="prj-container">
         <div class="prj-search-bar">
-            <input type="text" id="search-input" placeholder="Search coordinators by ID, Name, Email, or Institute...">
+            <input type="text" id="search-input" placeholder="Search users by ID, Name, Email, or Institute...">
             <button id="search-btn" type="button">Search</button>
         </div>
 
@@ -156,28 +156,31 @@
                 <tr>
                     <th class="prj-th">PRJCOR ID</th>
                     <th class="prj-th">Name</th>
-                    <th class="prj-th">Institute</th>
                     <th class="prj-th">Email</th>
+                    <th class="prj-th">Phone</th>
                     <th class="prj-th">Joined Date</th>
                     <th class="prj-th">No of Projects</th>
                     <th class="prj-th">Actions</th>
                 </tr>
             </thead>
-            <tbody id="coordinators-list">
-<!-- <pre><php print_r($data)?></pre> -->
+            <tbody id="user-list">
+
             <?php if (!empty($data)) : ?>
-                <?php foreach ($data['coordinators'] as $coordinators): ?>
+                <?php foreach ($data['user'] as $user): ?>
+
+                    <!-- <pre><php print_r($data)?></pre> -->
+
                     <tr class="prj-tr">
-                        <td class="prj-td" id="coordinators-id-<?= htmlspecialchars($coordinators->id) ?>"><?= htmlspecialchars($coordinators->id) ?></td>
-                        <td class="prj-td" id="coordinators-name-<?= htmlspecialchars($coordinators->id) ?>"><?= htmlspecialchars($coordinators->name) ?></td>
-                        <td class="prj-td" id="coordinators-institute-<?= htmlspecialchars($coordinators->id) ?>"><?= htmlspecialchars($coordinators->institute) ?></td>
-                        <td class="prj-td" id="coordinators-email-<?= htmlspecialchars($coordinators->id) ?>"><?= htmlspecialchars($coordinators->email) ?></td>
-                        <td class="prj-td"><?= htmlspecialchars($coordinators->createdat) ?></td>
-                        <td class="prj-td"><?= $coordinators->projectCount?></td>
+                        <td class="prj-td" id="user-id-<?= htmlspecialchars($user->id) ?>"><?= htmlspecialchars($user->id) ?></td>
+                        <td class="prj-td" id="user-name-<?= htmlspecialchars($user->id) ?>"><?= htmlspecialchars($user->name) ?></td>
+                        <td class="prj-td" id="user-institute-<?= htmlspecialchars($user->id) ?>"><?= htmlspecialchars($user->email) ?></td>
+                        <td class="prj-td" id="user-email-<?= htmlspecialchars($user->id) ?>"><?= htmlspecialchars($user->phone) ?></td>
+                        <td class="prj-td"><?= htmlspecialchars($user->createdat) ?></td>
+                        <td class="prj-td">5</td>
                         <td class="prj-td prj-action-buttons">
-                        
-                            <button class="prj-edit-btn" onclick="window.location.href='<?=ROOT?>/Admin/profilecard/<?=$coordinators->id?>'">Visit</button>
-                            <button class="prj-remove-btn" onclick="confirmDelete('<?= htmlspecialchars($coordinators->id) ?>')">Remove</button>
+                            <button class="prj-edit-btn" onclick="window.location.href='<?= ROOT ?>/Admin/userprofile/<?= $user->id ?>'">View Profile</button>
+
+                            <button class="prj-remove-btn" onclick="confirmDelete('<?= htmlspecialchars($user->id) ?>')">Remove</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -187,7 +190,7 @@
     </div>
 
     <div id="delete-modal" class="prj-modal">
-        <div class="prj-modal-content">
+    <div class="prj-modal-content">
             <div class="prj-modal-header">
                 <span class="warning-icon">&#9888;</span>
                 <h3>Delete Confirmation</h3>
@@ -199,10 +202,10 @@
                 <br>
                 <span class="error-text">This action cannot be undone. Deleting this will permanently remove it from the system.</span>
                 <br>
-                <span class="note-text">Warning: This may cause issues if the coordinators is actively involved in ongoing projects. Please proceed with caution.</span>
+                <span class="note-text">Warning: This may cause issues if the user is actively involved in ongoing projects. Please proceed with caution.</span>
             </p>
             <div class="prj-modal-buttons">
-                <form action="<?=ROOT?>/Admin/deletecoordinators" method="post">
+                <form action="<?=ROOT?>/Admin/deleteUser" method="post">
                     <!-- Hidden input field for ID -->
                     <input type="hidden" id="edit-id" name="id">
                     <button class="prj-yes-btn" type="submit">Yes, Delete</button>
@@ -310,7 +313,7 @@
 </style>
 
     <div id="edit-modal" class="prj-modal">
-        <form action="<?=ROOT?>/Admin/updatecoordinators" method="post">
+        <form action="<?=ROOT?>/Admin/updateCoordinator" method="post">
         <div class="prj-modal-content prj-edit-modal-content">
             <input type="hidden" id="edit-id" name="id">
 
@@ -332,15 +335,15 @@
     </div>
 
     <script>
-    let selectedcoordinatorsId;
+    let selectedUserId;
 
     // Show the delete confirmation modal
     // Show the delete confirmation modal
         function confirmDelete(id) {
-            selectedcoordinatorsId = id;
+            selectedUserId = id;
 
-            // Get the name of the coordinators for the confirmation message
-            let name = document.getElementById('coordinators-name-' + id).textContent;
+            // Get the name of the user for the confirmation message
+            let name = document.getElementById('user-name-' + id).textContent;
 
             // Set the name in the confirmation message
             document.getElementById('delete-name').textContent = name;
@@ -354,21 +357,21 @@
 
 
     // Perform the delete action
-    function deletecoordinators() {
-        // Here, you can send an AJAX request to delete the coordinators from the database
-        alert('coordinators ' + selectedcoordinatorsId + ' deleted.');
+    function deleteUser() {
+        // Here, you can send an AJAX request to delete the user from the database
+        alert('user ' + selectedUserId + ' deleted.');
         closeModal();
     }
 
-    // Show the edit modal with the current coordinators details
-    function editcoordinators(id) {
-        selectedcoordinatorsId = id;
+    // Show the edit modal with the current user details
+    function editUser(id) {
+        selectedUserId = id;
         
-        // Get the coordinators details dynamically
-        let id1 = document.getElementById('coordinators-id-' + id).textContent;
-        let name = document.getElementById('coordinators-name-' + id).textContent;
-        let institute = document.getElementById('coordinators-institute-' + id).textContent;
-        let email = document.getElementById('coordinators-email-' + id).textContent;
+        // Get the user details dynamically
+        let id1 = document.getElementById('user-id-' + id).textContent;
+        let name = document.getElementById('user-name-' + id).textContent;
+        let institute = document.getElementById('user-institute-' + id).textContent;
+        let email = document.getElementById('user-email-' + id).textContent;
 
         // Populate the modal with existing data
         document.getElementById('edit-id').value = id1;
@@ -383,7 +386,7 @@
 
             document.getElementById("search-btn").addEventListener("click", function() {
             const searchTerm = document.getElementById("search-input").value.toLowerCase();
-            const rows = document.querySelectorAll("#coordinators-list tr");
+            const rows = document.querySelectorAll("#user-list tr");
 
             rows.forEach(row => {
                 const columns = row.querySelectorAll("td");

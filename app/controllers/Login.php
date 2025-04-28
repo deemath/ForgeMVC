@@ -52,8 +52,16 @@ class Login
                     header("Location: " . ROOT . "/reguser/commonInterface");
                     exit();
                 } elseif ($role === 'coordinator') {
-                    $_SESSION['coordinator_image'] = $getCoordInfo->image;
+
                     $_SESSION['coordinator_id'] = $result;
+                    $model = new CoordinatorModel();
+                    $getCoordInfo = $model->getCoordInfo($result);
+                    if (!empty($getCoordInfo->image) && !empty($getCoordInfo[0]->image)){
+                        $_SESSION['coordinator_image'] = $getCoordInfo[0]->image;
+                    } else {
+                        $_SESSION['coordinator_image'] = null;
+                    }
+
                     header("Location: " . ROOT . "/coordinator/dashboard");
                     exit();
                 }
