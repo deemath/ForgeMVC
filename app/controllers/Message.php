@@ -11,6 +11,8 @@ class  Message{
     public function chatbox(){
        $message = new MessageModel();
        $data['messages'] = $message->loadChat();
+
+       
        if(isset($data['messages'])){
         return $this->view('supervisor/chatbox',$data);
        }else{

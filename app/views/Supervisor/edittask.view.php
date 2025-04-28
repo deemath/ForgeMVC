@@ -154,25 +154,27 @@ require_once "navigationbar.php";
         <div style="display: flex; justify-content: space-between; align-items: center;">
         <h2 id="task-title"><?=$selected->title?></h2>
         <?php if($_SESSION['user_role']==2 ||$_SESSION['user_role']==3 ) :?>
-          <button class="edit-btn" onclick="editTitle(<?=$selected->id ?>, `<?=htmlspecialchars($selected->title, ENT_QUOTES)?>`)">edit 🖋️</button>
+          <button class="edit-btn" onclick="editTitle(<?=$selected->id ?>, `<?=htmlspecialchars($selected->title, ENT_QUOTES)?>`)"> 🖋️</button>
         <?php endif; ?>
         </div>
 
-
-    <div class="section">
-      <label>Description</label>
-      <div class="description-box">
-        <div>
-        <?=$selected->description?>
+        <!-- <pre>
+        <php print_r($data); ?>
+        </pre> -->
+      <div class="section">
+        <label>Description</label>
+        <div class="description-box">
+            <div>
+            <?=$selected->description?>
+            </div>
+            <div>
+              <?php if($_SESSION['user_role']==2 ||$_SESSION['user_role']==3 ) :?>
+                <button class="edit-btn" onclick="editDescription(<?=$selected->id ?>, `<?=htmlspecialchars($selected->description, ENT_QUOTES)?>`)"> 🖋️</button>
+              <?php endif; ?>
+            </div>
         </div>
-        <div>
-        <?php if($_SESSION['user_role']==2 ||$_SESSION['user_role']==3 ) :?>
-          <button class="edit-btn" onclick="editDescription(<?=$selected->id ?>, `<?=htmlspecialchars($selected->description, ENT_QUOTES)?>`)">edit 🖋️</button>
-        <?php endif; ?>
-        </div>
+        
       </div>
-      
-    </div>
 
 
 
@@ -304,6 +306,7 @@ require_once "navigationbar.php";
     <div class="section">
       <label>Sub-Tasks</label>
       <ul class="sub-tasks">
+      <?php if(!empty($data['subtasks'])): ?>
       <?php foreach($data['subtasks'] as $subtask):?>
       <?php if($selected->id == $subtask->taskid): ?>
         <div style="display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid #ccc; width: 50%;">
@@ -331,6 +334,7 @@ require_once "navigationbar.php";
      
       <?php endif;?>
       <?php endforeach;?>
+      <?php endif;?>
       </ul>
       <button class="btn-link" onclick="addsubtask(<?=$selected->id ?>)">+ Add Sub Tasks</button>
     </div>
@@ -339,7 +343,7 @@ require_once "navigationbar.php";
       <label>Assign</label>
       <div class="assignees">
 
-        <?php if(isset($data['read'])): ?>
+        <?php if(!empty($data['read'])): ?>
         <?php foreach($data['read'] as $read):?>
         <?php if($read->taskid == $selected->id): ?>
 
@@ -658,22 +662,35 @@ require_once "navigationbar.php";
             <!-- assign members -->
             
             <div id="assignmembers" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-              background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999;">
-              <div style="background: white; padding: 20px; border-radius: 10px; width: 300px; box-shadow: 0 0 10px rgba(0,0,0,0.3);">
-                  <h3>Assign Members</h3>
+                  background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999;">
+                
+                <div style="background: white; padding: 20px; border-radius: 10px; width: 300px; box-shadow: 0 0 10px rgba(0,0,0,0.3);">
+                  <h3>Assign Member</h3>
+                  
                   <form action="assignMembers" method="post">
-                  <input type="hidden" id="task_id_assign" name="taskid">
-                  <select name="members[]" id="members" multiple style="width: 100%; padding: 8px; margin-top: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
-                      <?php foreach($data['users'] as $user): ?>
-                          <option value="<?=$user->id?>"><?=$user->name?> (<?=$user->email?>)</option>
+                    <input type="hidden" id="task_id_assign" name="taskid">
+                    
+                    <!-- Single select dropdown -->
+                    <select name="member" id="member" style="width: 100%; padding: 8px; margin-top: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;" required>
+                      <option value="" disabled selected>Select a member</option>
+                      <?php foreach($data['members'] as $member): ?>
+                        <option value="<?= htmlspecialchars($member->id) ?>">
+                          <?= htmlspecialchars($member->name) ?> (<?= htmlspecialchars($member->email) ?>)
+                        </option>
                       <?php endforeach; ?>
-                  </select>
-                  <div style="text-align: right;">
-                  <button type="button" onclick="closetitle()" style="padding: 6px 12px; background: #ccc; color: white; border: none; border-radius: 5px; margin-right: 10px;">Cancel </button>
-                  <button type="submit" style="padding: 6px 12px; background: #007bff; color: white; border: none; border-radius: 5px;">Save </button>
+                    </select>
+
+                    <div style="text-align: right;">
+                      <button type="button" onclick="closeassign()" style="padding: 6px 12px; background: #ccc; color: white; border: none; border-radius: 5px; margin-right: 10px;">Cancel</button>
+                      <button type="submit" style="padding: 6px 12px; background: #007bff; color: white; border: none; border-radius: 5px;">Save</button>
+                    </div>
+                    
                   </form>
+                </div>
+
               </div>
-            </div>
+
+
 
 
 
@@ -801,6 +818,10 @@ require_once "navigationbar.php";
                   document.getElementById('task_id_assign').value = taskId;
                   document.getElementById('assignmembers').style.display = 'flex';
                 }
+
+                function closeassign() {
+                  document.getElementById('assignmembers').style.display = 'none';
+                }
             </script>
 
 
@@ -816,9 +837,7 @@ require_once "navigationbar.php";
 
 
 
-      <pre>
-      <?php print_r($data); ?>
-      </pre>
+      
         <pre>
          <?php print_r($_SESSION)?>
        </pre>

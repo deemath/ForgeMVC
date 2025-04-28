@@ -26,7 +26,7 @@ require_once "navigationbar.php";
                         
                         <?php if($message->userid == $_SESSION['user_id']): ?>
                             <div class="message blue sender">
-                            <div class="sender name">You</div>
+                            <div class="sender name">You(<?=$message->username?>)</div>
                                 <div class="sender content">
                                     <?= htmlspecialchars($message->message, ENT_QUOTES, 'UTF-8') ?> 
                                 </div>
@@ -37,7 +37,7 @@ require_once "navigationbar.php";
                         <?php if($message->userid != $_SESSION['user_id']): ?>
                             <div class="message receiver">
                                 <div class="avatar"></div>
-                                <div class="receiver name">Member 1</div>
+                                <div class="receiver name"><?=$message->username?></div>
                                 <div class="receiver content">
                                     <?= htmlspecialchars($message->message, ENT_QUOTES, 'UTF-8') ?>
                                 </div>
@@ -52,7 +52,7 @@ require_once "navigationbar.php";
             </div>
 
             <!-- Members Section -->
-            <div class="members">
+            <!-- <div class="members">
                 <div class="member">
                     <div class="avatar"></div>
                     <div class="info">
@@ -67,7 +67,7 @@ require_once "navigationbar.php";
                         <div class="email">jane@example.com</div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- Footer Section -->

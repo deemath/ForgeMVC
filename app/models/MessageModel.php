@@ -8,7 +8,11 @@ class MessageModel{
         
         $this->table='chatbox';
         $this->order_type="asc";
-        return $this->where($data);
+        $sql = "SELECT c.* ,u.name AS username, u.email, u.image from chatbox c JOIN user u ON c.userid=u.id WHERE c.projectid = '$data[projectid]'";
+        $data = $this->query($sql);
+        return $data;
+
+        // return $this->where($data);
     }
 
     public function sendMessage1($messagetext) {
@@ -28,6 +32,8 @@ class MessageModel{
         
         
     }
+
+   
     
 
 }

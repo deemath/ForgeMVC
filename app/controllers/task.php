@@ -451,20 +451,46 @@ class task{
 
 
 
-    // public function assignMembers($taskid){
-    //     $data['taskid'] = $taskid;
-    //     $data['projectid'] = $_SESSION["project_id"];
-    //     $data['members'] = $_POST['members'];
-    //     $prj = new taskModel;
-    //     $status = $prj->assignMembers($data);
-    //     if($status){
+    public function assignMembers(){
+        $data['taskid'] =  $_POST['taskid'];
+        $data['projectid'] = $_SESSION["project_id"];
+        $data['member'] = $_POST['member'];
+        $prj = new taskModel;
+
+        $status = $prj->checkassign($data);
+        if($status){
+            $errors['errors'] = "This member already assigned to this task";
+            $this->edit($data['taskid'],$errors);
+            exit;
+        }
+
+
+        $status = $prj->assignMembers($data);
+        if($status){
                 
-    //         $this->edit($_POST['taskid']);
-    //     }
-    //     else{
-    //         $this->view("_404");
-    //     }
-    // }
+            $this->edit($_POST['taskid']);
+        }
+        else{
+            $this->view("_404");
+        }
+    }
+
+    ///delete assigned member
+    public function deleteAssignedMember(){
+        $data['taskid'] =  $_POST['taskid'];
+        $data['projectid'] = $_SESSION["project_id"];
+        $data['member'] = $_POST['member'];
+        $prj = new taskModel;
+
+        $status = $prj->deleteAssignedMember($data);
+        if($status){
+                
+            $this->edit($_POST['taskid']);
+        }
+        else{
+            $this->view("_404");
+        }
+    }
    
 
 }

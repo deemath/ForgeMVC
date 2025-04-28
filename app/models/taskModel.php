@@ -132,6 +132,11 @@ class taskModel{
         $sql3 ="SELECT c.*, u.name AS user_name, u.email AS user_email
                 FROM comment c JOIN user u ON c.createby=u.id WHERE c.taskid=:taskid;";
         $data['comments']=$this->query($sql3, ['taskid' => $id]);
+
+        ///fetcting members
+        $sql4 = "SELECT u.* FROM user u JOIN `member-project` mp ON mp.userid= u.id
+                    WHERE mp.projectid=:projectid";
+        $data['members'] =$this->query($sql4,$temp);
         
         return $data ;
 
@@ -274,6 +279,51 @@ class taskModel{
         $this->table = "task";
         $dataset['enddate'] = $data["enddate"];
         if(!$this->update($data['id'],$dataset)){
+            
+            return true;
+        }
+        return false;
+
+    }
+
+    ///checkassign
+    public function checkassign($data){
+        $this->table = "taskassign";
+        $dataset['taskid'] = $data["taskid"];
+        $dataset['memberid'] = $data["member"];
+
+        if($this->where($dataset)){
+            return true;
+        }
+        return false;
+
+    }
+
+    ///assignMembers
+    public function assignMembers($data){
+        $this->table = "taskassign";
+        $dataset['taskid'] = $data["taskid"];
+        $dataset['memberid'] = $data["member"];
+
+        
+
+
+        if(!$this->insert($dataset)){
+            
+            return true;
+        }
+        return false;
+
+    }
+
+    ////deleteAssignedMember
+    public function deleteAssignedMember($data){
+        $this->table = "taskassign";
+        $dataset['taskid'] = $data["taskid"];
+        $dataset['memberid'] = $data["member"];
+        $result = $this->where($dataset);
+
+        if(!$this->delete($result[0]->id)){
             
             return true;
         }
