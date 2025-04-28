@@ -392,6 +392,22 @@ class task{
             $this->view("_404");
         }
     }
+
+
+    public function assignMembers($taskid){
+        $data['taskid'] = $taskid;
+        $data['projectid'] = $_SESSION["project_id"];
+        $data['members'] = $_POST['members'];
+        $prj = new taskModel;
+        $status = $prj->assignMembers($data);
+        if($status){
+                
+            $this->edit($_POST['taskid']);
+        }
+        else{
+            $this->view("_404");
+        }
+    }
    
 
 }

@@ -52,6 +52,7 @@ class Login
                     header("Location: " . ROOT . "/reguser/commonInterface");
                     exit();
                 } elseif ($role === 'coordinator') {
+
                     $_SESSION['coordinator_id'] = $result;
                     $model = new CoordinatorModel();
                     $getCoordInfo = $model->getCoordInfo($result);
@@ -60,6 +61,7 @@ class Login
                     } else {
                         $_SESSION['coordinator_image'] = null;
                     }
+
                     header("Location: " . ROOT . "/coordinator/dashboard");
                     exit();
                 }

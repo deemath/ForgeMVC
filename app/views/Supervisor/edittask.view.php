@@ -291,7 +291,13 @@ require_once "navigationbar.php";
       </div>
       <div>
         <label>End Date</label>
-        <input type="date" value="<?=$selected->enddate ?>">
+        <input type="date" value="<?=$selected->enddate ?>" onclick="changeEnd
+        (<?=$selected->id?>, 
+        `<?=htmlspecialchars($selected->startdate, ENT_QUOTES)?>`,
+        `<?=htmlspecialchars($selected->enddate, ENT_QUOTES)?>`,
+        `<?=htmlspecialchars($data['project']->startdate, ENT_QUOTES)?>`,
+        `<?=htmlspecialchars($data['project']->enddate, ENT_QUOTES)?>`)"
+         style="background-color:rgb(255, 255, 255); color: #333; border: 1px solid #ccc; border-radius: 5px; padding: 8px;">
       </div>
     </div>
 
@@ -345,7 +351,7 @@ require_once "navigationbar.php";
         <?php endif;?>
 
       </div>
-      <button class="btn-link">+ Assign Members</button>
+      <button class="btn-link" onclick="AssignMembers(<?=$selected->id?>)">+ Assign Members</button>
     </div>
 
     <div class="section">
@@ -604,6 +610,55 @@ require_once "navigationbar.php";
                 </form>
             </div>
 
+            <!-- change end date model -->
+            <div id="edit-enddate" class="modal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+                <form method="post" action="editEndDate" class="modal-content" style="background-color:#fff; margin:10% auto; padding:20px; border-radius:10px; width:400px; max-width:90%; box-shadow:0 5px 15px rgba(0,0,0,0.3);">
+                    
+                    <h2 class="modal-title" style="margin-bottom:20px; font-size:24px; text-align:center;">Edit End Date</h2>
+
+                    <!-- Hidden Task ID -->
+                    <input type="hidden" name="id" id="task_id_enddatei"  >
+                    Current End date : <input type="hidden date" name="currentdate" id="currentdatei" >
+                    <br>Task start date :
+                    <input type="date" name="taskstartdate" id="taskstartdatei" >
+                    <br>Project Start date : 
+                    <input type="date" name="projectStartDate" id="projectStartDatei" >
+                    <br>Project end date : 
+                    <input type="date" name="projectEndDate" id="projectEndDatei" >
+                    <br>
+                    
+                    <!-- calender input -->
+                     <input type="date" name="enddate" id="enddate"  required style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px; " >
+
+                    
+                    <div class="modal-actions" style="display:flex; justify-content:space-between;">
+                        <button type="submit" class="btn-primary" style="background-color:#007bff; color:#fff; border:none; padding:10px 20px; border-radius:5px; cursor:pointer;">Edit</button>
+                        <button type="button" class="btn-secondary" onclick="closeenddate()" style="background-color:#6c757d; color:#fff; border:none; padding:10px 20px; border-radius:5px; cursor:pointer;">Cancel</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- assign members -->
+            
+            <div id="assignmembers" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+              background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999;">
+              <div style="background: white; padding: 20px; border-radius: 10px; width: 300px; box-shadow: 0 0 10px rgba(0,0,0,0.3);">
+                  <h3>Assign Members</h3>
+                  <form action="assignMembers" method="post">
+                  <input type="hidden" id="task_id_assign" name="taskid">
+                  <select name="members[]" id="members" multiple style="width: 100%; padding: 8px; margin-top: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+                      <?php foreach($data['users'] as $user): ?>
+                          <option value="<?=$user->id?>"><?=$user->name?> (<?=$user->email?>)</option>
+                      <?php endforeach; ?>
+                  </select>
+                  <div style="text-align: right;">
+                  <button type="button" onclick="closetitle()" style="padding: 6px 12px; background: #ccc; color: white; border: none; border-radius: 5px; margin-right: 10px;">Cancel </button>
+                  <button type="submit" style="padding: 6px 12px; background: #007bff; color: white; border: none; border-radius: 5px;">Save </button>
+                  </form>
+              </div>
+            </div>
+
 
 
             <script>
@@ -699,6 +754,26 @@ require_once "navigationbar.php";
                 }
                 function closetartdate() {
                     document.getElementById('edit-startdate').style.display = 'none';
+                }
+                function changeEnd(taskId,taskstartdate,currentEndDate,projectStartDate,projectEndDate){ 
+                    document.getElementById('task_id_enddatei').value = taskId;
+                    document.getElementById('edit-enddate').style.display = 'block';
+                    document.getElementById('enddatei').value = currentEndDate;
+                    document.getElementById('currentdatei').value = currentEndDate;
+                    document.getElementById('projectStartDatei').value = projectStartDate;
+                    document.getElementById('taskstartdatei').value = taskstartdate;
+                    document.getElementById('projectEndDatei').value = projectEndDate;
+
+                }
+                function closeenddate() {
+                    document.getElementById('edit-enddate').style.display = 'none';
+                }
+
+
+
+                function AssignMembers(taskId){
+                  document.getElementById('task_id_assign').value = taskId;
+                  document.getElementById('assignmembers').style.display = 'flex';
                 }
             </script>
 
