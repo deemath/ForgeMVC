@@ -394,20 +394,77 @@ class task{
     }
 
 
-    public function assignMembers($taskid){
-        $data['taskid'] = $taskid;
-        $data['projectid'] = $_SESSION["project_id"];
-        $data['members'] = $_POST['members'];
-        $prj = new taskModel;
-        $status = $prj->assignMembers($data);
-        if($status){
+    ////end date change editEndDate
+    public function editEndDate(){
+        if(!empty($_SESSION["project_id"])){
+            $data["projectid"] = $_SESSION["project_id"];
+            $data["id"] = $_POST['id'];
+          
+            $taskstartdate = $_POST['taskstartdate'];
+            $projectEndDate = $_POST['projectEndDate'];
+            $currentdate = date('Y-m-d');
+            $projectStartDate = $_POST['projectStartDate'];
+            $taskenddate = $_POST['enddate'];
+
+
+            if($_POST['enddate'] < $taskstartdate){
+                $errors['errors'] = "Starting date is invalid . please make sure that date you entered after task start date. (Project Starts on ".$taskstartdate.")";
+                $this->edit($data["id"],$errors);
+                exit;
+            }
+            if($_POST['enddate'] > $projectEndDate){
+                $errors['errors'] = "Starting date is invalid . please make sure that date you entered before project ending date. (Project Ends on ".$projectEndDate.")";
+                $this->edit($data["id"],$errors);
+                exit;
+            }
+
+            if($_POST['enddate'] < $projectStartDate){
+                $errors['errors'] = "Starting date is invalid . please make sure that date you entered after project Starting date. (Project Starts on ".$projectStartDate.")";
+                $this->edit($data["id"],$errors);
+                exit;
+            }
+
+            ///if function for redirrect with error["starting date is pastaway]
+            if($currentdate > $_POST['enddate']){
+                $errors['errors'] = "Starting date is passed away";
+                $this->edit($data["id"],$errors);
+                exit;
+            }
+
+
+
+
+            $data["enddate"] =  $_POST['enddate'];
+            $prj = new taskModel;
+            $status = $prj->updateEnddate($data);
+            if($status){
                 
-            $this->edit($_POST['taskid']);
+               $this->edit($_POST['id']);
+            }
+
+          
         }
         else{
             $this->view("_404");
         }
     }
+
+
+
+    // public function assignMembers($taskid){
+    //     $data['taskid'] = $taskid;
+    //     $data['projectid'] = $_SESSION["project_id"];
+    //     $data['members'] = $_POST['members'];
+    //     $prj = new taskModel;
+    //     $status = $prj->assignMembers($data);
+    //     if($status){
+                
+    //         $this->edit($_POST['taskid']);
+    //     }
+    //     else{
+    //         $this->view("_404");
+    //     }
+    // }
    
 
 }

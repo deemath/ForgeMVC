@@ -269,4 +269,15 @@ class taskModel{
         return false;
 
     }
+    ///updateEndDate
+    public function updateEndDate($data){
+        $this->table = "task";
+        $dataset['enddate'] = $data["enddate"];
+        if(!$this->update($data['id'],$dataset)){
+            
+            return true;
+        }
+        return false;
+
+    }
 }
