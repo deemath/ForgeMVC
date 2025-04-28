@@ -29,7 +29,7 @@
     <div class="w-64 bg-white shadow-md fixed h-full">
         <div class="flex items-center justify-start py-4 px-4">
             <img alt="Forge Logo" class="h-10 w-10" height="40" src="https://storage.googleapis.com/a1aa/image/FL6xkg4viyYCNdTNVTAOFTqFFVNkhDSFlfAe3fYoNClakYgnA.jpg" width="40"/>
-            <span class="ml-2 text-xl font-bold text-blue-900">FORGE</span>
+            <a href="<?=ROOT?>/reguser/commonInterface"><span class="ml-2 text-xl font-bold text-blue-900">FORGE</span></a>
         </div>
         <div class="px-6 py-4">
             <a href="<?=ROOT ?>/Supervisor/load" > 
@@ -41,13 +41,13 @@
                     <img alt="Dummy Project Logo" class="h-10 w-10" height="40" src="https://storage.googleapis.com/a1aa/image/m9MmFMflo3VjaqCbWInRx9fg1sOW9ZNN4cpCf7YfQoghIxAPB.jpg" width="40"/>
                     <div>
                     <div class="text-lg font-bold">
-                        <?php if(isset($_SESSION['project_title'])): ?>
+                        <?php if(!empty($_SESSION['project_title'])): ?>
                             <?=$_SESSION['project_title']?>
                         <?php endif; ?>
                   
                     </div>
                     <div class="text-sm text-gray-500">
-                            <?php if(isset($_SESSION['institute_name'])): ?>
+                            <?php if(!empty($_SESSION['institute_name'])): ?>
                                 <?=$_SESSION['institute_name']?>
                             <?php endif; ?>
                     </div>
@@ -142,9 +142,9 @@
                                 }
                             }
                          ?>
-                <img alt="User Avatar" class="h-10 w-10 rounded-full" height="40" src="https://storage.googleapis.com/a1aa/image/MQVTGlFdiu5zJNa2BVfccPYnWhgY9CjCYWAfe72QBplfIxAPB.jpg" width="40"/>
+                <img alt="User Avatar" class="h-10 w-10 rounded-full" height="40" src="<?=IMAGES?>profile.jpg" width="40"/>
                 <?php if(isset($_SESSION['user_name'])): ?>
-                            <?=$_SESSION['user_name']?>
+                            <!-- <=$_SESSION['user_name']?> -->
                 <?php endif; ?>
             </div>
         </header>

@@ -240,19 +240,19 @@ require_once "navigationbar.php";
                 <?php if(!empty($data['flags'])){
                   foreach ($data['flags'] as $flags){
                   if ($flags->flagid == 1) {
-                      $flag = '<div style="padding: 8px; border: 2px solid #1e40af; border-radius: 0.5rem; background-color: #dbeafe; color:rgb(228, 19, 194);">
+                      $flag = '<div style="padding: 8px; border: 2px solid rgb(156, 80, 9); border-radius: 0.5rem; background-color:rgba(232, 163, 131, 0.42); color:rgb(142, 56, 7);">
                                       Important
                                 </div>';
                   } elseif ($flags->flagid == 2) {
-                      $flag = '<div style="padding: 8px; border: 2px solid #065f46; border-radius: 0.5rem; background-color:rgb(3, 63, 176); color:rgb(255, 255, 255);">
+                      $flag = '<div style="padding: 8px; border: 2px solid rgb(7, 9, 126); border-radius: 0.5rem; background-color:rgba(93, 135, 213, 0.44); color:rgb(9, 6, 102);">
                                       Revise
                                 </div>';
                   } elseif ($flags->flagid == 3) {
-                      $flag = '<div style="padding: 8px; border: 2px solidrgb(7, 117, 16); border-radius: 0.5rem; background-color:rgb(5, 125, 11); color:rgb(243, 249, 243);">
+                      $flag = '<div style="padding: 8px; border: 2px solid rgb(0, 73, 6); border-radius: 0.5rem; background-color:rgba(128, 204, 132, 0.53); color:rgb(4, 65, 4);">
                                       Good
                                 </div>';
                   } elseif ($flags->flagid == 4) {
-                      $flag = '<div style="padding: 8px; border: 2px solidrgb(194, 29, 7); border-radius: 0.5rem; background-color: #f3f4f6; color:rgb(195, 8, 8);">
+                      $flag = '<div style="padding: 8px; border: 2px solid rgb(107, 12, 0); border-radius: 0.5rem; background-color:rgba(209, 124, 111, 0.45); color:rgb(129, 5, 5);">
                                       Urgent
                                 </div>';
                   } else {
