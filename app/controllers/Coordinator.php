@@ -116,7 +116,7 @@ class Coordinator{
             // Handle missing data, e.g., return an error message
             $errors['errors']= "Please fill in all required fields.";
             $this->createProjectForm($errors);
-            
+            return;
         }
         $allIds = array_merge($supervisors, $cosupervisors, $selected_members);
             if (count($allIds) !== count(array_unique($allIds))) {
@@ -162,7 +162,29 @@ class Coordinator{
         $data =$fkd->loadupdateproject($id);
         
         $corModel = new CoordinatorModel();
+       
         $data['users'] = $corModel->fetchUsers();
+
+        $assignedUserIds = [];
+
+        $supervisors = $corModel->getSupervisorsByProjectId($id);
+        $cosupervisors = $corModel->getCosupervisorsByProjectId($id);
+        $members = $corModel->getMembersByProjectId($id);
+
+        if (!$supervisors) $supervisors = [];
+        if (!$cosupervisors) $cosupervisors = [];
+        if (!$members) $members = [];
+
+        foreach ($supervisors as $sup) {
+            $assignedUserIds[] = $sup->userid;
+        }
+        foreach ($cosupervisors as $cosup) {
+            $assignedUserIds[] = $cosup->userid;
+        }
+        foreach ($members as $mem) {
+            $assignedUserIds[] = $mem->userid;
+        }
+        $data['assignedUserIds'] = array_unique($assignedUserIds);
 
         return $this->view('coordinator/projectedit',$data);
      }
@@ -361,7 +383,9 @@ class Coordinator{
         $coordinatorId = $_SESSION['coordinator_id'];
 
         $model = new CoordinatorModel();
-        $data = $model->getCoordInfo($coordinatorId);
+        if($data === null){
+            $data = $model->getCoordInfo($coordinatorId);
+        }
 
         $this->view('coordinator/coordSettings', $data);
     }
@@ -402,10 +426,9 @@ class Coordinator{
 
         if($status) {
             $updateCoord = $model->getCoordInfo($id);
-            $data = [
-                'profile_image_path' => $updateCoord->image ?? null
-            ];
-            $this->Settings($data);
+
+            $this->Settings($updateCoord);
+
         }else {
             $errors['errors'] = "Failed to update details.";
             $this->Settings();
@@ -446,6 +469,9 @@ class Coordinator{
         header("Location: " . ROOT . "/home");
         exit();
     }
+    
+
+    
     
 
 }

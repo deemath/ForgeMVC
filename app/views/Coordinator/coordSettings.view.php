@@ -110,9 +110,9 @@
                 
                 <label for="image">Profile Image</label>
                 <?php if(!empty($data[0]->image)): ?>
-                    <img src="<?=ROOT?>/public/upload/profile_images/<?= htmlspecialchars($data[0]->image) ?>" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px;">
+                    <img src="<?=ROOT?>/<?= htmlspecialchars($data[0]->image) ?>" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px;">
                 <?php elseif (!empty($_SESSION['coordinator_image'])): ?>
-                    <img src="<?= ROOT ?>/public/upload/profile_images/<?= htmlspecialchars($_SESSION['coordinator_image']) ?>" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px;">
+                    <img src="<?= ROOT ?>/<?= htmlspecialchars($_SESSION['coordinator_image']) ?>" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px;">
                 <?php else: ?>
                     <img src="<?= ROOT ?>/public/assets/images/profileplaceholder.jpg" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px;">
                 <?php endif; ?>
