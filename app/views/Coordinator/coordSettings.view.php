@@ -26,7 +26,7 @@
         }
         .settings-section {
             transition: transform 0.3s ease;
-            background-color: #e6f0ff;
+            background-color: #dbeafe;
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
@@ -105,8 +105,19 @@
     <div class="settings-grid">
         <div class="settings-section">
             <h3>Profile</h3>
-            <form method="POST" action="<?=ROOT?>/Coordinator/updateProfile">
+            <form method="POST" enctype="multipart/form-data" action="<?=ROOT?>/Coordinator/updateProfile">
                 <input type="hidden" name="id" value="<?= $_SESSION['coordinator_id'] ?>">
+                
+                <label for="image">Profile Image</label>
+                <?php if(!empty($data[0]->image)): ?>
+                    <img src="<?=ROOT?>/public/upload/profile_images/<?= htmlspecialchars($data[0]->image) ?>" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px;">
+                <?php elseif (!empty($_SESSION['coordinator_image'])): ?>
+                    <img src="<?= ROOT ?>/public/upload/profile_images/<?= htmlspecialchars($_SESSION['coordinator_image']) ?>" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px;">
+                <?php else: ?>
+                    <img src="<?= ROOT ?>/public/assets/images/profileplaceholder.jpg" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px;">
+                <?php endif; ?>
+                <input type="file" name="image" accept="image/*">
+
                 <label for="fullname">Full Name</label>
                 <input type="text" id="fullname" name="name" value="<?= $data[0]->name ?? '' ?>" />
 

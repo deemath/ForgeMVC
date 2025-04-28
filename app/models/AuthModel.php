@@ -59,6 +59,37 @@ class AuthModel{
             return $users;
         }
     }
+
+    public function PasswordValidationByRole($arr, $role) {
+        $table = $role;// === 'user' ? 'user' : 'coordinator';
+       // echo $table;
+       // echo "<pre>";
+       // print_r($arr);
+       // echo "</pre>";
+        $query = "SELECT * FROM $table WHERE email = :email";
+        $row = $this->query($query, ['email' => $arr['email']]);
+       // echo "<pre>";
+        //print_r($row);
+        //echo "</pre>";
+        
+
+        // if(isset($row) && password_verify($arr['password'], $row[0]->password)) {
+        if (!empty($row) && isset($row[0]) && $arr['password'] == $row[0]->password) {
+            if($role === 'coordinator' && isset($row[0]->status) && $row[0]->status == 1) {
+                $this->errors[] = "Your account is deactivated. Please contact the admin.";
+                return false;
+            }
+
+            // return ['id' => $row[0]->id];
+            //echo "password correct";
+            return  $row[0]->id;
+        } else {
+
+            $this->errors[] = "Invalid Credentials Please Check User Name and password again";
+           // echo "passw incorrect";
+            return false;
+        }
+    }
     
 
 }

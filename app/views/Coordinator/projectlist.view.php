@@ -83,7 +83,7 @@
             color: white;
         }
         .prj-remove-btn {
-            background-color: #dc3545;
+            background-color:rgb(0, 0, 0);
             color: white;
         }
         .prj-edit-btn:hover {
@@ -91,7 +91,7 @@
         }
 
         .prj-remove-btn:hover {
-            background-color: #c82333;
+            background-color:rgb(84, 84, 84);
         }
         .prj-modal {
             display: none;
